@@ -16,6 +16,7 @@ type
     FParent: IOpenApi;
     FName: string;
     FDescription: string;
+    FDisplayName: string;
     FExternalDocs: IExternalDocumentation<ITag>;
 
     constructor Create(AParent: IOpenApi);
@@ -27,6 +28,8 @@ type
     function Name(const AValue: string): ITag; overload;
     function Description: string; overload;
     function Description(const AValue: string): ITag; overload;
+    function DisplayName: string; overload;
+    function DisplayName(const AValue: string): ITag; overload;
     function ExternalDocs: IExternalDocumentation<ITag>;
     function &End: IOpenApi;
   end;
@@ -53,6 +56,17 @@ end;
 function TTag.Description: string;
 begin
   Result := FDescription;
+end;
+
+function TTag.DisplayName(const AValue: string): ITag;
+begin
+  Result := Self;
+  FDisplayName := AValue;
+end;
+
+function TTag.DisplayName: string;
+begin
+  Result := FDisplayName;
 end;
 
 function TTag.&End: IOpenApi;
@@ -91,6 +105,9 @@ begin
 
   if not FDescription.IsEmpty then
     Result.AddPair('description', FDescription);
+
+  if not FDisplayName.IsEmpty then
+    Result.AddPair('x-displayName', FDisplayName);
 
   if FExternalDocs <> nil then
     Result.AddPair('externalDocs', FExternalDocs.ToJson);

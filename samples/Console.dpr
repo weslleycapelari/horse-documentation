@@ -8,7 +8,36 @@ uses
   Horse,
   System.JSON,
   System.SysUtils,
-  Horse.Documentation;
+  Horse.Documentation.Controller in '..\src\Horse.Documentation.Controller.pas',
+  Horse.Documentation.OpenApi.Ancestor in '..\src\Horse.Documentation.OpenApi.Ancestor.pas',
+  Horse.Documentation.OpenApi.Components in '..\src\Horse.Documentation.OpenApi.Components.pas',
+  Horse.Documentation.OpenApi.Contact in '..\src\Horse.Documentation.OpenApi.Contact.pas',
+  Horse.Documentation.OpenApi.Encoding in '..\src\Horse.Documentation.OpenApi.Encoding.pas',
+  Horse.Documentation.OpenApi.Example in '..\src\Horse.Documentation.OpenApi.Example.pas',
+  Horse.Documentation.OpenApi.ExternalDocumentation in '..\src\Horse.Documentation.OpenApi.ExternalDocumentation.pas',
+  Horse.Documentation.OpenApi.Header in '..\src\Horse.Documentation.OpenApi.Header.pas',
+  Horse.Documentation.OpenApi.Info in '..\src\Horse.Documentation.OpenApi.Info.pas',
+  Horse.Documentation.OpenApi.Interfaces in '..\src\Horse.Documentation.OpenApi.Interfaces.pas',
+  Horse.Documentation.OpenApi.License in '..\src\Horse.Documentation.OpenApi.License.pas',
+  Horse.Documentation.OpenApi.Link in '..\src\Horse.Documentation.OpenApi.Link.pas',
+  Horse.Documentation.OpenApi.MediaType in '..\src\Horse.Documentation.OpenApi.MediaType.pas',
+  Horse.Documentation.OpenApi.OAuthFlow in '..\src\Horse.Documentation.OpenApi.OAuthFlow.pas',
+  Horse.Documentation.OpenApi.OAuthFlows in '..\src\Horse.Documentation.OpenApi.OAuthFlows.pas',
+  Horse.Documentation.OpenApi.Operation in '..\src\Horse.Documentation.OpenApi.Operation.pas',
+  Horse.Documentation.OpenApi.Parameter in '..\src\Horse.Documentation.OpenApi.Parameter.pas',
+  Horse.Documentation.OpenApi.PathItem in '..\src\Horse.Documentation.OpenApi.PathItem.pas',
+  Horse.Documentation.OpenApi.RequestBody in '..\src\Horse.Documentation.OpenApi.RequestBody.pas',
+  Horse.Documentation.OpenApi.Response in '..\src\Horse.Documentation.OpenApi.Response.pas',
+  Horse.Documentation.OpenApi.Responses in '..\src\Horse.Documentation.OpenApi.Responses.pas',
+  Horse.Documentation.OpenApi.Root in '..\src\Horse.Documentation.OpenApi.Root.pas',
+  Horse.Documentation.OpenApi.SecurityRequirement in '..\src\Horse.Documentation.OpenApi.SecurityRequirement.pas',
+  Horse.Documentation.OpenApi.SecurityScheme in '..\src\Horse.Documentation.OpenApi.SecurityScheme.pas',
+  Horse.Documentation.OpenApi.Server in '..\src\Horse.Documentation.OpenApi.Server.pas',
+  Horse.Documentation.OpenApi.ServerVariable in '..\src\Horse.Documentation.OpenApi.ServerVariable.pas',
+  Horse.Documentation.OpenApi.Tag in '..\src\Horse.Documentation.OpenApi.Tag.pas',
+  Horse.Documentation.OpenApi.Types in '..\src\Horse.Documentation.OpenApi.Types.pas',
+  Horse.Documentation.OpenApi.Utils in '..\src\Horse.Documentation.OpenApi.Utils.pas',
+  Horse.Documentation in '..\src\Horse.Documentation.pas';
 
 begin
   {$IFDEF MSWINDOWS}
@@ -70,7 +99,7 @@ documentar rota por rota também, adicionando informações importantes para cada u
       .Description('Também podemos adicionar tags personalizadas para realizar um agrupamento de requisições')
       .&End
     .Extensions
-      .Add('x-tagGroups', TJSONArray.Create
+      .AddValue('x-tagGroups', TJSONArray.Create
         .Add(TJSONObject.Create
           .AddPair('name', 'Grupo de rotas')
           .AddPair('tags', TJSONArray.Create

@@ -65,7 +65,7 @@
         <DCC_K>false</DCC_K>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
         <SanitizedProjectName>Console</SanitizedProjectName>
-        <DCC_UnitSearchPath>modules\.dcp;modules\.dcu;modules;modules\horse\src;..\src;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_UnitSearchPath>..\src;modules\.dcp;modules\.dcu;modules;modules\horse\src;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <VerInfo_Locale>1046</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
     </PropertyGroup>
@@ -122,6 +122,36 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
+        <DCCReference Include="..\src\Horse.Documentation.Controller.pas"/>
+        <DCCReference Include="..\src\Horse.Documentation.OpenApi.Ancestor.pas"/>
+        <DCCReference Include="..\src\Horse.Documentation.OpenApi.Components.pas"/>
+        <DCCReference Include="..\src\Horse.Documentation.OpenApi.Contact.pas"/>
+        <DCCReference Include="..\src\Horse.Documentation.OpenApi.Encoding.pas"/>
+        <DCCReference Include="..\src\Horse.Documentation.OpenApi.Example.pas"/>
+        <DCCReference Include="..\src\Horse.Documentation.OpenApi.ExternalDocumentation.pas"/>
+        <DCCReference Include="..\src\Horse.Documentation.OpenApi.Header.pas"/>
+        <DCCReference Include="..\src\Horse.Documentation.OpenApi.Info.pas"/>
+        <DCCReference Include="..\src\Horse.Documentation.OpenApi.Interfaces.pas"/>
+        <DCCReference Include="..\src\Horse.Documentation.OpenApi.License.pas"/>
+        <DCCReference Include="..\src\Horse.Documentation.OpenApi.Link.pas"/>
+        <DCCReference Include="..\src\Horse.Documentation.OpenApi.MediaType.pas"/>
+        <DCCReference Include="..\src\Horse.Documentation.OpenApi.OAuthFlow.pas"/>
+        <DCCReference Include="..\src\Horse.Documentation.OpenApi.OAuthFlows.pas"/>
+        <DCCReference Include="..\src\Horse.Documentation.OpenApi.Operation.pas"/>
+        <DCCReference Include="..\src\Horse.Documentation.OpenApi.Parameter.pas"/>
+        <DCCReference Include="..\src\Horse.Documentation.OpenApi.PathItem.pas"/>
+        <DCCReference Include="..\src\Horse.Documentation.OpenApi.RequestBody.pas"/>
+        <DCCReference Include="..\src\Horse.Documentation.OpenApi.Response.pas"/>
+        <DCCReference Include="..\src\Horse.Documentation.OpenApi.Responses.pas"/>
+        <DCCReference Include="..\src\Horse.Documentation.OpenApi.Root.pas"/>
+        <DCCReference Include="..\src\Horse.Documentation.OpenApi.SecurityRequirement.pas"/>
+        <DCCReference Include="..\src\Horse.Documentation.OpenApi.SecurityScheme.pas"/>
+        <DCCReference Include="..\src\Horse.Documentation.OpenApi.Server.pas"/>
+        <DCCReference Include="..\src\Horse.Documentation.OpenApi.ServerVariable.pas"/>
+        <DCCReference Include="..\src\Horse.Documentation.OpenApi.Tag.pas"/>
+        <DCCReference Include="..\src\Horse.Documentation.OpenApi.Types.pas"/>
+        <DCCReference Include="..\src\Horse.Documentation.OpenApi.Utils.pas"/>
+        <DCCReference Include="..\src\Horse.Documentation.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

@@ -20,6 +20,7 @@ type
     FTermsOfService: string;
     FContact: IContact;
     FLicense: ILicense;
+    FLogo: ILogo;
     FVersion: string;
 
     constructor Create(AParent: IOpenApi);
@@ -37,6 +38,7 @@ type
     function TermsOfService(const AValue: string): IInfo; overload;
     function Contact: IContact;
     function License: ILicense;
+    function Logo: ILogo;
     function Version: string; overload;
     function Version(const AValue: string): IInfo; overload;
     function &End: IOpenApi;
@@ -46,7 +48,8 @@ implementation
 
 uses
   Horse.Documentation.OpenApi.Contact,
-  Horse.Documentation.OpenApi.License;
+  Horse.Documentation.OpenApi.License,
+  Horse.Documentation.OpenApi.Logo;
 
 { TInfo }
 
@@ -86,6 +89,13 @@ begin
   if FLicense = nil then
     FLicense := TLicense.New(Self);
   Result := FLicense;
+end;
+
+function TInfo.Logo: ILogo;
+begin
+  if FLogo = nil then
+    FLogo := TLogo.New(Self);
+  Result := FLogo;
 end;
 
 class function TInfo.New(AParent: IOpenApi): IInfo;
@@ -147,6 +157,9 @@ begin
 
   if FLicense <> nil then
     Result.AddPair('license', FLicense.ToJson);
+
+  if FLogo <> nil then
+    Result.AddPair('x-logo', FLogo.ToJson);
 end;
 
 function TInfo.Version(const AValue: string): IInfo;

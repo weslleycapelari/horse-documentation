@@ -137,13 +137,13 @@ type
     ///   Cria uma nova instância da classe registrada, adiciona-a ao mapa com
     ///   a chave especificada e a retorna para construção fluente.
     /// </summary>
-    function Add(const AKey: string): T; overload;
+    function Add(const AKey: string): T;
 
     /// <summary>
     ///   Cria uma nova instância da classe registrada, adiciona-a ao mapa com
     ///   a chave especificada e a retorna para construção fluente.
     /// </summary>
-    function Add(const AKey: string; const AValue: T): O; overload;
+    function AddValue(const AKey: string; const AValue: T): O;
 
     function ToJson: TJSONObject;
   end;
@@ -306,7 +306,7 @@ begin
       [FImplClass.ClassName]);
 end;
 
-function TOpenApiMap<T, O>.Add(const AKey: string; const AValue: T): O;
+function TOpenApiMap<T, O>.AddValue(const AKey: string; const AValue: T): O;
 begin
   // Otimizado: Usa o FCreateMethod armazenado
   if FCreateMethod <> nil then

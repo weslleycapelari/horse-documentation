@@ -26,6 +26,7 @@ type
     FDeprecated: Boolean;
     FSecurity: TOpenApiList<ISecurityRequirement<IOperation<T>>, IOperation<T>>;
     FServers: TOpenApiList<IServer<IOperation<T>>, IOperation<T>>;
+    FCodeSamples: TOpenApiList<ICodeSample<IOperation<T>>, IOperation<T>>;
 
     constructor Create(AParent: T);
   public
@@ -47,6 +48,7 @@ type
     function Deprecated(const AValue: Boolean): IOperation<T>; overload;
     function Security: TOpenApiList<ISecurityRequirement<IOperation<T>>, IOperation<T>>;
     function Servers: TOpenApiList<IServer<IOperation<T>>, IOperation<T>>;
+    function CodeSamples: TOpenApiList<ICodeSample<IOperation<T>>, IOperation<T>>;
     function &End: T;
   end;
 
@@ -58,7 +60,8 @@ uses
   Horse.Documentation.OpenApi.Responses,
   Horse.Documentation.OpenApi.RequestBody,
   Horse.Documentation.OpenApi.SecurityRequirement,
-  Horse.Documentation.OpenApi.ExternalDocumentation;
+  Horse.Documentation.OpenApi.ExternalDocumentation,
+  Horse.Documentation.OpenApi.CodeSample;
 
 { TOperation<T> }
 
@@ -153,6 +156,13 @@ begin
   Result := FServers;
 end;
 
+function TOperation<T>.CodeSamples: TOpenApiList<ICodeSample<IOperation<T>>, IOperation<T>>;
+begin
+  if FCodeSamples = nil then
+    FCodeSamples := TOpenApiList<ICodeSample<IOperation<T>>, IOperation<T>>.Create(Self, TCodeSample<IOperation<T>>);
+  Result := FCodeSamples;
+end;
+
 function TOperation<T>.Summary(const AValue: string): IOperation<T>;
 begin
   Result := Self;
@@ -210,6 +220,9 @@ begin
 
   if (FServers <> nil) and (FServers.Count > 0) then
     Result.AddPair('servers', FServers.ToJson);
+
+  if (FCodeSamples <> nil) and (FCodeSamples.Count > 0) then
+    Result.AddPair('x-code-samples', FCodeSamples.ToJson);
 end;
 
 end.

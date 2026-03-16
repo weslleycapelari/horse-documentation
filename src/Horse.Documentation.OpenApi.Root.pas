@@ -22,6 +22,7 @@ type
     FComponents: IComponents;
     FSecurity: TOpenApiList<ISecurityRequirement<IOpenApi>, IOpenApi>;
     FTags: TOpenApiList<ITag, IOpenApi>;
+    FTagGroups: TOpenApiList<ITagGroup, IOpenApi>;
     FExternalDocs: IExternalDocumentation<IOpenApi>;
 
     constructor Create;
@@ -41,6 +42,7 @@ type
     function Components: IComponents;
     function Security: TOpenApiList<ISecurityRequirement<IOpenApi>, IOpenApi>;
     function Tags: TOpenApiList<ITag, IOpenApi>;
+    function TagGroups: TOpenApiList<ITagGroup, IOpenApi>;
     function ExternalDocs: IExternalDocumentation<IOpenApi>;
   end;
 
@@ -48,6 +50,7 @@ implementation
 
 uses
   Horse.Documentation.OpenApi.Tag,
+  Horse.Documentation.OpenApi.TagGroup,
   Horse.Documentation.OpenApi.Info,
   Horse.Documentation.OpenApi.Server,
   Horse.Documentation.OpenApi.PathItem,
@@ -143,6 +146,13 @@ begin
   Result := FTags;
 end;
 
+function TOpenApi.TagGroups: TOpenApiList<ITagGroup, IOpenApi>;
+begin
+  if FTagGroups = nil then
+    FTagGroups := TOpenApiList<ITagGroup, IOpenApi>.Create(Self, TTagGroup);
+  Result := FTagGroups;
+end;
+
 function TOpenApi.ToJson: TJSONObject;
 begin
   Result := inherited ToJson;
@@ -174,6 +184,9 @@ begin
 
   if (FTags <> nil) and (FTags.Count > 0) then
     Result.AddPair('tags', FTags.ToJson);
+
+  if (FTagGroups <> nil) and (FTagGroups.Count > 0) then
+    Result.AddPair('x-tagGroups', FTagGroups.ToJson);
 
   if FExternalDocs <> nil then
     Result.AddPair('externalDocs', FExternalDocs.ToJson);

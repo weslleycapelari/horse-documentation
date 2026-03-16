@@ -11,6 +11,7 @@ type
   IInfo = interface;
   IContact = interface;
   ILicense = interface;
+  ILogo = interface;
   IServer<T> = interface;
   IServerVariable<T> = interface;
   IPathItem<T> = interface;
@@ -32,6 +33,8 @@ type
   IOAuthFlows = interface;
   ILink<T> = interface;
   ITag = interface;
+  ITagGroup = interface;
+  ICodeSample<T> = interface;
   IExternalDocumentation<T> = interface;
 
   /// <summary>
@@ -110,6 +113,12 @@ type
     /// </summary>
     function Tags: TOpenApiList<ITag, IOpenApi>;
 
+    /// <summary>
+    ///   Grupos de tags do Redoc. Permite agrupar tags para melhor organização
+    ///   da documentação (extensão x-tagGroups do Redoc).
+    /// </summary>
+    function TagGroups: TOpenApiList<ITagGroup, IOpenApi>;
+
     /// <summary>Documentação externa adicional.</summary>
     function ExternalDocs: IExternalDocumentation<IOpenApi>;
   end;
@@ -148,6 +157,9 @@ type
 
     /// <summary>As informações de licença para a API exposta.</summary>
     function License: ILicense;
+
+    /// <summary>Logo da API (extensão x-logo do Redoc).</summary>
+    function Logo: ILogo;
 
     /// <summary>
     ///   REQUIRED. A versão do Documento OpenAPI (que é distinta da versão
@@ -459,6 +471,9 @@ type
     ///   ele será sobrescrito por este valor.
     /// </summary>
     function Servers: TOpenApiList<IServer<IOperation<T>>, IOperation<T>>;
+    
+    /// <summary>Exemplos de código para esta operação (extensão x-code-samples do Redoc).</summary>
+    function CodeSamples: TOpenApiList<ICodeSample<IOperation<T>>, IOperation<T>>;
 
     /// <summary>Retorna para o objeto anterior.</summary>
     function &End: T;
@@ -923,6 +938,10 @@ type
     function Description: string; overload;
     function Description(const AValue: string): ITag; overload;
 
+    /// <summary>Nome de exibição alternativo para a tag (extensão x-displayName do Redoc).</summary>
+    function DisplayName: string; overload;
+    function DisplayName(const AValue: string): ITag; overload;
+
     /// <summary>Documentação externa adicional para esta tag.</summary>
     function ExternalDocs: IExternalDocumentation<ITag>;
 
@@ -1095,6 +1114,68 @@ type
 
     /// <summary>Retorna para o objeto anterior.</summary>
     function &End: ISecurityScheme;
+  end;
+
+  /// <summary>
+  ///   Objeto representando um logo para a API (extensão x-logo do Redoc).
+  /// </summary>
+  ILogo = interface(IOpenApiAncestor)
+    ['{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}']
+    /// <summary>URL do logo (SVG, PNG, etc).</summary>
+    function Url: string; overload;
+    function Url(const AValue: string): ILogo; overload;
+
+    /// <summary>Cor de fundo do logo (formato hexadecimal, ex: #FFFFFF).</summary>
+    function BackgroundColor: string; overload;
+    function BackgroundColor(const AValue: string): ILogo; overload;
+
+    /// <summary>Texto alternativo para o logo.</summary>
+    function AltText: string; overload;
+    function AltText(const AValue: string): ILogo; overload;
+
+    /// <summary>URL de destino ao clicar no logo.</summary>
+    function Href: string; overload;
+    function Href(const AValue: string): ILogo; overload;
+
+    /// <summary>Retorna para o objeto anterior.</summary>
+    function &End: IInfo;
+  end;
+
+  /// <summary>
+  ///   Objeto representando um grupo de tags (extensão x-tagGroups do Redoc).
+  /// </summary>
+  ITagGroup = interface(IOpenApiAncestor)
+    ['{B2C3D4E5-F678-90AB-CDEF-1234567890AB}']
+    /// <summary>Nome do grupo de tags.</summary>
+    function Name: string; overload;
+    function Name(const AValue: string): ITagGroup; overload;
+
+    /// <summary>Lista de nomes de tags pertencentes a este grupo.</summary>
+    function Tags: TOpenApiList<string, ITagGroup>;
+
+    /// <summary>Retorna para o objeto anterior.</summary>
+    function &End: IOpenApi;
+  end;
+
+  /// <summary>
+  ///   Objeto representando um exemplo de código (extensão x-code-samples do Redoc).
+  /// </summary>
+  ICodeSample<T> = interface(IOpenApiAncestor)
+    ['{C3D4E5F6-7890-ABCD-EF12-34567890ABCD}']
+    /// <summary>Linguagem do código (ex: 'javascript', 'python', 'curl').</summary>
+    function Lang: string; overload;
+    function Lang(const AValue: string): ICodeSample<T>; overload;
+
+    /// <summary>Label descritivo para o exemplo.</summary>
+    function &Label: string; overload;
+    function &Label(const AValue: string): ICodeSample<T>; overload;
+
+    /// <summary>Código fonte do exemplo.</summary>
+    function Source: string; overload;
+    function Source(const AValue: string): ICodeSample<T>; overload;
+
+    /// <summary>Retorna para o objeto anterior.</summary>
+    function &End: T;
   end;
 
 implementation
