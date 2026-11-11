@@ -15,6 +15,10 @@ uses
   Horse.Documentation.OpenApi.Interfaces;
 
 type
+  /// <summary>
+  ///   Implementação do objeto Parameter da especificação OpenAPI (<c>IParameter&lt;T&gt;</c>),
+  ///   descrevendo um único parâmetro de operação ou de caminho (<c>query</c>, <c>header</c>, <c>path</c> ou <c>cookie</c>).
+  /// </summary>
   TParameter<T> = class(TOpenApiAncestor, IParameter<T>)
   private
     FParent: T;
@@ -34,33 +38,60 @@ type
 
     constructor Create(AParent: T);
   public
+    /// <summary>Cria uma nova instância de <c>IParameter&lt;T&gt;</c> vinculada ao objeto pai <c>AParent</c>.</summary>
     class function New(AParent: T): IParameter<T>; static;
+    /// <summary>Serializa a definição do parâmetro para <c>TJSONObject</c>.</summary>
     function ToJson: TJSONObject;
 
+    /// <summary>Obtém o nome do parâmetro (case-sensitive).</summary>
     function Name: string; overload;
+    /// <summary>Define o nome do parâmetro (case-sensitive).</summary>
     function Name(const AValue: string): IParameter<T>; overload;
+    /// <summary>Obtém a localização do parâmetro (<c>plQuery</c>, <c>plHeader</c>, <c>plPath</c>, <c>plCookie</c>).</summary>
     function &In: TParameterLocation; overload;
+    /// <summary>Define a localização do parâmetro (<c>plQuery</c>, <c>plHeader</c>, <c>plPath</c>, <c>plCookie</c>).</summary>
     function &In(const AValue: TParameterLocation): IParameter<T>; overload;
+    /// <summary>Obtém a descrição do parâmetro (suporta CommonMark/Markdown).</summary>
     function Description: string; overload;
+    /// <summary>Define a descrição do parâmetro (suporta CommonMark/Markdown).</summary>
     function Description(const AValue: string): IParameter<T>; overload;
+    /// <summary>Obtém se o parâmetro é obrigatório (sempre <c>True</c> quando <c>In = plPath</c>).</summary>
     function Required: Boolean; overload;
+    /// <summary>Define se o parâmetro é obrigatório.</summary>
     function Required(const AValue: Boolean): IParameter<T>; overload;
+    /// <summary>Obtém se o parâmetro está marcado como obsoleto (<c>deprecated</c>).</summary>
     function Deprecated: Boolean; overload;
+    /// <summary>Define se o parâmetro está marcado como obsoleto (<c>deprecated</c>).</summary>
     function Deprecated(const AValue: Boolean): IParameter<T>; overload;
+    /// <summary>Obtém se o parâmetro aceita valor vazio (válido para parâmetros <c>query</c>).</summary>
     function AllowEmptyValue: Boolean; overload;
+    /// <summary>Define se o parâmetro aceita valor vazio (válido para parâmetros <c>query</c>).</summary>
     function AllowEmptyValue(const AValue: Boolean): IParameter<T>; overload;
+    /// <summary>Obtém o estilo de serialização do valor do parâmetro.</summary>
     function Style: TParameterStyle; overload;
+    /// <summary>Define o estilo de serialização do valor do parâmetro.</summary>
     function Style(const AValue: TParameterStyle): IParameter<T>; overload;
+    /// <summary>Obtém se arrays/objetos devem gerar parâmetros separados (<c>explode</c>).</summary>
     function Explode: Boolean; overload;
+    /// <summary>Define se arrays/objetos devem gerar parâmetros separados (<c>explode</c>).</summary>
     function Explode(const AValue: Boolean): IParameter<T>; overload;
+    /// <summary>Obtém se caracteres reservados (RFC6570) são permitidos sem codificação.</summary>
     function AllowReserved: Boolean; overload;
+    /// <summary>Define se caracteres reservados (RFC6570) são permitidos sem codificação.</summary>
     function AllowReserved(const AValue: Boolean): IParameter<T>; overload;
+    /// <summary>Obtém o JSON Schema que define o tipo de dado do parâmetro.</summary>
     function Schema: ISchema; overload;
+    /// <summary>Define o JSON Schema que define o tipo de dado do parâmetro.</summary>
     function Schema(const AValue: ISchema): IParameter<T>; overload;
+    /// <summary>Obtém o valor de exemplo único do parâmetro.</summary>
     function Example: TJSONValue; overload;
+    /// <summary>Define o valor de exemplo único do parâmetro.</summary>
     function Example(const AValue: TJSONValue): IParameter<T>; overload;
+    /// <summary>Retorna o mapa de exemplos nomeados (<c>IExample</c>) para este parâmetro.</summary>
     function Examples: TOpenApiMap<IExample<IParameter<T>>, IParameter<T>>;
+    /// <summary>Retorna o mapa de representações por media type (<c>IMediaType</c>) para este parâmetro.</summary>
     function Content: TOpenApiMap<IMediaType<IParameter<T>>, IParameter<T>>;
+    /// <summary>Retorna ao objeto pai (<c>T</c>).</summary>
     function &End: T;
   end;
 
@@ -265,9 +296,6 @@ begin
 
     if FExample <> nil then
       Result.AddPair('example', FExample);
-
-    if FDeprecated then
-      Result.AddPair('deprecated', FDeprecated);
 
     if (FExamples <> nil) and (FExamples.Count > 0) then
       Result.AddPair('examples', FExamples.ToJson);

@@ -13,6 +13,11 @@ uses
   Horse.Documentation.OpenApi.Interfaces;
 
 type
+  /// <summary>
+  ///   Implementação do contêiner Components da especificação OpenAPI (<c>IComponents</c>),
+  ///   armazenando objetos reutilizáveis (schemas, respostas, parâmetros, exemplos, corpos de requisição,
+  ///   cabeçalhos, esquemas de segurança, links, callbacks e itens de caminho).
+  /// </summary>
   TComponents = class(TOpenApiAncestor, IComponents)
   private
     [Weak]
@@ -30,19 +35,32 @@ type
 
     constructor Create(AParent: IOpenApi);
   public
+    /// <summary>Cria uma nova instância de <c>IComponents</c> vinculada ao objeto raiz <c>IOpenApi</c>.</summary>
     class function New(AParent: IOpenApi): IComponents; static;
+    /// <summary>Serializa todos os componentes reutilizáveis registrados para <c>TJSONObject</c>.</summary>
     function ToJson: TJSONObject;
 
+    /// <summary>Retorna o mapa de JSON Schemas reutilizáveis (<c>#/components/schemas/...</c>).</summary>
     function Schemas: TOpenApiMap<ISchema, IComponents>;
+    /// <summary>Retorna o mapa de objetos Response reutilizáveis (<c>#/components/responses/...</c>).</summary>
     function Responses: TOpenApiMap<IResponse<IComponents>, IComponents>;
+    /// <summary>Retorna o mapa de objetos Parameter reutilizáveis (<c>#/components/parameters/...</c>).</summary>
     function Parameters: TOpenApiMap<IParameter<IComponents>, IComponents>;
+    /// <summary>Retorna o mapa de objetos Example reutilizáveis (<c>#/components/examples/...</c>).</summary>
     function Examples: TOpenApiMap<IExample<IComponents>, IComponents>;
+    /// <summary>Retorna o mapa de objetos RequestBody reutilizáveis (<c>#/components/requestBodies/...</c>).</summary>
     function RequestBodies: TOpenApiMap<IRequestBody<IComponents>, IComponents>;
+    /// <summary>Retorna o mapa de objetos Header reutilizáveis (<c>#/components/headers/...</c>).</summary>
     function Headers: TOpenApiMap<IHeader<IComponents>, IComponents>;
+    /// <summary>Retorna o mapa de esquemas de segurança reutilizáveis (<c>#/components/securitySchemes/...</c>).</summary>
     function SecuritySchemes: TOpenApiMap<ISecurityScheme, IComponents>;
+    /// <summary>Retorna o mapa de objetos Link reutilizáveis (<c>#/components/links/...</c>).</summary>
     function Links: TOpenApiMap<ILink<IComponents>, IComponents>;
+    /// <summary>Retorna o mapa de objetos Callback reutilizáveis (<c>#/components/callbacks/...</c>).</summary>
     function Callbacks: TOpenApiMap<IPathItem<IComponents>, IComponents>;
+    /// <summary>Retorna o mapa de objetos PathItem reutilizáveis (<c>#/components/pathItems/...</c>).</summary>
     function PathItems: TOpenApiMap<IPathItem<IComponents>, IComponents>;
+    /// <summary>Retorna ao objeto pai (<c>IOpenApi</c>).</summary>
     function &End: IOpenApi;
   end;
 

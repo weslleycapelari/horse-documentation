@@ -15,6 +15,10 @@ uses
   Horse.Documentation.OpenApi.Interfaces;
 
 type
+  /// <summary>
+  ///   Implementação do objeto Encoding da especificação OpenAPI (<c>IEncoding&lt;T&gt;</c>),
+  ///   definindo regras de serialização para propriedades específicas de um schema em requisições <c>multipart</c> ou <c>form-urlencoded</c>.
+  /// </summary>
   TEncoding<T> = class(TOpenApiAncestor, IEncoding<T>)
   private
     FParent: T;
@@ -26,18 +30,29 @@ type
 
     constructor Create(AParent: T);
   public
+    /// <summary>Cria uma nova instância de <c>IEncoding&lt;T&gt;</c> vinculada ao objeto pai <c>AParent</c>.</summary>
     class function New(AParent: T): IEncoding<T>; static;
+    /// <summary>Serializa as regras de codificação para <c>TJSONObject</c>.</summary>
     function ToJson: TJSONObject;
 
+    /// <summary>Obtém o Content-Type usado para codificar a propriedade.</summary>
     function ContentType: string; overload;
+    /// <summary>Define o Content-Type usado para codificar a propriedade.</summary>
     function ContentType(const AValue: string): IEncoding<T>; overload;
 //    function Headers: TOpenApiMap<IHeader<IEncoding<T>>, IEncoding<T>>;
+    /// <summary>Obtém o estilo de serialização da propriedade.</summary>
     function Style: TParameterStyle; overload;
+    /// <summary>Define o estilo de serialização da propriedade.</summary>
     function Style(const AValue: TParameterStyle): IEncoding<T>; overload;
+    /// <summary>Obtém se valores de array ou objeto geram parâmetros separados.</summary>
     function Explode: Boolean; overload;
+    /// <summary>Define se valores de array ou objeto geram parâmetros separados.</summary>
     function Explode(const AValue: Boolean): IEncoding<T>; overload;
+    /// <summary>Obtém se caracteres reservados (RFC6570) são permitidos sem codificação.</summary>
     function AllowReserved: Boolean; overload;
+    /// <summary>Define se caracteres reservados (RFC6570) são permitidos sem codificação.</summary>
     function AllowReserved(const AValue: Boolean): IEncoding<T>; overload;
+    /// <summary>Retorna ao objeto pai (<c>T</c>).</summary>
     function &End: T;
   end;
 

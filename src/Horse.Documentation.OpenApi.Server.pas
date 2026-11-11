@@ -12,6 +12,10 @@ uses
   Horse.Documentation.OpenApi.Interfaces;
 
 type
+  /// <summary>
+  ///   Implementação do objeto Server da especificação OpenAPI (<c>IServer&lt;T&gt;</c>),
+  ///   representando informações de conectividade para um servidor de destino.
+  /// </summary>
   TServer<T> = class(TOpenApiAncestor, IServer<T>)
   private
     FParent: T;
@@ -21,14 +25,22 @@ type
 
     constructor Create(AParent: T);
   public
+    /// <summary>Cria uma nova instância de <c>IServer&lt;T&gt;</c> vinculada ao objeto pai <c>AParent</c>.</summary>
     class function New(AParent: T): IServer<T>; static;
+    /// <summary>Serializa os dados do servidor e suas variáveis para <c>TJSONObject</c>.</summary>
     function ToJson: TJSONObject;
 
+    /// <summary>Obtém a URL do servidor de destino.</summary>
     function Url: string; overload;
+    /// <summary>Define a URL do servidor de destino (suporta variáveis entre chaves <c>{var}</c>).</summary>
     function Url(const AValue: string): IServer<T>; overload;
+    /// <summary>Obtém a descrição do servidor.</summary>
     function Description: string; overload;
+    /// <summary>Define a descrição do servidor.</summary>
     function Description(const AValue: string): IServer<T>; overload;
+    /// <summary>Retorna o mapa de variáveis de substituição da URL do servidor (<c>IServerVariable&lt;T&gt;</c>).</summary>
     function Variables: TOpenApiMap<IServerVariable<T>, IServer<T>>;
+    /// <summary>Retorna ao objeto pai (<c>T</c>).</summary>
     function &End: T;
   end;
 
@@ -100,7 +112,7 @@ end;
 
 function TServer<T>.Variables: TOpenApiMap<IServerVariable<T>, IServer<T>>;
 begin
-  if FVariables <> nil then
+  if FVariables = nil then
     FVariables := TOpenApiMap<IServerVariable<T>, IServer<T>>.Create(Self, TServerVariable<T>);
   Result := FVariables;
 end;

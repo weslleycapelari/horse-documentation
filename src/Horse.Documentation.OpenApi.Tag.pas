@@ -10,6 +10,10 @@ uses
   Horse.Documentation.OpenApi.Interfaces;
 
 type
+  /// <summary>
+  ///   Implementação do objeto Tag da especificação OpenAPI (<c>ITag</c>),
+  ///   adicionando metadados (descrição, nome de exibição <c>x-displayName</c> e documentação externa) a uma tag.
+  /// </summary>
   TTag = class(TOpenApiAncestor, ITag)
   private
     [Weak]
@@ -21,16 +25,26 @@ type
 
     constructor Create(AParent: IOpenApi);
   public
+    /// <summary>Cria uma nova instância de <c>ITag</c> vinculada ao objeto raiz <c>IOpenApi</c>.</summary>
     class function New(AParent: IOpenApi): ITag; static;
+    /// <summary>Serializa os metadados da tag para <c>TJSONObject</c>.</summary>
     function ToJson: TJSONObject;
 
+    /// <summary>Obtém o nome identificador da tag.</summary>
     function Name: string; overload;
+    /// <summary>Define o nome identificador da tag.</summary>
     function Name(const AValue: string): ITag; overload;
+    /// <summary>Obtém a descrição da tag (suporta CommonMark/Markdown).</summary>
     function Description: string; overload;
+    /// <summary>Define a descrição da tag (suporta CommonMark/Markdown).</summary>
     function Description(const AValue: string): ITag; overload;
+    /// <summary>Obtém o nome de exibição amigável da tag (extensão <c>x-displayName</c>).</summary>
     function DisplayName: string; overload;
+    /// <summary>Define o nome de exibição amigável da tag (extensão <c>x-displayName</c>).</summary>
     function DisplayName(const AValue: string): ITag; overload;
+    /// <summary>Retorna a referência de documentação externa para esta tag.</summary>
     function ExternalDocs: IExternalDocumentation<ITag>;
+    /// <summary>Retorna ao objeto pai (<c>IOpenApi</c>).</summary>
     function &End: IOpenApi;
   end;
 

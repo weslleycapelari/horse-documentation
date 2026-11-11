@@ -11,6 +11,10 @@ uses
   Horse.Documentation.OpenApi.Interfaces;
 
 type
+  /// <summary>
+  ///   Implementação do contêiner Responses da especificação OpenAPI (<c>IResponses&lt;T&gt;</c>),
+  ///   agrupando as respostas esperadas de uma operação por código de status HTTP.
+  /// </summary>
   TResponses<T> = class(TOpenApiAncestor, IResponses<T>)
   private
     FParent: T;
@@ -19,11 +23,16 @@ type
 
     constructor Create(AParent: T);
   public
+    /// <summary>Cria uma nova instância de <c>IResponses&lt;T&gt;</c> vinculada ao objeto pai <c>AParent</c>.</summary>
     class function New(AParent: T): IResponses<T>; static;
+    /// <summary>Serializa o contêiner de respostas para <c>TJSONObject</c>.</summary>
     function ToJson: TJSONObject;
 
+    /// <summary>Retorna a definição de resposta padrão (<c>default</c>) para códigos HTTP não listados explicitamente.</summary>
     function &Default: IResponse<IResponses<T>>;
+    /// <summary>Retorna o mapa de respostas indexado pelo código de status HTTP (ex: <c>'200'</c>, <c>'400'</c>, <c>'2XX'</c>).</summary>
     function StatusCodes: TOpenApiMap<IResponse<IResponses<T>>, IResponses<T>>;
+    /// <summary>Retorna ao objeto pai (<c>T</c>).</summary>
     function &End: T;
   end;
 

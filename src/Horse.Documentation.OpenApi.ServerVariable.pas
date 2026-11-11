@@ -12,6 +12,10 @@ uses
   Horse.Documentation.OpenApi.Interfaces;
 
 type
+  /// <summary>
+  ///   Implementação do objeto Server Variable da especificação OpenAPI (<c>IServerVariable&lt;T&gt;</c>),
+  ///   usado para substituição de parâmetros em templates de URL de servidores.
+  /// </summary>
   TServerVariable<T> = class(TOpenApiAncestor, IServerVariable<T>)
   private
     [Weak]
@@ -23,14 +27,22 @@ type
     constructor Create(AParent: IServer<T>);
   public
     destructor Destroy; override;
+    /// <summary>Cria uma nova instância de <c>IServerVariable&lt;T&gt;</c> vinculada ao servidor pai.</summary>
     class function New(AParent: IServer<T>): IServerVariable<T>; static;
+    /// <summary>Serializa a variável de servidor para <c>TJSONObject</c>.</summary>
     function ToJson: TJSONObject;
 
+    /// <summary>Retorna a lista de valores permitidos (<c>enum</c>) para esta variável.</summary>
     function &Enum: TOpenApiList<string, IServerVariable<T>>;
+    /// <summary>Obtém o valor padrão obrigatório para substituição.</summary>
     function &Default: string; overload;
+    /// <summary>Define o valor padrão obrigatório para substituição.</summary>
     function &Default(const AValue: string): IServerVariable<T>; overload;
+    /// <summary>Obtém a descrição da variável de servidor.</summary>
     function Description: string; overload;
+    /// <summary>Define a descrição da variável de servidor.</summary>
     function Description(const AValue: string): IServerVariable<T>; overload;
+    /// <summary>Retorna ao servidor pai (<c>IServer&lt;T&gt;</c>).</summary>
     function &End: IServer<T>;
   end;
 

@@ -13,6 +13,10 @@ uses
   Horse.Documentation.OpenApi.Interfaces;
 
 type
+  /// <summary>
+  ///   Implementação do objeto Security Requirement da especificação OpenAPI (<c>ISecurityRequirement&lt;T&gt;</c>),
+  ///   associando um esquema de segurança declarado em <c>components.securitySchemes</c> aos escopos exigidos.
+  /// </summary>
   TSecurityRequirement<T> = class(TOpenApiAncestor, ISecurityRequirement<T>)
   private
     FParent: T;
@@ -21,12 +25,18 @@ type
 
     constructor Create(AParent: T);
   public
+    /// <summary>Cria uma nova instância de <c>ISecurityRequirement&lt;T&gt;</c> vinculada ao objeto pai <c>AParent</c>.</summary>
     class function New(AParent: T): ISecurityRequirement<T>; static;
+    /// <summary>Serializa o requisito de segurança para <c>TJSONObject</c>.</summary>
     function ToJson: TJSONObject;
 
+    /// <summary>Obtém o nome do esquema de segurança referenciado.</summary>
     function SchemeName: string; overload;
+    /// <summary>Define o nome do esquema de segurança referenciado.</summary>
     function SchemeName(const AValue: string): ISecurityRequirement<T>; overload;
+    /// <summary>Retorna a lista de escopos necessários para o esquema (vazia para esquemas não-OAuth2/OIDC).</summary>
     function Scopes: TOpenApiList<string, ISecurityRequirement<T>>;
+    /// <summary>Retorna ao objeto pai (<c>T</c>).</summary>
     function &End: T;
   end;
 

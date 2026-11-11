@@ -11,6 +11,10 @@ uses
   Horse.Documentation.OpenApi.Interfaces;
 
 type
+  /// <summary>
+  ///   Implementação do objeto Response da especificação OpenAPI (<c>IResponse&lt;T&gt;</c>),
+  ///   descrevendo uma única resposta HTTP (descrição, headers, conteúdo por media type e links).
+  /// </summary>
   TResponse<T> = class(TOpenApiAncestor, IResponse<T>)
   private
     FParent: T;
@@ -21,14 +25,22 @@ type
 
     constructor Create(AParent: T);
   public
+    /// <summary>Cria uma nova instância de <c>IResponse&lt;T&gt;</c> vinculada ao objeto pai <c>AParent</c>.</summary>
     class function New(AParent: T): IResponse<T>; static;
+    /// <summary>Serializa a definição de resposta para <c>TJSONObject</c>.</summary>
     function ToJson: TJSONObject;
 
+    /// <summary>Obtém a descrição obrigatória da resposta (suporta CommonMark/Markdown).</summary>
     function Description: string; overload;
+    /// <summary>Define a descrição obrigatória da resposta (suporta CommonMark/Markdown).</summary>
     function Description(const AValue: string): IResponse<T>; overload;
+    /// <summary>Retorna o mapa de cabeçalhos HTTP (<c>IHeader</c>) retornados com a resposta.</summary>
     function Headers: TOpenApiMap<IHeader<IResponse<T>>, IResponse<T>>;
+    /// <summary>Retorna o mapa de payloads (<c>IMediaType</c>) retornados pela resposta.</summary>
     function Content: TOpenApiMap<IMediaType<IResponse<T>>, IResponse<T>>;
+    /// <summary>Retorna o mapa de links de design-time (<c>ILink</c>) associados à resposta.</summary>
     function Links: TOpenApiMap<ILink<IResponse<T>>, IResponse<T>>;
+    /// <summary>Retorna ao objeto pai (<c>T</c>).</summary>
     function &End: T;
   end;
 

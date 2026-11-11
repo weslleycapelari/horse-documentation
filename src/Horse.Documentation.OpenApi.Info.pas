@@ -10,6 +10,10 @@ uses
   Horse.Documentation.OpenApi.Interfaces;
 
 type
+  /// <summary>
+  ///   Implementação do objeto Info da especificação OpenAPI (<c>IInfo</c>),
+  ///   contendo metadados gerais da API como título, versão, descrição, contato, licença e logo.
+  /// </summary>
   TInfo = class(TOpenApiAncestor, IInfo)
   private
     [Weak]
@@ -25,22 +29,38 @@ type
 
     constructor Create(AParent: IOpenApi);
   public
+    /// <summary>Cria uma nova instância de <c>IInfo</c> vinculada ao objeto raiz <c>IOpenApi</c>.</summary>
     class function New(AParent: IOpenApi): IInfo; static;
+    /// <summary>Serializa os metadados da API para <c>TJSONObject</c>.</summary>
     function ToJson: TJSONObject;
 
+    /// <summary>Obtém o título da API.</summary>
     function Title: string; overload;
+    /// <summary>Define o título da API.</summary>
     function Title(const AValue: string): IInfo; overload;
+    /// <summary>Obtém o resumo curto da API.</summary>
     function Summary: string; overload;
+    /// <summary>Define o resumo curto da API.</summary>
     function Summary(const AValue: string): IInfo; overload;
+    /// <summary>Obtém a descrição detalhada da API (suporta CommonMark/Markdown).</summary>
     function Description: string; overload;
+    /// <summary>Define a descrição detalhada da API (suporta CommonMark/Markdown).</summary>
     function Description(const AValue: string): IInfo; overload;
+    /// <summary>Obtém a URI dos Termos de Serviço da API.</summary>
     function TermsOfService: string; overload;
+    /// <summary>Define a URI dos Termos de Serviço da API.</summary>
     function TermsOfService(const AValue: string): IInfo; overload;
+    /// <summary>Retorna o objeto de informações de contato (<c>IContact</c>).</summary>
     function Contact: IContact;
+    /// <summary>Retorna o objeto de informações de licença (<c>ILicense</c>).</summary>
     function License: ILicense;
+    /// <summary>Retorna o objeto de configuração de logotipo (<c>ILogo</c>, extensão <c>x-logo</c>).</summary>
     function Logo: ILogo;
+    /// <summary>Obtém a versão do documento da API.</summary>
     function Version: string; overload;
+    /// <summary>Define a versão do documento da API.</summary>
     function Version(const AValue: string): IInfo; overload;
+    /// <summary>Retorna ao objeto pai (<c>IOpenApi</c>).</summary>
     function &End: IOpenApi;
   end;
 

@@ -13,6 +13,10 @@ uses
   Horse.Documentation.OpenApi.Interfaces;
 
 type
+  /// <summary>
+  ///   Implementação do objeto Security Scheme da especificação OpenAPI (<c>ISecurityScheme</c>),
+  ///   definindo mecanismos de autenticação e autorização (<c>apiKey</c>, <c>http</c>, <c>mutualTLS</c>, <c>oauth2</c>, <c>openIdConnect</c>).
+  /// </summary>
   TSecurityScheme = class(TOpenApiAncestor, ISecurityScheme)
   private
     [Weak]
@@ -28,24 +32,42 @@ type
 
     constructor Create(AParent: IComponents);
   public
+    /// <summary>Cria uma nova instância de <c>ISecurityScheme</c> vinculada ao contêiner <c>IComponents</c>.</summary>
     class function New(AParent: IComponents): ISecurityScheme; static;
+    /// <summary>Serializa a definição do esquema de segurança para <c>TJSONObject</c>.</summary>
     function ToJson: TJSONObject;
 
+    /// <summary>Obtém o tipo do esquema de segurança (<c>TSecuritySchemeType</c>).</summary>
     function &Type: TSecuritySchemeType; overload;
+    /// <summary>Define o tipo do esquema de segurança (<c>TSecuritySchemeType</c>).</summary>
     function &Type(const AValue: TSecuritySchemeType): ISecurityScheme; overload;
+    /// <summary>Obtém a descrição do esquema de segurança (suporta CommonMark/Markdown).</summary>
     function Description: string; overload;
+    /// <summary>Define a descrição do esquema de segurança (suporta CommonMark/Markdown).</summary>
     function Description(const AValue: string): ISecurityScheme; overload;
+    /// <summary>Obtém o nome do parâmetro de header, query ou cookie usado em <c>sstApiKey</c>.</summary>
     function Name: string; overload;
+    /// <summary>Define o nome do parâmetro de header, query ou cookie usado em <c>sstApiKey</c>.</summary>
     function Name(const AValue: string): ISecurityScheme; overload;
+    /// <summary>Obtém a localização da chave de API (<c>aklQuery</c>, <c>aklHeader</c>, <c>aklCookie</c>).</summary>
     function &In: TApiKeyLocation; overload;
+    /// <summary>Define a localização da chave de API (<c>aklQuery</c>, <c>aklHeader</c>, <c>aklCookie</c>).</summary>
     function &In(const AValue: TApiKeyLocation): ISecurityScheme; overload;
+    /// <summary>Obtém o nome do esquema HTTP Authorization (ex: <c>bearer</c>, <c>basic</c>).</summary>
     function Scheme: string; overload;
+    /// <summary>Define o nome do esquema HTTP Authorization (ex: <c>bearer</c>, <c>basic</c>).</summary>
     function Scheme(const AValue: string): ISecurityScheme; overload;
+    /// <summary>Obtém o formato do token Bearer (ex: <c>JWT</c>).</summary>
     function BearerFormat: string; overload;
+    /// <summary>Define o formato do token Bearer (ex: <c>JWT</c>).</summary>
     function BearerFormat(const AValue: string): ISecurityScheme; overload;
+    /// <summary>Retorna a configuração dos fluxos OAuth 2.0 (<c>IOAuthFlows</c>).</summary>
     function Flows: IOAuthFlows;
+    /// <summary>Obtém a URL de descoberta do provedor OpenID Connect (<c>openIdConnectUrl</c>).</summary>
     function OpenIdConnectUrl: string; overload;
+    /// <summary>Define a URL de descoberta do provedor OpenID Connect (<c>openIdConnectUrl</c>).</summary>
     function OpenIdConnectUrl(const AValue: string): ISecurityScheme; overload;
+    /// <summary>Retorna ao contêiner pai (<c>IComponents</c>).</summary>
     function &End: IComponents;
   end;
 

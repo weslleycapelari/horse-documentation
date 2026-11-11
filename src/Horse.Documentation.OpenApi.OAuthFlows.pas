@@ -13,6 +13,10 @@ uses
   Horse.Documentation.OpenApi.Interfaces;
 
 type
+  /// <summary>
+  ///   Implementação do objeto OAuth Flows da especificação OpenAPI (<c>IOAuthFlows</c>),
+  ///   agrupando as configurações dos fluxos OAuth 2.0 suportados (<c>implicit</c>, <c>password</c>, <c>clientCredentials</c> e <c>authorizationCode</c>).
+  /// </summary>
   TOAuthFlows = class(TOpenApiAncestor, IOAuthFlows)
   private
     [Weak]
@@ -24,13 +28,20 @@ type
 
     constructor Create(AParent: ISecurityScheme);
   public
+    /// <summary>Cria uma nova instância de <c>IOAuthFlows</c> vinculada ao esquema <c>ISecurityScheme</c>.</summary>
     class function New(AParent: ISecurityScheme): IOAuthFlows; static;
+    /// <summary>Serializa os fluxos OAuth 2.0 configurados para <c>TJSONObject</c>.</summary>
     function ToJson: TJSONObject;
 
+    /// <summary>Retorna a configuração para o fluxo OAuth 2.0 Implicit.</summary>
     function Implicit: IOAuthFlow;
+    /// <summary>Retorna a configuração para o fluxo OAuth 2.0 Resource Owner Password Credentials.</summary>
     function Password: IOAuthFlow;
+    /// <summary>Retorna a configuração para o fluxo OAuth 2.0 Client Credentials.</summary>
     function ClientCredentials: IOAuthFlow;
+    /// <summary>Retorna a configuração para o fluxo OAuth 2.0 Authorization Code.</summary>
     function AuthorizationCode: IOAuthFlow;
+    /// <summary>Retorna ao esquema de segurança pai (<c>ISecurityScheme</c>).</summary>
     function &End: ISecurityScheme;
   end;
 

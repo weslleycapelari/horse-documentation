@@ -12,6 +12,10 @@ uses
   Horse.Documentation.OpenApi.Interfaces;
 
 type
+  /// <summary>
+  ///   Implementação do objeto Operation da especificação OpenAPI (<c>IOperation&lt;T&gt;</c>),
+  ///   descrevendo uma única operação de API em um caminho (tags, parâmetros, corpo de requisição, respostas, segurança e exemplos de código).
+  /// </summary>
   TOperation<T> = class(TOpenApiAncestor, IOperation<T>)
   private
     FParent: T;
@@ -30,25 +34,44 @@ type
 
     constructor Create(AParent: T);
   public
+    /// <summary>Cria uma nova instância de <c>IOperation&lt;T&gt;</c> vinculada ao objeto pai <c>AParent</c>.</summary>
     class function New(AParent: T): IOperation<T>; static;
+    /// <summary>Serializa os metadados da operação para <c>TJSONObject</c>.</summary>
     function ToJson: TJSONObject;
 
+    /// <summary>Retorna a lista de tags associadas a esta operação para agrupamento na documentação.</summary>
     function Tags: TOpenApiList<string, IOperation<T>>;
+    /// <summary>Obtém o resumo curto do propósito da operação.</summary>
     function Summary: string; overload;
+    /// <summary>Define o resumo curto do propósito da operação.</summary>
     function Summary(const AValue: string): IOperation<T>; overload;
+    /// <summary>Obtém a explicação detalhada do comportamento da operação (suporta CommonMark/Markdown).</summary>
     function Description: string; overload;
+    /// <summary>Define a explicação detalhada do comportamento da operação (suporta CommonMark/Markdown).</summary>
     function Description(const AValue: string): IOperation<T>; overload;
+    /// <summary>Retorna a documentação externa adicional para esta operação.</summary>
     function ExternalDocs: IExternalDocumentation<IOperation<T>>;
+    /// <summary>Obtém o identificador único (<c>operationId</c>) da operação.</summary>
     function OperationId: string; overload;
+    /// <summary>Define o identificador único (<c>operationId</c>) da operação.</summary>
     function OperationId(const AValue: string): IOperation<T>; overload;
+    /// <summary>Retorna a lista de parâmetros (<c>IParameter</c>) aplicáveis a esta operação.</summary>
     function Parameters: TOpenApiList<IParameter<IOperation<T>>, IOperation<T>>;
+    /// <summary>Retorna a definição do corpo da requisição (<c>IRequestBody</c>) desta operação.</summary>
     function RequestBody: IRequestBody<IOperation<T>>;
+    /// <summary>Retorna o contêiner de respostas (<c>IResponses</c>) esperadas para esta operação.</summary>
     function Responses: IResponses<IOperation<T>>;
+    /// <summary>Obtém se a operação está marcada como obsoleta (<c>deprecated</c>).</summary>
     function Deprecated: Boolean; overload;
+    /// <summary>Define se a operação está marcada como obsoleta (<c>deprecated</c>).</summary>
     function Deprecated(const AValue: Boolean): IOperation<T>; overload;
+    /// <summary>Retorna a lista de requisitos de segurança específicos desta operação.</summary>
     function Security: TOpenApiList<ISecurityRequirement<IOperation<T>>, IOperation<T>>;
+    /// <summary>Retorna a lista de servidores alternativos para atender a esta operação.</summary>
     function Servers: TOpenApiList<IServer<IOperation<T>>, IOperation<T>>;
+    /// <summary>Retorna a lista de exemplos de código (<c>ICodeSample</c>, extensão <c>x-code-samples</c>).</summary>
     function CodeSamples: TOpenApiList<ICodeSample<IOperation<T>>, IOperation<T>>;
+    /// <summary>Retorna ao objeto pai (<c>T</c>).</summary>
     function &End: T;
   end;
 

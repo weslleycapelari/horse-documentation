@@ -13,6 +13,10 @@ uses
   Horse.Documentation.OpenApi.Interfaces;
 
 type
+  /// <summary>
+  ///   Implementação do objeto OAuth Flow da especificação OpenAPI (<c>IOAuthFlow</c>),
+  ///   contendo URLs de autorização, token, refresh e mapa de escopos de um fluxo OAuth 2.0.
+  /// </summary>
   TOAuthFlow = class(TOpenApiAncestor, IOAuthFlow)
   private
     [Weak]
@@ -24,16 +28,26 @@ type
 
     constructor Create(AParent: IOAuthFlows);
   public
+    /// <summary>Cria uma nova instância de <c>IOAuthFlow</c> vinculada ao contêiner <c>IOAuthFlows</c>.</summary>
     class function New(AParent: IOAuthFlows): IOAuthFlow; static;
+    /// <summary>Serializa os detalhes do fluxo OAuth 2.0 para <c>TJSONObject</c>.</summary>
     function ToJson: TJSONObject;
 
+    /// <summary>Obtém a URL de autorização para este fluxo (<c>authorizationUrl</c>).</summary>
     function AuthorizationUrl: string; overload;
+    /// <summary>Define a URL de autorização para este fluxo (<c>authorizationUrl</c>).</summary>
     function AuthorizationUrl(const AValue: string): IOAuthFlow; overload;
+    /// <summary>Obtém a URL de obtenção de token para este fluxo (<c>tokenUrl</c>).</summary>
     function TokenUrl: string; overload;
+    /// <summary>Define a URL de obtenção de token para este fluxo (<c>tokenUrl</c>).</summary>
     function TokenUrl(const AValue: string): IOAuthFlow; overload;
+    /// <summary>Obtém a URL de renovação de token (<c>refreshUrl</c>).</summary>
     function RefreshUrl: string; overload;
+    /// <summary>Define a URL de renovação de token (<c>refreshUrl</c>).</summary>
     function RefreshUrl(const AValue: string): IOAuthFlow; overload;
+    /// <summary>Retorna o mapa de escopos disponíveis (nome do escopo -> descrição).</summary>
     function Scopes: TOpenApiMap<string, IOAuthFlow>;
+    /// <summary>Retorna ao contêiner de fluxos pai (<c>IOAuthFlows</c>).</summary>
     function &End: IOAuthFlows;
   end;
 

@@ -15,6 +15,10 @@ uses
   Horse.Documentation.OpenApi.Interfaces;
 
 type
+  /// <summary>
+  ///   Implementação do objeto Example da especificação OpenAPI (<c>IExample&lt;T&gt;</c>),
+  ///   agrupando um valor de exemplo literal ou externo com resumo e descrição.
+  /// </summary>
   TExample<T> = class(TOpenApiAncestor, IExample<T>)
   private
     FParent: T;
@@ -25,17 +29,28 @@ type
 
     constructor Create(AParent: T);
   public
+    /// <summary>Cria uma nova instância de <c>IExample&lt;T&gt;</c> vinculada ao objeto pai <c>AParent</c>.</summary>
     class function New(AParent: T): IExample<T>; static;
+    /// <summary>Serializa o exemplo para <c>TJSONObject</c>.</summary>
     function ToJson: TJSONObject;
 
+    /// <summary>Obtém a breve descrição do exemplo.</summary>
     function Summary: string; overload;
+    /// <summary>Define a breve descrição do exemplo.</summary>
     function Summary(const AValue: string): IExample<T>; overload;
+    /// <summary>Obtém a descrição detalhada do exemplo (suporta CommonMark/Markdown).</summary>
     function Description: string; overload;
+    /// <summary>Define a descrição detalhada do exemplo (suporta CommonMark/Markdown).</summary>
     function Description(const AValue: string): IExample<T>; overload;
+    /// <summary>Obtém o valor JSON embutido do exemplo (mutuamente exclusivo com <c>ExternalValue</c>).</summary>
     function Value: TJSONValue; overload;
+    /// <summary>Define o valor JSON embutido do exemplo (mutuamente exclusivo com <c>ExternalValue</c>).</summary>
     function Value(const AValue: TJSONValue): IExample<T>; overload;
+    /// <summary>Obtém a URI que aponta para o exemplo externo (mutuamente exclusivo com <c>Value</c>).</summary>
     function ExternalValue: string; overload;
+    /// <summary>Define a URI que aponta para o exemplo externo (mutuamente exclusivo com <c>Value</c>).</summary>
     function ExternalValue(const AValue: string): IExample<T>; overload;
+    /// <summary>Retorna ao objeto pai (<c>T</c>).</summary>
     function &End: T;
   end;
 

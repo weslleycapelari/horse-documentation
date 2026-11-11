@@ -12,6 +12,10 @@ uses
   Horse.Documentation.OpenApi.Interfaces;
 
 type
+  /// <summary>
+  ///   Implementação do objeto Path Item da especificação OpenAPI (<c>IPathItem&lt;T&gt;</c>),
+  ///   descrevendo as operações HTTP (GET, POST, PUT, DELETE, etc.) e parâmetros disponíveis em um caminho.
+  /// </summary>
   TPathItem<T> = class(TOpenApiAncestor, IPathItem<T>)
   private
     FParent: T;
@@ -31,25 +35,44 @@ type
 
     constructor Create(AParent: T);
   public
+    /// <summary>Cria uma nova instância de <c>IPathItem&lt;T&gt;</c> vinculada ao objeto pai <c>AParent</c>.</summary>
     class function New(AParent: T): IPathItem<T>; static;
+    /// <summary>Serializa o Path Item e suas operações HTTP para <c>TJSONObject</c>.</summary>
     function ToJson: TJSONObject;
 
+    /// <summary>Obtém a referência externa (<c>$ref</c>) do Path Item.</summary>
     function Ref: string; overload;
+    /// <summary>Define a referência externa (<c>$ref</c>) do Path Item.</summary>
     function Ref(const AValue: string): IPathItem<T>; overload;
+    /// <summary>Obtém o resumo aplicável a todas as operações deste caminho.</summary>
     function Summary: string; overload;
+    /// <summary>Define o resumo aplicável a todas as operações deste caminho.</summary>
     function Summary(const AValue: string): IPathItem<T>; overload;
+    /// <summary>Obtém a descrição aplicável a todas as operações deste caminho.</summary>
     function Description: string; overload;
+    /// <summary>Define a descrição aplicável a todas as operações deste caminho.</summary>
     function Description(const AValue: string): IPathItem<T>; overload;
+    /// <summary>Retorna a definição da operação HTTP <c>GET</c> para este caminho.</summary>
     function Get: IOperation<IPathItem<T>>;
+    /// <summary>Retorna a definição da operação HTTP <c>PUT</c> para este caminho.</summary>
     function Put: IOperation<IPathItem<T>>;
+    /// <summary>Retorna a definição da operação HTTP <c>POST</c> para este caminho.</summary>
     function Post: IOperation<IPathItem<T>>;
+    /// <summary>Retorna a definição da operação HTTP <c>DELETE</c> para este caminho.</summary>
     function &Delete: IOperation<IPathItem<T>>;
+    /// <summary>Retorna a definição da operação HTTP <c>OPTIONS</c> para este caminho.</summary>
     function Options: IOperation<IPathItem<T>>;
+    /// <summary>Retorna a definição da operação HTTP <c>HEAD</c> para este caminho.</summary>
     function Head: IOperation<IPathItem<T>>;
+    /// <summary>Retorna a definição da operação HTTP <c>PATCH</c> para este caminho.</summary>
     function Patch: IOperation<IPathItem<T>>;
+    /// <summary>Retorna a definição da operação HTTP <c>TRACE</c> para este caminho.</summary>
     function Trace: IOperation<IPathItem<T>>;
+    /// <summary>Retorna a lista de servidores alternativos para atender a este caminho.</summary>
     function Servers: TOpenApiList<IServer<IPathItem<T>>, IPathItem<T>>;
+    /// <summary>Retorna a lista de parâmetros compartilhados por todas as operações deste caminho.</summary>
     function Parameters: TOpenApiList<IParameter<IPathItem<T>>, IPathItem<T>>;
+    /// <summary>Retorna ao objeto pai (<c>T</c>).</summary>
     function &End: T;
   end;
 

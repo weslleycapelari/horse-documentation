@@ -10,6 +10,10 @@ uses
   Horse.Documentation.OpenApi.Interfaces;
 
 type
+  /// <summary>
+  ///   Implementação da extensão <c>x-logo</c> (<c>ILogo</c>) para personalização
+  ///   do logotipo da API em ferramentas compatíveis (Scalar / Redoc).
+  /// </summary>
   TLogo = class(TOpenApiAncestor, ILogo)
   private
     [Weak]
@@ -21,17 +25,28 @@ type
 
     constructor Create(AParent: IInfo);
   public
+    /// <summary>Cria uma nova instância de <c>ILogo</c> vinculada ao objeto <c>IInfo</c>.</summary>
     class function New(AParent: IInfo): ILogo; static;
+    /// <summary>Serializa as propriedades do logo para <c>TJSONObject</c>.</summary>
     function ToJson: TJSONObject;
 
+    /// <summary>Obtém a URL ou Data URI da imagem do logo.</summary>
     function Url: string; overload;
+    /// <summary>Define a URL ou Data URI da imagem do logo.</summary>
     function Url(const AValue: string): ILogo; overload;
+    /// <summary>Obtém a cor de fundo em formato hexadecimal (ex: <c>#FFFFFF</c>).</summary>
     function BackgroundColor: string; overload;
+    /// <summary>Define a cor de fundo em formato hexadecimal (ex: <c>#FFFFFF</c>).</summary>
     function BackgroundColor(const AValue: string): ILogo; overload;
+    /// <summary>Obtém o texto alternativo (<c>altText</c>) da imagem.</summary>
     function AltText: string; overload;
+    /// <summary>Define o texto alternativo (<c>altText</c>) da imagem.</summary>
     function AltText(const AValue: string): ILogo; overload;
+    /// <summary>Obtém o link de redirecionamento ao clicar no logo.</summary>
     function Href: string; overload;
+    /// <summary>Define o link de redirecionamento ao clicar no logo.</summary>
     function Href(const AValue: string): ILogo; overload;
+    /// <summary>Retorna ao objeto pai (<c>IInfo</c>).</summary>
     function &End: IInfo;
   end;
 

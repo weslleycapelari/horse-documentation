@@ -15,6 +15,10 @@ uses
   Horse.Documentation.OpenApi.Interfaces;
 
 type
+  /// <summary>
+  ///   Implementação do objeto Header da especificação OpenAPI (<c>IHeader&lt;T&gt;</c>),
+  ///   descrevendo um cabeçalho HTTP de resposta ou de parte multipart.
+  /// </summary>
   THeader<T> = class(TOpenApiAncestor, IHeader<T>)
   private
     FParent: T;
@@ -30,24 +34,44 @@ type
 
     constructor Create(AParent: T);
   public
+    /// <summary>Cria uma nova instância de <c>IHeader&lt;T&gt;</c> vinculada ao objeto pai <c>AParent</c>.</summary>
     class function New(AParent: T): IHeader<T>; static;
+    /// <summary>Serializa a definição do cabeçalho para <c>TJSONObject</c>.</summary>
     function ToJson: TJSONObject;
 
+    /// <summary>Obtém a descrição do cabeçalho (suporta CommonMark/Markdown).</summary>
     function Description: string; overload;
+    /// <summary>Define a descrição do cabeçalho (suporta CommonMark/Markdown).</summary>
     function Description(const AValue: string): IHeader<T>; overload;
+    /// <summary>Obtém se o cabeçalho é obrigatório.</summary>
     function Required: Boolean; overload;
+    /// <summary>Define se o cabeçalho é obrigatório.</summary>
     function Required(const AValue: Boolean): IHeader<T>; overload;
+    /// <summary>Obtém se o cabeçalho está marcado como obsoleto (<c>deprecated</c>).</summary>
     function Deprecated: Boolean; overload;
+    /// <summary>Define se o cabeçalho está marcado como obsoleto (<c>deprecated</c>).</summary>
     function Deprecated(const AValue: Boolean): IHeader<T>; overload;
+    /// <summary>Obtém o estilo de serialização do cabeçalho (padrão: <c>psSimple</c>).</summary>
     function Style: TParameterStyle; overload;
+    /// <summary>Define o estilo de serialização do cabeçalho.</summary>
     function Style(const AValue: TParameterStyle): IHeader<T>; overload;
+    /// <summary>Obtém se arrays/objetos devem ser expandidos (<c>explode</c>).</summary>
     function Explode: Boolean; overload;
+    /// <summary>Define se arrays/objetos devem ser expandidos (<c>explode</c>).</summary>
     function Explode(const AValue: Boolean): IHeader<T>; overload;
-    function Schema: ISchema;
+    /// <summary>Obtém o JSON Schema que define o tipo do cabeçalho.</summary>
+    function Schema: ISchema; overload;
+    /// <summary>Define o JSON Schema que define o tipo do cabeçalho.</summary>
+    function Schema(const AValue: ISchema): IHeader<T>; overload;
+    /// <summary>Obtém o exemplo único do cabeçalho.</summary>
     function Example: TJSONValue; overload;
+    /// <summary>Define o exemplo único do cabeçalho.</summary>
     function Example(const AValue: TJSONValue): IHeader<T>; overload;
+    /// <summary>Retorna o mapa de exemplos nomeados (<c>IExample</c>) para este cabeçalho.</summary>
     function Examples: TOpenApiMap<IExample<IHeader<T>>, IHeader<T>>;
+    /// <summary>Retorna o mapa de representações por media type (<c>IMediaType</c>) para este cabeçalho.</summary>
     function Content: TOpenApiMap<IMediaType<IHeader<T>>, IHeader<T>>;
+    /// <summary>Retorna ao objeto pai (<c>T</c>).</summary>
     function &End: T;
   end;
 
@@ -149,6 +173,12 @@ begin
   Result := FSchema;
 end;
 
+function THeader<T>.Schema(const AValue: ISchema): IHeader<T>;
+begin
+  Result := Self;
+  FSchema := AValue;
+end;
+
 function THeader<T>.Style: TParameterStyle;
 begin
   Result := FStyle;
@@ -190,9 +220,6 @@ begin
 
     if FExample <> nil then
       Result.AddPair('example', FExample);
-
-    if FDeprecated then
-      Result.AddPair('deprecated', FDeprecated);
 
     if (FExamples <> nil) and (FExamples.Count > 0) then
       Result.AddPair('examples', FExamples.ToJson);

@@ -15,6 +15,10 @@ uses
   Horse.Documentation.OpenApi.Interfaces;
 
 type
+  /// <summary>
+  ///   Implementação do objeto Media Type da especificação OpenAPI (<c>IMediaType&lt;T&gt;</c>),
+  ///   fornecendo definição de schema, exemplos e regras de codificação para um Content-Type específico.
+  /// </summary>
   TMediaType<T> = class(TOpenApiAncestor, IMediaType<T>)
   private
     FParent: T;
@@ -25,15 +29,24 @@ type
 
     constructor Create(AParent: T);
   public
+    /// <summary>Cria uma nova instância de <c>IMediaType&lt;T&gt;</c> vinculada ao objeto pai <c>AParent</c>.</summary>
     class function New(AParent: T): IMediaType<T>; static;
+    /// <summary>Serializa o Media Type para <c>TJSONObject</c>.</summary>
     function ToJson: TJSONObject;
 
+    /// <summary>Obtém o JSON Schema que descreve a estrutura do conteúdo.</summary>
     function Schema: ISchema; overload;
+    /// <summary>Define o JSON Schema que descreve a estrutura do conteúdo.</summary>
     function Schema(const AValue: ISchema): IMediaType<T>; overload;
+    /// <summary>Obtém o exemplo único do payload.</summary>
     function Example: TJSONValue; overload;
+    /// <summary>Define o exemplo único do payload.</summary>
     function Example(const AValue: TJSONValue): IMediaType<T>; overload;
+    /// <summary>Retorna o mapa de exemplos nomeados (<c>IExample</c>) para este media type.</summary>
     function Examples: TOpenApiMap<IExample<IMediaType<T>>, IMediaType<T>>;
+    /// <summary>Retorna o mapa de codificações por propriedade (<c>IEncoding</c>) para payloads multipart/form.</summary>
     function Encoding: TOpenApiMap<IEncoding<IMediaType<T>>, IMediaType<T>>;
+    /// <summary>Retorna ao objeto pai (<c>T</c>).</summary>
     function &End: T;
   end;
 

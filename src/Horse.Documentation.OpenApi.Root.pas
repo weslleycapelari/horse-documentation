@@ -11,6 +11,11 @@ uses
   Horse.Documentation.OpenApi.Interfaces;
 
 type
+  /// <summary>
+  ///   Implementação concreta do objeto raiz da especificação OpenAPI 3.1.1 (<c>IOpenApi</c>).
+  ///   Centraliza metadados da API, servidores, caminhos, webhooks, componentes reutilizáveis,
+  ///   requisitos de segurança, tags e grupos de tags.
+  /// </summary>
   TOpenApi = class(TOpenApiAncestor, IOpenApi)
   private
     FOpenapi: string;
@@ -28,21 +33,36 @@ type
     constructor Create;
   public
     destructor Destroy; override;
+    /// <summary>Cria uma nova instância de <c>IOpenApi</c> inicializada com a versão <c>3.1.1</c>.</summary>
     class function New: IOpenApi; static;
+    /// <summary>Serializa toda a árvore de documentação OpenAPI para um <c>TJSONObject</c>.</summary>
     function ToJson: TJSONObject;
 
+    /// <summary>Obtém a versão da especificação OpenAPI (padrão: <c>3.1.1</c>).</summary>
     function Openapi: string; overload;
+    /// <summary>Define a versão da especificação OpenAPI.</summary>
     function Openapi(const AValue: string): IOpenApi; overload;
+    /// <summary>Retorna o objeto <c>IInfo</c> com metadados da API.</summary>
     function Info: IInfo;
+    /// <summary>Obtém a URI do dialeto padrão para JSON Schema.</summary>
     function JsonSchemaDialect: string; overload;
+    /// <summary>Define a URI do dialeto padrão para JSON Schema.</summary>
     function JsonSchemaDialect(const AValue: string): IOpenApi; overload;
+    /// <summary>Retorna a lista de servidores (<c>IServer</c>) da API.</summary>
     function Servers: TOpenApiList<IServer<IOpenApi>, IOpenApi>;
+    /// <summary>Retorna o mapa de caminhos e operações (<c>IPathItem</c>) da API.</summary>
     function Paths: TOpenApiMap<IPathItem<IOpenApi>, IOpenApi>;
+    /// <summary>Retorna o mapa de webhooks (<c>IPathItem</c>) da API.</summary>
     function Webhooks: TOpenApiMap<IPathItem<IOpenApi>, IOpenApi>;
+    /// <summary>Retorna o contêiner de componentes reutilizáveis (<c>IComponents</c>).</summary>
     function Components: IComponents;
+    /// <summary>Retorna a lista global de requisitos de segurança (<c>ISecurityRequirement</c>).</summary>
     function Security: TOpenApiList<ISecurityRequirement<IOpenApi>, IOpenApi>;
+    /// <summary>Retorna a lista de tags globais (<c>ITag</c>) da documentação.</summary>
     function Tags: TOpenApiList<ITag, IOpenApi>;
+    /// <summary>Retorna a lista de grupos de tags (<c>ITagGroup</c>, extensão <c>x-tagGroups</c>).</summary>
     function TagGroups: TOpenApiList<ITagGroup, IOpenApi>;
+    /// <summary>Retorna a referência de documentação externa (<c>IExternalDocumentation</c>).</summary>
     function ExternalDocs: IExternalDocumentation<IOpenApi>;
   end;
 

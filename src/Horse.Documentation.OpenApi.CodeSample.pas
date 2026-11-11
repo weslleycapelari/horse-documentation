@@ -10,6 +10,10 @@ uses
   Horse.Documentation.OpenApi.Interfaces;
 
 type
+  /// <summary>
+  ///   Implementação da extensão <c>x-code-samples</c> (<c>ICodeSample&lt;T&gt;</c>),
+  ///   permitindo anexar exemplos de código-fonte customizados em diferentes linguagens a uma operação.
+  /// </summary>
   TCodeSample<T> = class(TOpenApiAncestor, ICodeSample<T>)
   private
     FParent: T;
@@ -19,15 +23,24 @@ type
 
     constructor Create(AParent: T);
   public
+    /// <summary>Cria uma nova instância de <c>ICodeSample&lt;T&gt;</c> vinculada ao objeto pai <c>AParent</c>.</summary>
     class function New(AParent: T): ICodeSample<T>; static;
+    /// <summary>Serializa o exemplo de código para <c>TJSONObject</c>.</summary>
     function ToJson: TJSONObject;
 
+    /// <summary>Obtém a linguagem de programação do exemplo (ex: <c>Delphi</c>, <c>javascript</c>, <c>curl</c>).</summary>
     function Lang: string; overload;
+    /// <summary>Define a linguagem de programação do exemplo (ex: <c>Delphi</c>, <c>javascript</c>, <c>curl</c>).</summary>
     function Lang(const AValue: string): ICodeSample<T>; overload;
+    /// <summary>Obtém o rótulo descritivo do exemplo (ex: <c>RESTRequest4Delphi</c>, <c>Fetch API</c>).</summary>
     function &Label: string; overload;
+    /// <summary>Define o rótulo descritivo do exemplo (ex: <c>RESTRequest4Delphi</c>, <c>Fetch API</c>).</summary>
     function &Label(const AValue: string): ICodeSample<T>; overload;
+    /// <summary>Obtém o código-fonte do exemplo.</summary>
     function Source: string; overload;
+    /// <summary>Define o código-fonte do exemplo.</summary>
     function Source(const AValue: string): ICodeSample<T>; overload;
+    /// <summary>Retorna ao objeto pai (<c>T</c>).</summary>
     function &End: T;
   end;
 

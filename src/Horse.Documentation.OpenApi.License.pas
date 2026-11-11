@@ -10,6 +10,10 @@ uses
   Horse.Documentation.OpenApi.Interfaces;
 
 type
+  /// <summary>
+  ///   Implementação do objeto License da especificação OpenAPI (<c>ILicense</c>),
+  ///   descrevendo a licença aplicável à API exposta.
+  /// </summary>
   TLicense = class(TOpenApiAncestor, ILicense)
   private
     [Weak]
@@ -20,15 +24,24 @@ type
 
     constructor Create(AParent: IInfo);
   public
+    /// <summary>Cria uma nova instância de <c>ILicense</c> vinculada ao objeto <c>IInfo</c>.</summary>
     class function New(AParent: IInfo): ILicense; static;
+    /// <summary>Serializa os dados de licença para <c>TJSONObject</c>.</summary>
     function ToJson: TJSONObject;
 
+    /// <summary>Obtém o nome da licença.</summary>
     function Name: string; overload;
+    /// <summary>Define o nome da licença.</summary>
     function Name(const AValue: string): ILicense; overload;
+    /// <summary>Obtém o identificador SPDX da licença (mutuamente exclusivo com <c>Url</c>).</summary>
     function Identifier: string; overload;
+    /// <summary>Define o identificador SPDX da licença (mutuamente exclusivo com <c>Url</c>).</summary>
     function Identifier(const AValue: string): ILicense; overload;
+    /// <summary>Obtém a URI para o texto da licença (mutuamente exclusivo com <c>Identifier</c>).</summary>
     function Url: string; overload;
+    /// <summary>Define a URI para o texto da licença (mutuamente exclusivo com <c>Identifier</c>).</summary>
     function Url(const AValue: string): ILicense; overload;
+    /// <summary>Retorna ao objeto pai (<c>IInfo</c>).</summary>
     function &End: IInfo;
   end;
 
