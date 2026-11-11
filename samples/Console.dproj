@@ -1,4 +1,4 @@
-﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <ProjectGuid>{91B08F61-BDB9-4B80-8843-41ADA21C9717}</ProjectGuid>
         <ProjectVersion>20.3</ProjectVersion>
@@ -122,8 +122,10 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
+        <DCCReference Include="..\src\Horse.Documentation.Attributes.Contact.pas"/>
         <DCCReference Include="..\src\Horse.Documentation.Controller.pas"/>
         <DCCReference Include="..\src\Horse.Documentation.OpenApi.Ancestor.pas"/>
+        <DCCReference Include="..\src\Horse.Documentation.OpenApi.CodeSample.pas"/>
         <DCCReference Include="..\src\Horse.Documentation.OpenApi.Components.pas"/>
         <DCCReference Include="..\src\Horse.Documentation.OpenApi.Contact.pas"/>
         <DCCReference Include="..\src\Horse.Documentation.OpenApi.Encoding.pas"/>
@@ -134,6 +136,7 @@
         <DCCReference Include="..\src\Horse.Documentation.OpenApi.Interfaces.pas"/>
         <DCCReference Include="..\src\Horse.Documentation.OpenApi.License.pas"/>
         <DCCReference Include="..\src\Horse.Documentation.OpenApi.Link.pas"/>
+        <DCCReference Include="..\src\Horse.Documentation.OpenApi.Logo.pas"/>
         <DCCReference Include="..\src\Horse.Documentation.OpenApi.MediaType.pas"/>
         <DCCReference Include="..\src\Horse.Documentation.OpenApi.OAuthFlow.pas"/>
         <DCCReference Include="..\src\Horse.Documentation.OpenApi.OAuthFlows.pas"/>
@@ -149,6 +152,7 @@
         <DCCReference Include="..\src\Horse.Documentation.OpenApi.Server.pas"/>
         <DCCReference Include="..\src\Horse.Documentation.OpenApi.ServerVariable.pas"/>
         <DCCReference Include="..\src\Horse.Documentation.OpenApi.Tag.pas"/>
+        <DCCReference Include="..\src\Horse.Documentation.OpenApi.TagGroup.pas"/>
         <DCCReference Include="..\src\Horse.Documentation.OpenApi.Types.pas"/>
         <DCCReference Include="..\src\Horse.Documentation.OpenApi.Utils.pas"/>
         <DCCReference Include="..\src\Horse.Documentation.pas"/>

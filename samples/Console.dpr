@@ -2,14 +2,14 @@ program Console;
 
 {$APPTYPE CONSOLE}
 
-{$R *.res}
-
 uses
   Horse,
   System.JSON,
   System.SysUtils,
+  Horse.Documentation.Attributes.Contact in '..\src\Horse.Documentation.Attributes.Contact.pas',
   Horse.Documentation.Controller in '..\src\Horse.Documentation.Controller.pas',
   Horse.Documentation.OpenApi.Ancestor in '..\src\Horse.Documentation.OpenApi.Ancestor.pas',
+  Horse.Documentation.OpenApi.CodeSample in '..\src\Horse.Documentation.OpenApi.CodeSample.pas',
   Horse.Documentation.OpenApi.Components in '..\src\Horse.Documentation.OpenApi.Components.pas',
   Horse.Documentation.OpenApi.Contact in '..\src\Horse.Documentation.OpenApi.Contact.pas',
   Horse.Documentation.OpenApi.Encoding in '..\src\Horse.Documentation.OpenApi.Encoding.pas',
@@ -20,6 +20,7 @@ uses
   Horse.Documentation.OpenApi.Interfaces in '..\src\Horse.Documentation.OpenApi.Interfaces.pas',
   Horse.Documentation.OpenApi.License in '..\src\Horse.Documentation.OpenApi.License.pas',
   Horse.Documentation.OpenApi.Link in '..\src\Horse.Documentation.OpenApi.Link.pas',
+  Horse.Documentation.OpenApi.Logo in '..\src\Horse.Documentation.OpenApi.Logo.pas',
   Horse.Documentation.OpenApi.MediaType in '..\src\Horse.Documentation.OpenApi.MediaType.pas',
   Horse.Documentation.OpenApi.OAuthFlow in '..\src\Horse.Documentation.OpenApi.OAuthFlow.pas',
   Horse.Documentation.OpenApi.OAuthFlows in '..\src\Horse.Documentation.OpenApi.OAuthFlows.pas',
@@ -35,6 +36,7 @@ uses
   Horse.Documentation.OpenApi.Server in '..\src\Horse.Documentation.OpenApi.Server.pas',
   Horse.Documentation.OpenApi.ServerVariable in '..\src\Horse.Documentation.OpenApi.ServerVariable.pas',
   Horse.Documentation.OpenApi.Tag in '..\src\Horse.Documentation.OpenApi.Tag.pas',
+  Horse.Documentation.OpenApi.TagGroup in '..\src\Horse.Documentation.OpenApi.TagGroup.pas',
   Horse.Documentation.OpenApi.Types in '..\src\Horse.Documentation.OpenApi.Types.pas',
   Horse.Documentation.OpenApi.Utils in '..\src\Horse.Documentation.OpenApi.Utils.pas',
   Horse.Documentation in '..\src\Horse.Documentation.pas';
@@ -49,61 +51,117 @@ begin
 
   HorseDoc
     .Info
+      .Title('Horse Documentation - Exemplo Completo')
+      .Version('1.1.0')
+      .Summary('API de demonstraÃ§Ã£o dos recursos do Horse Documentation (OpenAPI 3.1.1 + Scalar UI)')
       .Description(
 '''
-# Informações Gerais
+# InformaÃ§Ãµes Gerais
 
-Aqui no summary é um local onde você pode colocar desde uma breve descrição do que é esta documentação da sua API,
-até mesmo uma introdução completa documentando as especificações técnicas de como consumir seu projeto.
+Aqui em `Info.Description` vocÃª pode colocar desde uma breve descriÃ§Ã£o do que Ã© a documentaÃ§Ã£o da sua API,
+atÃ© mesmo uma introduÃ§Ã£o completa documentando as especificaÃ§Ãµes tÃ©cnicas de como consumir seu projeto.
 
-Perceba que podemos utilizar uma escrita com **markdown**, e o texto será convertido para um html.
+Perceba que podemos utilizar escrita com **Markdown**, e o texto serÃ¡ convertido para HTML rico.
 
-# Nível 1
+# NÃ­vel 1
 
-Dentro do markdown ele tem várias formatações práticas, e neste projeto nao seria diferente, perceça que conseguimos
-colocar vários blocos de documentação e também subníveis, e tudo será interpretado e colocado no menu lateral.
+Dentro do Markdown temos vÃ¡rias formataÃ§Ãµes prÃ¡ticas, e neste projeto nÃ£o seria diferente: conseguimos
+colocar vÃ¡rios blocos de documentaÃ§Ã£o e tambÃ©m subnÃ­veis, e tudo serÃ¡ interpretado e organizado no menu lateral.
 
-## Nível 2
+## NÃ­vel 2
 
-Aqui é o segundo nivel de documentação do markdown
+Aqui Ã© o segundo nÃ­vel de documentaÃ§Ã£o do Markdown.
 '''     )
+      .Contact
+        .Name('Weslley Capelari')
+        .Url('https://github.com/weslleycapelari/horse-documentation')
+        .&End
+      .License
+        .Name('MIT')
+        .Identifier('MIT')
+        .&End
+      .Logo
+        .Url('/horse/doc/html/favicon.png')
+        .AltText('Horse Documentation Logo')
+        .&End
+      .&End
+    .Servers
+      .Add
+        .Url('http://localhost:9000')
+        .Description('Servidor de Desenvolvimento Local')
+        .&End
+    .Components
+      .SecuritySchemes
+        .Add('bearerAuth')
+          .&Type(TSecuritySchemeType.sstHttp)
+          .Scheme('bearer')
+          .BearerFormat('JWT')
+          .Description('AutenticaÃ§Ã£o via token JWT Bearer')
+          .&End
       .&End
     .Paths
       .Add('/ping')
-      .Description(
+        .Description(
 '''
-Graças a função ``THorseDocumentationController.AutoMapHorse``, todas as rotas presente no servidor Horse são mapeadas
-para a nossa documentação, mas apenas para ela dizer um ``estou aqui``, mas com a nossa biblioteca você também pode
-documentar rota por rota também, adicionando informações importantes para cada uma delas.
-'''   )
-      .Get
-        .Description('Aqui por exemplo estou mapeando a rota ``/ping`` com o tipo ``GET``')
-        .Tags.Add('Ping')
-        .Responses
-          .StatusCodes
-            .Add('200')
-            .Content
-              .Add('text/html')
-              .Schema(TJSONObject.Create
-                .AddPair('description', 'Aqui por exemplo estou documentando um tipo de resposta desta requisição')
-                .AddPair('type', 'string')
-                .AddPair('example', 'pong'))
+GraÃ§as Ã  funÃ§Ã£o `THorseDocumentationController.AutoMapHorse`, todas as rotas presentes no servidor Horse sÃ£o mapeadas
+automaticamente para a documentaÃ§Ã£o. AlÃ©m disso, vocÃª pode documentar rota por rota de forma fluente, adicionando
+informaÃ§Ãµes detalhadas, parÃ¢metros, exemplos de cÃ³digo e respostas para cada operaÃ§Ã£o.
+'''     )
+        .Get
+          .Summary('Healthcheck do servidor')
+          .Description('Verifica a disponibilidade do servidor retornando `pong`.')
+          .OperationId('getPing')
+          .Tags.Add('Ping')
+          .CodeSamples
+            .Add
+              .Lang('Delphi')
+              .&Label('RESTRequest4Delphi')
+              .Source(
+'''
+var
+  LResponse: IResponse;
+begin
+  LResponse := TRequest.New
+    .BaseURL('http://localhost:9000')
+    .Resource('/ping')
+    .Get;
+  Writeln(LResponse.Content);
+end;
+'''           )
               .&End
+          .CodeSamples
+            .Add
+              .Lang('bash')
+              .&Label('cURL')
+              .Source('curl -X GET "http://localhost:9000/ping"')
+              .&End
+          .Responses
+            .StatusCodes
+              .Add('200')
+                .Description('Servidor online e respondendo normalmente.')
+                .Content
+                  .Add('text/plain')
+                    .Schema(TJSONObject.Create
+                      .AddPair('description', 'Resposta textual de healthcheck')
+                      .AddPair('type', 'string')
+                      .AddPair('example', 'pong'))
+                    .&End
+                .&End
             .&End
           .&End
         .&End
-      .&End
     .Tags
       .Add
-      .Name('Ping')
-      .Description('Também podemos adicionar tags personalizadas para realizar um agrupamento de requisições')
-      .&End
-    .Extensions
-      .AddValue('x-tagGroups', TJSONArray.Create
-        .Add(TJSONObject.Create
-          .AddPair('name', 'Grupo de rotas')
-          .AddPair('tags', TJSONArray.Create
-            .Add('Ping'))));
+        .Name('Ping')
+        .DisplayName('DiagnÃ³stico (Ping)')
+        .Description('OperaÃ§Ãµes de verificaÃ§Ã£o de saÃºde e conectividade da API.')
+        .&End
+    .TagGroups
+      .Add
+        .Name('Grupo de Rotas')
+        .Tags
+          .Add('Ping')
+        .&End;
 
   THorse.Get('/ping',
     procedure(Req: THorseRequest; Res: THorseResponse)
@@ -115,8 +173,8 @@ documentar rota por rota também, adicionando informações importantes para cada u
     procedure
     begin
       THorseDocumentationController.AutoMapHorse;
-      Writeln(Format('Server is runing on %s:%d', [THorse.Host, THorse.Port]));
-      Writeln(Format('For see Documentation open %s:%d/horse/doc/html', [THorse.Host, THorse.Port]));
+      Writeln(Format('Server is running on %s:%d', [THorse.Host, THorse.Port]));
+      Writeln(Format('To see Documentation open http://localhost:%d/horse/doc/html', [THorse.Port]));
       Readln;
     end);
 end.

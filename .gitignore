@@ -8,6 +8,7 @@ static/
 **/__recovery/
 src/*.~*
 *.res
+!src/Horse.Documentation.res
 *.exe
 *.dll
 *.bpl
@@ -30,19 +31,16 @@ src/*.~*
 *.projdata
 *.tvsconfig
 *.dsk
-*.dcu
-*.exe
 *.ico
-*.so
 *.~*
-*.a
 *.stat
 *.skincfg
+*.delphilsp.json
 
 # Mac
 *.DS_Store
 
-#FPC/Laz
+# FPC/Laz
 lib/
 backup/
 *.lps
