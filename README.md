@@ -1,192 +1,465 @@
 # Horse Documentation
 
-[![Licença](https://img.shields.io/github/license/weslleycapelari/horse-documentation)](LICENSE)
-[![Versão](https://img.shields.io/github/v/release/weslleycapelari/horse-documentation)](https://github.com/weslleycapelari/horse-documentation/releases)
+Middleware para geração automática e fluente de documentação **OpenAPI 3.1.1** com interface interativa **Scalar API Reference** embarcada para o framework [Horse](https://github.com/HashLoad/horse) em Delphi.
 
-Um poderoso middleware para o framework [Horse](https://github.com/HashLoad/horse) que gera automaticamente documentação de API interativa e elegante, utilizando o padrão **OpenAPI 3.1** e a interface de usuário **Scalar**.
+---
+
+## Sumário
+
+- [Visão Geral](#visão-geral)
+- [Principais Recursos](#principais-recursos)
+- [Instalação](#instalação)
+  - [Via Boss](#via-boss)
+  - [Instalação Manual](#instalação-manual)
+- [Início Rápido (Quick Start)](#início-rápido-quick-start)
+  - [Rotas Customizadas](#rotas-customizadas)
+- [Mapeamento Automático de Rotas](#mapeamento-automático-de-rotas)
+- [Guia Completo da API Fluente (Builder)](#guia-completo-da-api-fluente-builder)
+  - [1. Metadados da API (`Info`, `Contact`, `License`, `Logo`)](#1-metadados-da-api-info-contact-license-logo)
+  - [2. Servidores e Variáveis de Servidor (`Servers`)](#2-servidores-e-variáveis-de-servidor-servers)
+  - [3. Caminhos, Operações e Parâmetros (`Paths`, `Parameters`)](#3-caminhos-operações-e-parâmetros-paths-parameters)
+  - [4. Corpo da Requisição e Respostas (`RequestBody`, `Responses`)](#4-corpo-da-requisição-e-respostas-requestbody-responses)
+  - [5. Componentes Reutilizáveis (`Components`)](#5-componentes-reutilizáveis-components)
+  - [6. Segurança e Autenticação (`SecuritySchemes`, `Security`)](#6-segurança-e-autenticação-securityschemes-security)
+  - [7. Organização por Tags e Grupos (`Tags`, `TagGroups`)](#7-organização-por-tags-e-grupos-tags-taggroups)
+  - [8. Exemplos de Código por Operação (`CodeSamples`)](#8-exemplos-de-código-por-operação-codesamples)
+  - [9. Webhooks, Documentação Externa e Extensões (`x-*`)](#9-webhooks-documentação-externa-e-extensões-x-)
+- [Documentação Técnica Detalhada](#documentação-técnica-detalhada)
+- [Projeto de Exemplo](#projeto-de-exemplo)
+- [Licença](#licença)
+
+---
 
 ## Visão Geral
 
-O **Horse Documentation** simplifica drasticamente o processo de documentação de APIs em Delphi. Com uma única linha de código, ele inspeciona sua aplicação Horse, descobre todos os endpoints registrados e gera uma página de documentação funcional. Para documentações mais ricas e detalhadas, ele oferece uma interface fluente e poderosa que permite descrever cada aspecto da sua API, desde parâmetros e corpos de requisição até esquemas de segurança e exemplos de resposta.
+O **Horse Documentation** permite documentar APIs construídas com o framework **Horse** combinando duas abordagens complementares:
 
-![Demonstração do Horse Documentation em Ação](example.png)
-*(Imagem de exemplo da interface Scalar)*
+1. **Descoberta Automática via RTTI (`AutoMapHorse`)**: inspeciona automaticamente a árvore interna de rotas do Horse (`THorseRouterTree`), converte parâmetros de rota do formato `:id` para o formato OpenAPI `{id}` e expõe todos os endpoints registrados sem exigir configuração manual.
+2. **API Fluente Completa (Padrão Builder)**: disponibiliza a instância global `HorseDoc: IOpenApi`, permitindo enriquecer qualquer rota ou componente da especificação **OpenAPI 3.1.1** com encadeamento fortemente tipado e navegação hierárquica via `.&End`.
 
-## ✨ Recursos Principais
+Toda a interface gráfica do **Scalar API Reference** (incluindo temas claro/escuro, cliente HTTP interativo *"Test Request"*, persistência de autenticação e suporte completo a Markdown) está **embarcada diretamente no recurso compilado** (`Horse.Documentation.res`), eliminando dependências de arquivos estáticos externos ou CDNs em ambientes offline/restritos.
 
-*   🔎 **Descoberta Automática de Endpoints:** Analisa sua instância Horse em tempo de execução e mapeia todas as rotas automaticamente, sem a necessidade de anotações ou configurações manuais.
-*   🖋️ **Interface Fluente (Builder):** Enriqueça sua documentação de forma programática e intuitiva, descrevendo endpoints, parâmetros, schemas, respostas, tags e muito mais.
-*   📄 **Padrão OpenAPI 3.1:** Gera uma especificação `json` totalmente compatível com a versão mais recente do padrão OpenAPI, garantindo interoperabilidade com uma vasta gama de ferramentas.
-*   🎨 **UI Moderna com Scalar:** Apresenta sua documentação em uma interface bonita, responsiva e interativa, que inclui um cliente de API para testar os endpoints diretamente do navegador.
-*   🚀 **Integração Simples:** Adicione a documentação à sua API Horse com apenas uma linha de código.
-*   🧩 **Autocontido:** Não requer dependências externas. O HTML, CSS e JavaScript da interface Scalar são servidos diretamente pelo middleware.
-*   🔧 **Totalmente Customizável:** Configure as rotas da documentação e detalhe cada aspecto da sua API para atender às suas necessidades.
+---
 
-## 📦 Instalação
+## Principais Recursos
 
-A maneira mais fácil de instalar é através do gerenciador de pacotes [Boss](https://github.com/HashLoad/boss):
+| Recurso | Descrição |
+| :--- | :--- |
+| **OpenAPI 3.1.1** | Modelagem fiel à especificação oficial OpenAPI 3.1.1 (`openapi: "3.1.1"`). |
+| **Scalar UI Embarcada** | Interface moderna com temas Light/Dark, busca rápida, cliente HTTP integrado e zero arquivos externos (`SCALAR_JS` e `HORSE_ICON` em `.res`). |
+| **Auto-Descoberta de Rotas** | Mapeia automaticamente todas as rotas (`GET`, `POST`, `PUT`, `DELETE`, `PATCH`, `HEAD`) registradas no Horse. |
+| **Fluent Builder Tipado** | Coleções genéricas (`TOpenApiList<T, O>` e `TOpenApiMap<T, O>`) com instanciação automática e retorno ao nó pai via `.&End`. |
+| **Segurança Completa** | Suporte a JWT Bearer, HTTP Basic, API Key (Header/Query/Cookie), OAuth 2.0 (`implicit`, `password`, `clientCredentials`, `authorizationCode`), OpenID Connect e Mutual TLS, com `persistAuth: true` no Scalar. |
+| **Extensões Scalar / Redoc** | Suporte nativo tipado para `x-logo` (`Info.Logo`), `x-tagGroups` (`HorseDoc.TagGroups`), `x-displayName` (`Tag.DisplayName`) e `x-code-samples` (`Operation.CodeSamples`). |
+| **Suporte a CommonMark** | Descrições ricas em Markdown (com títulos `#`, `##` que geram seções navegáveis automaticamente no menu lateral). |
 
-```sh
+---
+
+## Instalação
+
+### Via Boss
+
+Utilizando o gerenciador de dependências [Boss](https://github.com/HashLoad/boss):
+
+```bash
 boss install github.com/weslleycapelari/horse-documentation
 ```
 
-Alternativamente, você pode clonar o repositório e adicionar o caminho da pasta `src` ao *Library Path* do seu projeto no Delphi.
+### Instalação Manual
 
-## 🚀 Guia Rápido (Quick Start)
+1. Clone ou baixe este repositório.
+2. Adicione o diretório `src/` ao **Search Path** (`DCC_UnitSearchPath`) do seu projeto no Delphi.
+3. Certifique-se de que o arquivo de recursos `src/Horse.Documentation.res` permaneça junto às units em `src/`.
+4. Adicione a unit `Horse.Documentation` na cláusula `uses` da sua aplicação.
 
-Para adicionar a documentação à sua API, basta usar o middleware `HorseDocumentation`. É simples assim.
+---
 
-```delphi
-uses
-  Horse,
-  Horse.Documentation, // Adicione esta unit
-  Horse.Jhonson;
+## Início Rápido (Quick Start)
 
-begin
-  THorse.Use(Jhonson);
-  
-  // Adicione o middleware de documentação
-  THorse.Use(HorseDocumentation);
+Basta registrar o middleware `HorseDocumentation` com `THorse.Use`:
 
-  THorse.Get('/ping',
-    procedure(Req: THorseRequest; Res: THorseResponse; Next: TProc)
-    begin
-      Res.Send('pong');
-    end);
-
-  THorse.Listen(9000);
-end.
-```
-
-Agora, execute seu servidor e acesse as seguintes URLs no seu navegador:
-
-*   **Documentação Interativa:** `http://localhost:9000/horse/doc/html`
-*   **Especificação OpenAPI (JSON):** `http://localhost:9000/horse/doc/json`
-
-Você verá que o endpoint `/ping` já foi descoberto e documentado automaticamente!
-
-## 🛠️ Uso Avançado: Enriquecendo a Documentação
-
-A verdadeira força do `Horse-Documentation` está na sua capacidade de detalhar a API usando a interface fluente do objeto global `HorseDoc`.
-
-O `HorseDoc` é uma implementação da interface `IOpenApi` e serve como ponto de entrada para descrever toda a sua API.
-
-### Exemplo Completo
-
-Vamos documentar uma API de usuários mais complexa.
-
-```delphi
-program Project1;
+```pascal
+program ApiServer;
 
 {$APPTYPE CONSOLE}
 
 uses
-  System.SysUtils,
   Horse,
   Horse.Documentation,
-  Horse.Jhonson,
-  Horse.Documentation.OpenApi.Interfaces, // Interfaces da OpenAPI
-  Horse.Documentation.OpenApi.Types;      // Tipos (enums) da OpenAPI
+  System.SysUtils;
 
 begin
-  THorse.Use(Jhonson);
+  // Registra as rotas padrão:
+  // HTML (Scalar UI): /horse/doc/html
+  // JSON (OpenAPI):   /horse/doc/json
   THorse.Use(HorseDocumentation);
 
-  // 1. Descrevendo as informações gerais da API
-  HorseDoc.Info
-    .Title('API de Exemplo de Usuários')
-    .Version('1.0.0')
-    .Description('Uma API simples para gerenciar usuários.')
-    .Contact
-      .Name('Seu Nome')
-      .Email('seu.email@exemplo.com')
-      .&End; // Volta para o objeto Info
-
-  // 2. Adicionando uma Tag para agrupar endpoints
-  HorseDoc.Tags.Add
-    .Name('Users')
-    .Description('Operações relacionadas a usuários');
-
-  // 3. Documentando um endpoint GET para buscar um usuário por ID
-  HorseDoc.Paths.Add('/users/{id}') // Adiciona o caminho
-    .Get // Define a operação como GET
-      .Tags.Add('Users') // Associa a tag 'Users'
-      .Summary('Obter um usuário por ID')
-      .Description('Retorna os detalhes de um usuário específico com base no seu ID.')
-      .Parameters.Add // Adiciona um novo parâmetro
-        .Name('id')
-        .&In(TParameterLocation.plPath) // Parâmetro está no path
-        .Required(True)
-        .Description('ID único do usuário')
-        .Schema(TJSONObject.Create
-          .AddPair('type', 'integer')
-          .AddPair('format', 'int64'))
-        .&End // Finaliza a definição do parâmetro
-      .Responses // Começa a definir as respostas
-        .StatusCodes.Add('200') // Resposta para o status 200 (OK)
-          .Description('Usuário encontrado com sucesso')
-          .Content.Add('application/json')
-            .Schema(TJSONObject.Create.AddPair('$ref', '#/components/schemas/User'))
-            .&End
-          .&End // Finaliza a resposta 200
-        .StatusCodes.Add('404')
-          .Description('Usuário não encontrado')
-          .&End;
-
-  // 4. Definindo um Schema reutilizável em 'Components'
-  HorseDoc.Components.Schemas.Add('User',
-    TJSONObject.Create
-      .AddPair('type', 'object')
-      .AddPair('properties', TJSONObject.Create
-          .AddPair('id', TJSONObject.Create.AddPair('type', 'integer'))
-          .AddPair('name', TJSONObject.Create.AddPair('type', 'string'))
-          .AddPair('email', TJSONObject.Create.AddPair('type', 'string'))
-      )
-  );
-
-  // Endpoint real no Horse
-  THorse.Get('/users/:id',
-    procedure(Req: THorseRequest; Res: THorseResponse; Next: TProc)
-    var
-      LUser: TJSONObject;
+  THorse.Get('/ping',
+    procedure(Req: THorseRequest; Res: THorseResponse)
     begin
-      // Sua lógica de busca de usuário aqui...
-      LUser := TJSONObject.Create;
-      LUser.AddPair('id', StrToInt64(Req.Params['id']));
-      LUser.AddPair('name', 'Usuário Exemplo');
-      LUser.AddPair('email', 'usuario@exemplo.com');
-      Res.Send<TJSONObject>(LUser);
+      Res.Send('pong');
     end);
 
-  Writeln('Servidor iniciado em http://localhost:9000');
-  THorse.Listen(9000);
+  THorse.Listen(9000,
+    procedure
+    begin
+      THorseDocumentationController.AutoMapHorse;
+      Writeln('Servidor rodando na porta 9000');
+      Writeln('Documentacao: http://localhost:9000/horse/doc/html');
+    end);
 end.
-
 ```
 
-Após executar este código, atualize a página da documentação. Você verá o novo endpoint `/users/{id}` com todas as descrições, parâmetros e respostas que você definiu.
+### Rotas Customizadas
 
-## ⚙️ Configuração
+Você pode personalizar os caminhos onde a interface HTML e o documento JSON serão expostos:
 
-Você pode customizar as rotas onde a documentação e a especificação JSON são servidas, passando-as como parâmetros para a função `HorseDocumentation`:
+```pascal
+// Expõe o HTML em /docs e mantém o JSON no caminho padrão (/horse/doc/json)
+THorse.Use(HorseDocumentation('/docs'));
 
-```delphi
-// A documentação ficará em /docs e o JSON em /api-spec.json
-THorse.Use(HorseDocumentation('/docs', '/api-spec.json'));
+// Ou personaliza ambos os caminhos:
+THorse.Use(HorseDocumentation('/api/docs', '/api/openapi.json'));
 ```
 
-## 🤝 Como Contribuir
+---
 
-Contribuições são muito bem-vindas! Se você tem uma ideia, encontrou um bug ou quer melhorar o projeto, por favor, siga estes passos:
+## Mapeamento Automático de Rotas
 
-1.  **Fork** o repositório.
-2.  Crie uma nova **branch** para sua feature (`git checkout -b feature/minha-feature`).
-3.  Faça o **commit** das suas alterações (`git commit -am 'Adiciona minha feature'`).
-4.  Faça o **push** para a branch (`git push origin feature/minha-feature`).
-5.  Abra um **Pull Request**.
+O método `THorseDocumentationController.AutoMapHorse` percorre a árvore de rotas da instância do Horse e registra automaticamente todas as rotas encontradas em `HorseDoc.Paths`:
 
-Por favor, abra uma *issue* para discutir mudanças maiores antes de começar a trabalhar.
+- Rotas internas da documentação (`/horse/doc/*`) são ignoradas automaticamente.
+- Parâmetros de caminho do Horse (ex: `/usuarios/:id`) são convertidos automaticamente para a sintaxe OpenAPI (`/usuarios/{id}`).
+- Caso uma rota já tenha sido documentada manualmente em `HorseDoc.Paths.Add('/usuarios/{id}')`, o `AutoMapHorse` **preserva** toda a documentação manual e apenas adiciona a tag `'untagged'` às operações que não possuírem nenhuma tag definida.
 
-## 📄 Licença
+> **Importante sobre `THorse.Listen`**: por padrão, `THorseDocumentationController.Registry` atribui `THorse.OnListen := AutoMapHorse`. Se você passar um callback anônimo para `THorse.Listen(9000, procedure begin ... end)`, o Horse sobrescreve `THorse.OnListen`. Nesse caso, chame explicitamente `THorseDocumentationController.AutoMapHorse;` dentro do callback do `Listen`.
 
-Este projeto está licenciado sob a Licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+---
+
+## Guia Completo da API Fluente (Builder)
+
+A variável global `HorseDoc: IOpenApi` (declarada na unit `Horse.Documentation`) é o ponto de entrada para toda a especificação.
+
+### 1. Metadados da API (`Info`, `Contact`, `License`, `Logo`)
+
+```pascal
+HorseDoc
+  .Info
+    .Title('API de Gestão Financeira')
+    .Version('2.0.0')
+    .Summary('Serviços REST para integração financeira e contábil')
+    .TermsOfService('https://minhaempresa.com.br/termos')
+    .Description(
+'''
+# Introdução
+
+Bem-vindo à documentação oficial da **API de Gestão Financeira**.
+Todos os textos em `Description` aceitam **CommonMark (Markdown)**.
+
+## Ambientes Disponíveis
+- **Homologação**: `https://sandbox.api.minhaempresa.com.br`
+- **Produção**: `https://api.minhaempresa.com.br`
+''' )
+    .Contact
+      .Name('Equipe de Arquitetura')
+      .Email('arquitetura@minhaempresa.com.br')
+      .Url('https://minhaempresa.com.br/suporte')
+      .&End
+    .License
+      .Name('MIT')
+      .Identifier('MIT')
+      .&End
+    .Logo
+      .Url('https://minhaempresa.com.br/assets/logo.svg')
+      .BackgroundColor('#FFFFFF')
+      .AltText('Logo Minha Empresa')
+      .Href('https://minhaempresa.com.br')
+      .&End
+    .&End;
+```
+
+### 2. Servidores e Variáveis de Servidor (`Servers`)
+
+```pascal
+HorseDoc
+  .Servers
+    .Add
+      .Url('https://{ambiente}.minhaempresa.com.br:{porta}/{versao}')
+      .Description('Servidor parametrizado por ambiente')
+      .Variables
+        .Add('ambiente')
+          .&Default('api')
+          .Description('Subdomínio do ambiente')
+          .&Enum
+            .Add('api')
+            .Add('sandbox')
+            .Add('staging')
+          .&End
+      .Variables
+        .Add('porta')
+          .&Default('443')
+          .&End
+      .Variables
+        .Add('versao')
+          .&Default('v1')
+          .&End
+      .&End;
+```
+
+### 3. Caminhos, Operações e Parâmetros (`Paths`, `Parameters`)
+
+Para usar `TParameterLocation`, `TParameterStyle`, `TSecuritySchemeType` e `TApiKeyLocation`, basta ter `Horse.Documentation` (ou `Horse.Documentation.OpenApi.Types`) no `uses`:
+
+```pascal
+uses
+  System.JSON,
+  Horse.Documentation;
+
+begin
+  HorseDoc
+    .Paths
+      .Add('/clientes/{id}')
+        .Summary('Operações de um cliente específico')
+        .Get
+          .Summary('Consultar cliente por ID')
+          .Description('Retorna os dados cadastrais completos de um cliente.')
+          .OperationId('getClienteById')
+          .Tags.Add('Clientes')
+          .Parameters
+            .Add
+              .Name('id')
+              .&In(TParameterLocation.plPath)
+              .Required(True)
+              .Description('Identificador único do cliente')
+              .Schema(TJSONObject.Create.AddPair('type', 'integer'))
+              .Example(TJSONNumber.Create(42))
+              .&End
+          .Parameters
+            .Add
+              .Name('incluir_inativos')
+              .&In(TParameterLocation.plQuery)
+              .Required(False)
+              .Description('Indica se registros inativos devem ser considerados')
+              .Schema(TJSONObject.Create.AddPair('type', 'boolean'))
+              .&End
+          .&End
+        .&End;
+end;
+```
+
+### 4. Corpo da Requisição e Respostas (`RequestBody`, `Responses`)
+
+```pascal
+HorseDoc
+  .Paths
+    .Add('/clientes')
+      .Post
+        .Summary('Cadastrar novo cliente')
+        .OperationId('createCliente')
+        .Tags.Add('Clientes')
+        .RequestBody
+          .Description('Dados para criação do cliente')
+          .Required(True)
+          .Content
+            .Add('application/json')
+              .Schema(TJSONObject.Create
+                .AddPair('$ref', '#/components/schemas/NovoClienteInput'))
+              .Example(TJSONObject.Create
+                .AddPair('nome', 'Maria Oliveira')
+                .AddPair('documento', '12345678901'))
+              .&End
+          .&End
+        .Responses
+          .StatusCodes
+            .Add('201')
+              .Description('Cliente criado com sucesso')
+              .Headers
+                .Add('X-Request-Id')
+                  .Description('Identificador de rastreamento da requisição')
+                  .Schema(TJSONObject.Create.AddPair('type', 'string'))
+                  .&End
+              .Content
+                .Add('application/json')
+                  .Schema(TJSONObject.Create
+                    .AddPair('$ref', '#/components/schemas/ClienteOutput'))
+                  .&End
+              .&End
+          .StatusCodes
+            .Add('400')
+              .Description('Erro de validação nos dados enviados')
+              .&End
+          .&End
+        .&End
+      .&End;
+```
+
+### 5. Componentes Reutilizáveis (`Components`)
+
+Registre JSON Schemas, parâmetros, respostas e exemplos em `HorseDoc.Components` para referenciá-los via `$ref`:
+
+```pascal
+HorseDoc
+  .Components
+    .Schemas
+      .AddValue('NovoClienteInput', TJSONObject.Create
+        .AddPair('type', 'object')
+        .AddPair('required', TJSONArray.Create.Add('nome').Add('documento'))
+        .AddPair('properties', TJSONObject.Create
+          .AddPair('nome', TJSONObject.Create.AddPair('type', 'string'))
+          .AddPair('documento', TJSONObject.Create.AddPair('type', 'string'))))
+      .AddValue('ClienteOutput', TJSONObject.Create
+        .AddPair('type', 'object')
+        .AddPair('properties', TJSONObject.Create
+          .AddPair('id', TJSONObject.Create.AddPair('type', 'integer'))
+          .AddPair('nome', TJSONObject.Create.AddPair('type', 'string'))
+          .AddPair('documento', TJSONObject.Create.AddPair('type', 'string'))))
+    .&End;
+```
+
+### 6. Segurança e Autenticação (`SecuritySchemes`, `Security`)
+
+Declare os esquemas em `Components.SecuritySchemes` e aplique-os globalmente (`HorseDoc.Security`) ou por operação (`Operation.Security`):
+
+```pascal
+HorseDoc
+  .Components
+    .SecuritySchemes
+      // 1. Autenticação HTTP Bearer (JWT)
+      .Add('bearerAuth')
+        .&Type(TSecuritySchemeType.sstHttp)
+        .Scheme('bearer')
+        .BearerFormat('JWT')
+        .Description('Informe o token JWT no formato Bearer.')
+        .&End
+      // 2. Autenticação via API Key em Header
+      .Add('apiKeyHeader')
+        .&Type(TSecuritySchemeType.sstApiKey)
+        .Name('X-API-Key')
+        .&In(TApiKeyLocation.aklHeader)
+        .Description('Chave de integração por aplicação.')
+        .&End
+    .&End
+  // Requisito de segurança global da API:
+  .Security
+    .Add
+      .SchemeName('bearerAuth')
+      .&End;
+```
+
+### 7. Organização por Tags e Grupos (`Tags`, `TagGroups`)
+
+Use `Tags` com `DisplayName` (`x-displayName`) e agrupe-as em seções no menu lateral usando `TagGroups` (`x-tagGroups`):
+
+```pascal
+HorseDoc
+  .Tags
+    .Add
+      .Name('Autenticacao')
+      .DisplayName('Autenticação e Sessão')
+      .Description('Endpoints de login, renovação de token e logout.')
+      .&End
+  .Tags
+    .Add
+      .Name('Clientes')
+      .DisplayName('Gestão de Clientes')
+      .Description('Operações cadastrais de clientes.')
+      .&End
+  .TagGroups
+    .Add
+      .Name('Segurança')
+      .Tags
+        .Add('Autenticacao')
+      .&End
+  .TagGroups
+    .Add
+      .Name('Cadastros Base')
+      .Tags
+        .Add('Clientes')
+      .&End;
+```
+
+### 8. Exemplos de Código por Operação (`CodeSamples`)
+
+Adicione trechos de código prontos em qualquer linguagem (`x-code-samples`) para exibição no painel lateral da operação:
+
+```pascal
+HorseDoc
+  .Paths
+    .Add('/clientes/{id}')
+      .Get
+        .CodeSamples
+          .Add
+            .Lang('Delphi')
+            .&Label('RESTRequest4Delphi')
+            .Source(
+'''
+var
+  LRes: IResponse;
+begin
+  LRes := TRequest.New
+    .BaseURL('http://localhost:9000')
+    .Resource('/clientes/42')
+    .TokenBearer(LToken)
+    .Get;
+end;
+'''         )
+            .&End
+        .CodeSamples
+          .Add
+            .Lang('javascript')
+            .&Label('Fetch API')
+            .Source('fetch("http://localhost:9000/clientes/42").then(r => r.json());')
+            .&End
+        .&End
+      .&End;
+```
+
+### 9. Webhooks, Documentação Externa e Extensões (`x-*`)
+
+Todos os objetos do modelo herdam de `TOpenApiAncestor` (`IOpenApiAncestor`) e possuem suporte a extensões customizadas via `.Extensions.AddValue`:
+
+```pascal
+HorseDoc
+  .ExternalDocs
+    .Description('Portal do Desenvolvedor')
+    .Url('https://devs.minhaempresa.com.br')
+    .&End
+  .Extensions
+    .AddValue('x-internal-version', TJSONString.Create('build-2026.11'));
+```
+
+---
+
+## Documentação Técnica Detalhada
+
+Para informações aprofundadas sobre a arquitetura interna e referência completa de todas as interfaces e classes, consulte o diretório [`docs/`](docs/README.md):
+
+- [**Índice da Documentação (`docs/README.md`)**](docs/README.md) — Mapa completo das 34 units e visão geral do projeto.
+- [**Arquitetura Interna (`docs/architecture.md`)**](docs/architecture.md) — Funcionamento do middleware, introspecção RTTI da árvore de rotas do Horse, recursos embarcados (`SCALAR_JS`, `HORSE_ICON`) e coleções genéricas fluentes.
+- [**Referência de Modelos OpenAPI 3.1.1 (`docs/openapi-models.md`)**](docs/openapi-models.md) — Catálogo detalhado de todas as interfaces, tipos enumerados, métodos e estrutura JSON gerada.
+- [**Segurança e Autenticação (`docs/security-and-auth.md`)**](docs/security-and-auth.md) — Guia prático de configuração para Bearer JWT, Basic Auth, API Key, OAuth 2.0 Flows e OpenID Connect.
+- [**Extensões e Customização Visual (`docs/extensions-and-customization.md`)**](docs/extensions-and-customization.md) — Como usar `x-logo`, `x-tagGroups`, `x-displayName`, `x-code-samples`, Markdown avançado e extensões customizadas `x-*`.
+
+---
+
+## Projeto de Exemplo
+
+O diretório [`samples/`](samples/) contém um projeto console completo ([`samples/Console.dpr`](samples/Console.dpr)) demonstrando:
+
+- Registro do middleware `HorseDocumentation`;
+- Configuração de `Info`, `Contact`, `License` e `Logo`;
+- Esquemas de segurança (`SecuritySchemes`);
+- Documentação de rotas com `CodeSamples`, `Responses` e `Schema`;
+- Agrupamento com `Tags` (`DisplayName`) e `TagGroups`;
+- Mapeamento automático de rotas com `THorseDocumentationController.AutoMapHorse`.
+
+Para executar o exemplo:
+1. Abra `samples/Console.dproj` no Delphi;
+2. Compile e execute o projeto;
+3. Acesse `http://localhost:9000/horse/doc/html` no navegador.
+
+---
+
+## Licença
+
+Este projeto é distribuído sob a licença **MIT**. Consulte as informações de licença do repositório para mais detalhes.
