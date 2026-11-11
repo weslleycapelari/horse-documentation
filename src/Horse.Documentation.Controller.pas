@@ -14,24 +14,58 @@ uses
   Web.HTTPApp;
 
 type
+  /// <summary>
+  ///   Estrutura que representa os metadados básicos de uma rota mapeada no Horse.
+  /// </summary>
   TRouteInfo = record
+    /// <summary>Verbo HTTP da rota (GET, POST, PUT, DELETE, PATCH, HEAD, etc.).</summary>
     Method: TMethodType;
+    /// <summary>Caminho da rota normalizado para o formato OpenAPI (ex: <c>/users/{id}</c>).</summary>
     Path: string;
+    /// <summary>Cria uma nova instância de <c>TRouteInfo</c> com o método e caminho informados.</summary>
+    /// <param name="AMethod">Verbo HTTP da rota.</param>
+    /// <param name="APath">Caminho da rota.</param>
+    /// <returns>Instância preenchida de <c>TRouteInfo</c>.</returns>
     class function Create(const AMethod: TMethodType; const APath: string): TRouteInfo; static;
   end;
 
+  /// <summary>
+  ///   Controlador estático responsável por registrar os endpoints da documentação,
+  ///   mapear automaticamente a árvore de rotas do Horse via RTTI e servir a interface Scalar UI.
+  /// </summary>
   THorseDocumentationController = class abstract
   private
+    /// <summary>
+    ///   Percorre recursivamente a árvore interna de rotas do Horse (<c>THorseRouterTree</c>)
+    ///   utilizando RTTI e converte parâmetros <c>:param</c> para o padrão OpenAPI <c>{param}</c>.
+    /// </summary>
     class procedure TraverseRouterTree(ARouter: THorseRouterTree; const APath: string; var ARoutes: TList<TRouteInfo>); static;
+    /// <summary>Retorna a lista de todas as rotas registradas na instância atual do Horse.</summary>
     class function ListAllRoutes: TArray<TRouteInfo>; static;
+    /// <summary>Obtém o handle do módulo atual onde os recursos (<c>HORSE_ICON</c>, <c>SCALAR_JS</c>) estão embarcados.</summary>
     class function GetCurrentModuleHandle: HINST; static;
   public
+    /// <summary>
+    ///   Registra as rotas da documentação no Horse e vincula o evento <c>THorse.OnListen</c>
+    ///   ao mapeamento automático de rotas (<c>AutoMapHorse</c>).
+    /// </summary>
+    /// <param name="APathHtml">Rota para servir a página HTML da documentação.</param>
+    /// <param name="APathJSON">Rota para servir o JSON da especificação OpenAPI.</param>
     class procedure Registry(const APathHtml, APathJSON: string); static;
+
+    /// <summary>
+    ///   Inspeciona todas as rotas registradas no Horse e adiciona automaticamente ao <c>HorseDoc</c>
+    ///   aquelas que ainda não foram documentadas manualmente (atribuindo a tag <c>untagged</c> quando vazia).
+    /// </summary>
     class procedure AutoMapHorse; static;
 
+    /// <summary>Endpoint que retorna a página HTML com a interface interativa Scalar API Reference.</summary>
     class procedure GetHtml(AReq: THorseRequest; ARes: THorseResponse); static;
+    /// <summary>Endpoint que retorna o JSON gerado a partir da especificação <c>HorseDoc</c>.</summary>
     class procedure GetJson(AReq: THorseRequest; ARes: THorseResponse); static;
+    /// <summary>Endpoint que retorna o bundle JavaScript embarcado do Scalar (<c>SCALAR_JS</c>).</summary>
     class procedure GetJs(AReq: THorseRequest; ARes: THorseResponse); static;
+    /// <summary>Endpoint que retorna o ícone embarcado do Horse (<c>HORSE_ICON</c>).</summary>
     class procedure GetIcon(AReq: THorseRequest; ARes: THorseResponse); static;
   end;
 
@@ -84,7 +118,7 @@ begin
   try
     LType := LContext.GetType(ARouter.ClassType);
 
-    // Acessa os callbacks (rotas deste n�)
+    // Acessa os callbacks (rotas deste nó)
     LField := LType.GetField('FCallBack');
     if Assigned(LField) then
     begin
@@ -95,7 +129,7 @@ begin
       end;
     end;
 
-    // Acessa os filhos da �rvore (sub-rotas)
+    // Acessa os filhos da árvore (sub-rotas)
     LField := LType.GetField('FRoute');
     if Assigned(LField) then
     begin

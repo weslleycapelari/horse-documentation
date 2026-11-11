@@ -12,11 +12,23 @@ uses
   Horse.Documentation.OpenApi.Interfaces;
 
 type
+  /// <summary>
+  ///   Classe ancestral abstrata para todos os objetos do modelo OpenAPI.
+  ///   Fornece suporte a Specification Extensions (propriedades customizadas <c>x-*</c>)
+  ///   e serialização base para JSON.
+  /// </summary>
   TOpenApiAncestor = class abstract (TInterfacedPersistent, IOpenApiAncestor)
   private
     FExtensions: TOpenApiMap<TJSONValue, IOpenApiAncestor>;
   public
+    /// <summary>
+    ///   Retorna o mapa de extensões da especificação (<c>x-*</c>) associadas a este objeto.
+    /// </summary>
     function Extensions: TOpenApiMap<TJSONValue, IOpenApiAncestor>;
+
+    /// <summary>
+    ///   Serializa o objeto base e suas extensões para uma nova instância de <c>TJSONObject</c>.
+    /// </summary>
     function ToJson: TJSONObject;
   end;
 

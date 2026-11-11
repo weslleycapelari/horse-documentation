@@ -10,7 +10,7 @@ uses
   System.Generics.Collections;
 
 type
-  /// <summary>Define os locais possÌveis para um par‚metro.</summary>
+  /// <summary>Define os locais poss√≠veis para um par√¢metro.</summary>
   TParameterLocation = (plQuery, plHeader, plPath, plCookie);
 
   TParameterLocationHelper = record helper for TParameterLocation
@@ -18,7 +18,7 @@ type
     function ToString: string;
   end;
 
-  /// <summary>Define os estilos de serializaÁ„o para um par‚metro.</summary>
+  /// <summary>Define os estilos de serializa√ß√£o para um par√¢metro.</summary>
   TParameterStyle = (psMatrix, psLabel, psSimple, psForm, psSpaceDelimited, psPipeDelimited, psDeepObject);
 
   TParameterStyleHelper = record helper for TParameterStyle
@@ -26,7 +26,7 @@ type
     function ToString: string;
   end;
 
-  /// <summary>Define os tipos de esquemas de seguranÁa.</summary>
+  /// <summary>Define os tipos de esquemas de seguran√ßa.</summary>
   TSecuritySchemeType = (sstApiKey, sstHttp, sstMutualTLS, sstOAuth2, sstOpenIdConnect);
 
   TSecuritySchemeTypeHelper = record helper for TSecuritySchemeType
@@ -34,7 +34,7 @@ type
     function ToString: string;
   end;
 
-  /// <summary>Define a localizaÁ„o de uma chave de API.</summary>
+  /// <summary>Define a localiza√ß√£o de uma chave de API.</summary>
   TApiKeyLocation = (aklQuery, aklHeader, aklCookie);
 
   TApiKeyLocationHelper = record helper for TApiKeyLocation
@@ -44,8 +44,8 @@ type
 
   /// <summary>
   ///   Uma lista especializada para as interfaces da OpenAPI.
-  ///   Permite a criaÁ„o autom·tica de inst‚ncias de uma classe de
-  ///   implementaÁ„o registrada, facilitando o uso do padr„o Builder.
+  ///   Permite a cria√ß√£o autom√°tica de inst√¢ncias de uma classe de
+  ///   implementa√ß√£o registrada, facilitando o uso do padr√£o Builder.
   /// </summary>
   TOpenApiList<T, O> = class(TList<T>)
   private
@@ -55,54 +55,59 @@ type
     FRttiContext: TRttiContext;
   public
     /// <summary>
-    ///   Cria a lista e a prepara para o padr„o Builder.
+    ///   Cria a lista e a prepara para o padr√£o Builder.
     /// </summary>
     /// <param name="AOwner">
-    ///   A inst‚ncia do objeto "pai" ao qual os novos itens pertencer„o.
-    ///   Usado para a navegaÁ„o de volta com a funÁ„o &End.
+    ///   A inst√¢ncia do objeto "pai" ao qual os novos itens pertencer√£o.
+    ///   Usado para a navega√ß√£o de volta com a fun√ß√£o &End.
     /// </param>
     /// <param name="AImplClass">
     ///   A classe concreta que implementa a interface T.
-    ///   Esta classe DEVE ter um mÈtodo est·tico "New" que aceita o Owner como par‚metro.
+    ///   Esta classe DEVE ter um m√©todo est√°tico "New" que aceita o Owner como par√¢metro.
     ///   Ex: class function New(AOwner: IOpenApi): IServer;
     /// </param>
     constructor Create(AOwner: O; AImplClass: TClass = nil); overload;
 
     /// <summary>
     ///   Cria uma lista simples, sem a capacidade de adicionar
-    ///   automaticamente novas inst‚ncias.
+    ///   automaticamente novas inst√¢ncias.
     /// </summary>
     constructor Create; overload;
     destructor Destroy; override;
 
     /// <summary>
-    ///   Cria uma nova inst‚ncia da classe registrada,
-    ///   adiciona-a ‡ lista e a retorna para construÁ„o fluente.
-    ///   SÛ funciona se a lista foi criada com o construtor que recebe AImplClass.
+    ///   Cria uma nova inst√¢ncia da classe registrada,
+    ///   adiciona-a √† lista e a retorna para constru√ß√£o fluente.
+    ///   S√≥ funciona se a lista foi criada com o construtor que recebe AImplClass.
     /// </summary>
     function Add: T; overload;
 
     /// <summary>
-    ///   Cria uma nova inst‚ncia da classe registrada, adiciona-a ao mapa com
-    ///   a chave especificada e a retorna para construÁ„o fluente.
+    ///   Adiciona um valor diretamente √† lista e retorna a refer√™ncia do objeto pai (<c>O</c>)
+    ///   para continuidade do encadeamento fluente (Builder).
     /// </summary>
+    /// <param name="AValue">Valor ou interface a ser adicionada √† lista.</param>
+    /// <returns>Inst√¢ncia do objeto pai (<c>FOwner</c>).</returns>
     function Add(const AValue: T): O; overload;
 
     /// <summary>
-    ///   Alias para Add. Cria uma nova inst‚ncia, adiciona e retorna.
+    ///   Alias para Add. Cria uma nova inst√¢ncia, adiciona e retorna.
     /// </summary>
     function Append: T;
 
     /// <summary>
-    ///   Alias para Add. Cria uma nova inst‚ncia, adiciona e retorna.
+    ///   Alias para Add. Cria uma nova inst√¢ncia, adiciona e retorna.
     /// </summary>
     function Push: T;
 
     /// <summary>
-    ///   Remove o ˙ltimo elemento da lista e o retorna, sem liberar sua memÛria.
+    ///   Remove o √∫ltimo elemento da lista e o retorna, sem liberar sua mem√≥ria.
     /// </summary>
     function Pop: T;
 
+    /// <summary>
+    ///   Serializa todos os itens da lista para um <c>TJSONArray</c>.
+    /// </summary>
     function ToJson: TJSONArray;
   end;
 
@@ -115,36 +120,43 @@ type
     FRttiContext: TRttiContext;
   public
     /// <summary>
-    ///   Cria o mapa e o prepara para o padr„o Builder.
+    ///   Cria o mapa e o prepara para o padr√£o Builder.
     /// </summary>
     /// <param name="AOwner">
-    ///   A inst‚ncia do objeto "pai" ao qual os novos itens pertencer„o.
+    ///   A inst√¢ncia do objeto "pai" ao qual os novos itens pertencer√£o.
     /// </param>
     /// <param name="AImplClass">
     ///   A classe concreta que implementa a interface T.
-    ///   Deve ter um mÈtodo est·tico "New" que aceita o Owner como par‚metro.
+    ///   Deve ter um m√©todo est√°tico "New" que aceita o Owner como par√¢metro.
     /// </param>
     constructor Create(AOwner: O; AImplClass: TClass = nil); overload;
 
     /// <summary>
     ///   Cria um mapa simples, sem a capacidade de adicionar
-    ///   automaticamente novas inst‚ncias.
+    ///   automaticamente novas inst√¢ncias.
     /// </summary>
     constructor Create; overload;
     destructor Destroy; override;
 
     /// <summary>
-    ///   Cria uma nova inst‚ncia da classe registrada, adiciona-a ao mapa com
-    ///   a chave especificada e a retorna para construÁ„o fluente.
+    ///   Cria uma nova inst√¢ncia da classe registrada, adiciona-a ao mapa com
+    ///   a chave especificada e a retorna para constru√ß√£o fluente.
+    ///   Se a chave j√° existir, retorna a inst√¢ncia existente.
     /// </summary>
     function Add(const AKey: string): T;
 
     /// <summary>
-    ///   Cria uma nova inst‚ncia da classe registrada, adiciona-a ao mapa com
-    ///   a chave especificada e a retorna para construÁ„o fluente.
+    ///   Adiciona um par chave/valor diretamente ao mapa e retorna o objeto pai (<c>O</c>)
+    ///   para constru√ß√£o fluente.
     /// </summary>
+    /// <param name="AKey">Chave de identifica√ß√£o no mapa.</param>
+    /// <param name="AValue">Valor associado √† chave.</param>
+    /// <returns>Inst√¢ncia do objeto pai (<c>FOwner</c>).</returns>
     function AddValue(const AKey: string; const AValue: T): O;
 
+    /// <summary>
+    ///   Serializa todos os pares do mapa para um <c>TJSONObject</c>.
+    /// </summary>
     function ToJson: TJSONObject;
   end;
 
@@ -158,8 +170,8 @@ uses
 
 constructor TOpenApiList<T, O>.Create;
 begin
-  // AOwnsObjects = True È o padr„o para TObjectList, o que garante que as
-  // interfaces adicionadas ser„o liberadas quando a lista for destruÌda.
+  // AOwnsObjects = True √© o padr√£o para TObjectList, o que garante que as
+  // interfaces adicionadas ser√£o liberadas quando a lista for destru√≠da.
   inherited Create;
   FImplClass    := nil;
   FCreateMethod := nil;
@@ -198,7 +210,7 @@ begin
 
   if FCreateMethod = nil then
     raise ENotSupportedException.CreateFmt(
-      'A classe "%s" n„o possui um mÈtodo de f·brica compatÌvel (ex: class function New(AOwner: T): T).',
+      'A classe "%s" n√£o possui um m√©todo de f√°brica compat√≠vel (ex: class function New(AOwner: T): T).',
       [FImplClass.ClassName]);
 end;
 
@@ -208,8 +220,8 @@ var
 begin
   if FCreateMethod = nil then
     raise ENotImplemented.Create(
-      'O mÈtodo Add sem par‚metros sÛ pode ser usado com o construtor ' +
-      'que especifica uma classe de implementaÁ„o (AImplClass).');
+      'O m√©todo Add sem par√¢metros s√≥ pode ser usado com o construtor ' +
+      'que especifica uma classe de implementa√ß√£o (AImplClass).');
 
   LNewInstanceValue := FCreateMethod.Invoke(FImplClass, [TValue.From<O>(FOwner)]);
   Result := LNewInstanceValue.AsType<T>;
@@ -249,7 +261,7 @@ end;
 function TOpenApiList<T, O>.Pop: T;
 begin
   if Count = 0 then
-    raise EListError.Create('A lista est· vazia.');
+    raise EListError.Create('A lista est√° vazia.');
 
   Result := Last;
   Delete(Count - 1);
@@ -264,8 +276,8 @@ begin
   // Otimizado: Usa o FCreateMethod armazenado
   if FCreateMethod = nil then
     raise ENotImplemented.Create(
-      'O mÈtodo Add com criaÁ„o autom·tica sÛ pode ser usado com o construtor ' +
-      'que especifica uma classe de implementaÁ„o (AImplClass).');
+      'O m√©todo Add com cria√ß√£o autom√°tica s√≥ pode ser usado com o construtor ' +
+      'que especifica uma classe de implementa√ß√£o (AImplClass).');
 
   if ContainsKey(AKey) then
     Exit(Items[AKey]);
@@ -280,7 +292,7 @@ var
   LRttiType: TRttiType;
   LMethod: TRttiMethod;
 begin
-  Create; // Chama o construtor padr„o para inicializar
+  Create; // Chama o construtor padr√£o para inicializar
   FOwner := AOwner;
   FImplClass := AImplClass;
 
@@ -302,7 +314,7 @@ begin
 
   if FCreateMethod = nil then
     raise ENotSupportedException.CreateFmt(
-      'A classe "%s" n„o possui um mÈtodo de f·brica compatÌvel (ex: class function New(AOwner: T): T).',
+      'A classe "%s" n√£o possui um m√©todo de f√°brica compat√≠vel (ex: class function New(AOwner: T): T).',
       [FImplClass.ClassName]);
 end;
 
@@ -311,8 +323,8 @@ begin
   // Otimizado: Usa o FCreateMethod armazenado
   if FCreateMethod <> nil then
     raise ENotImplemented.Create(
-      'O mÈtodo Add sem criaÁ„o autom·tica sÛ pode ser usado com o construtor ' +
-      'que n„o especifica uma classe de implementaÁ„o (AImplClass).');
+      'O m√©todo Add sem cria√ß√£o autom√°tica s√≥ pode ser usado com o construtor ' +
+      'que n√£o especifica uma classe de implementa√ß√£o (AImplClass).');
 
   inherited Add(AKey, AValue);
   Result := FOwner;

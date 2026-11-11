@@ -10,8 +10,17 @@ uses
   System.Generics.Collections;
 
 type
+  /// <summary>
+  ///   Classe utilitária para conversão de valores RTTI (<c>TValue</c>) em estruturas JSON (<c>TJSONValue</c>).
+  /// </summary>
   TUtils = class
   public
+    /// <summary>
+    ///   Converte um <c>TValue</c> (tipos primitivos, arrays, <c>TList&lt;TValue&gt;</c> ou
+    ///   <c>TDictionary&lt;string, TValue&gt;</c>) para sua representação <c>TJSONValue</c> correspondente.
+    /// </summary>
+    /// <param name="AValue">Valor RTTI a ser convertido.</param>
+    /// <returns>Instância de <c>TJSONValue</c> representando o valor informado.</returns>
     class function ValueToJson(const AValue: TValue): TJSONValue; static;
   end;
 
@@ -42,7 +51,7 @@ begin
       Exit(TJSONString.Create(AValue.AsString));
   end;
 
-  // Tratamento de tipos complexos (objetos e listas gen�ricas)
+  // Tratamento de tipos complexos (objetos e listas genéricas)
   if AValue.IsObject then
   begin
     if (AValue.IsArray) and (AValue.IsType<TArray<TValue>>) then

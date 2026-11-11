@@ -44,35 +44,35 @@ type
   IOpenApiAncestor = interface(IInterface)
     ['{7BB3A54B-97E3-4556-917E-6A1AACA2D43F}']
     /// <summary>
-    ///   Um mapa de nomes de extens„o para seus valores.
-    ///   Permite que dados customizados sejam adicionados ‡ especificaÁ„o.
+    ///   Um mapa de nomes de extens√£o para seus valores.
+    ///   Permite que dados customizados sejam adicionados √† especifica√ß√£o.
     /// </summary>
     function Extensions: TOpenApiMap<TJSONValue, IOpenApiAncestor>;
 
-    /// <summary>Realiza a exportaÁ„o do objeto para uma string do valor json</summary>
+    /// <summary>Realiza a exporta√ß√£o do objeto para uma string do valor json</summary>
     function ToJson: TJSONObject;
   end;
 
-  /// <summary>Este È a interface raiz de uma DescriÁ„o OpenAPI.</summary>
+  /// <summary>Este √© a interface raiz de uma Descri√ß√£o OpenAPI.</summary>
   IOpenApi = interface(IOpenApiAncestor)
     ['{923B615D-D6FA-44F0-9DE7-B0B519C5F278}']
     /// <summary>
-    ///   REQUIRED. Esta string DEVE ser o n˙mero da vers„o da EspecificaÁ„o
+    ///   REQUIRED. Esta string DEVE ser o n√∫mero da vers√£o da Especifica√ß√£o
     ///   OpenAPI que o Documento OpenAPI utiliza. O campo `openapi` DEVE ser
     ///   usado por ferramentas para interpretar o Documento OpenAPI.
-    ///   Isso n„o est· relacionado ‡ string `info.version` da API.
+    ///   Isso n√£o est√° relacionado √† string `info.version` da API.
     /// </summary>
     function Openapi: string; overload;
     function Openapi(const AValue: string): IOpenApi; overload;
 
     /// <summary>
     ///   REQUIRED. Fornece metadados sobre a API. Os metadados PODEM ser
-    ///   usados por ferramentas conforme necess·rio.
+    ///   usados por ferramentas conforme necess√°rio.
     /// </summary>
     function Info: IInfo;
 
     /// <summary>
-    ///   O valor padr„o para a palavra-chave `$schema` dentro de
+    ///   O valor padr√£o para a palavra-chave `$schema` dentro de
     ///   Schema Objects contidos neste documento OAS.
     ///   Isto DEVE estar no formato de uma URI.
     /// </summary>
@@ -80,57 +80,57 @@ type
     function JsonSchemaDialect(const AValue: string): IOpenApi; overload;
 
     /// <summary>
-    ///   Um array de Server Objects, que fornecem informaÁıes de conectividade
-    ///   para um servidor alvo. Se o campo `servers` n„o for fornecido, ou for
-    ///   um array vazio, o valor padr„o seria um Server Object com um valor de `url` de `/`.
+    ///   Um array de Server Objects, que fornecem informa√ß√µes de conectividade
+    ///   para um servidor alvo. Se o campo `servers` n√£o for fornecido, ou for
+    ///   um array vazio, o valor padr√£o seria um Server Object com um valor de `url` de `/`.
     /// </summary>
     function Servers: TOpenApiList<IServer<IOpenApi>, IOpenApi>;
 
-    /// <summary>Os caminhos e operaÁıes disponÌveis para a API.</summary>
+    /// <summary>Os caminhos e opera√ß√µes dispon√≠veis para a API.</summary>
     function Paths: TOpenApiMap<IPathItem<IOpenApi>, IOpenApi>;
 
     /// <summary>
     ///   Os webhooks de entrada que PODEM ser recebidos como parte desta API e
-    ///   que o consumidor da API PODE escolher implementar. O nome da chave È uma
-    ///   string ˙nica para se referir a cada webhook.
+    ///   que o consumidor da API PODE escolher implementar. O nome da chave √© uma
+    ///   string √∫nica para se referir a cada webhook.
     /// </summary>
     function Webhooks: TOpenApiMap<IPathItem<IOpenApi>, IOpenApi>;
 
-    /// <summary>Um elemento para conter v·rios Objetos para a DescriÁ„o OpenAPI.</summary>
+    /// <summary>Um elemento para conter v√°rios Objetos para a Descri√ß√£o OpenAPI.</summary>
     function Components: IComponents;
 
     /// <summary>
-    ///   Uma declaraÁ„o de quais mecanismos de seguranÁa podem ser usados em
+    ///   Uma declara√ß√£o de quais mecanismos de seguran√ßa podem ser usados em
     ///   toda a API. A lista de valores inclui Security Requirement Objects
     ///   alternativos que podem ser usados.
     /// </summary>
     function Security: TOpenApiList<ISecurityRequirement<IOpenApi>, IOpenApi>;
 
     /// <summary>
-    ///   Uma lista de tags usadas pela DescriÁ„o OpenAPI com metadados adicionais.
+    ///   Uma lista de tags usadas pela Descri√ß√£o OpenAPI com metadados adicionais.
     ///   A ordem das tags pode ser usada para refletir sua ordem pelas ferramentas
-    ///   de parsing. Cada nome de tag na lista DEVE ser ˙nico.
+    ///   de parsing. Cada nome de tag na lista DEVE ser √∫nico.
     /// </summary>
     function Tags: TOpenApiList<ITag, IOpenApi>;
 
     /// <summary>
-    ///   Grupos de tags do Redoc. Permite agrupar tags para melhor organizaÁ„o
-    ///   da documentaÁ„o (extens„o x-tagGroups do Redoc).
+    ///   Grupos de tags do Redoc. Permite agrupar tags para melhor organiza√ß√£o
+    ///   da documenta√ß√£o (extens√£o x-tagGroups do Redoc).
     /// </summary>
     function TagGroups: TOpenApiList<ITagGroup, IOpenApi>;
 
-    /// <summary>DocumentaÁ„o externa adicional.</summary>
+    /// <summary>Documenta√ß√£o externa adicional.</summary>
     function ExternalDocs: IExternalDocumentation<IOpenApi>;
   end;
 
   /// <summary>
   ///   O objeto fornece metadados sobre a API. Os metadados PODEM ser usados
-  ///   pelos clientes se necess·rio, e PODEM ser apresentados em ferramentas de
-  ///   ediÁ„o ou geraÁ„o de documentaÁ„o por conveniÍncia.
+  ///   pelos clientes se necess√°rio, e PODEM ser apresentados em ferramentas de
+  ///   edi√ß√£o ou gera√ß√£o de documenta√ß√£o por conveni√™ncia.
   /// </summary>
   IInfo = interface(IOpenApiAncestor)
     ['{97248BEA-0621-489A-9F05-371EFFFD1BE2}']
-    /// <summary>REQUIRED. O tÌtulo da API.</summary>
+    /// <summary>REQUIRED. O t√≠tulo da API.</summary>
     function Title: string; overload;
     function Title(const AValue: string): IInfo; overload;
 
@@ -139,31 +139,31 @@ type
     function Summary(const AValue: string): IInfo; overload;
 
     /// <summary>
-    ///   Uma descriÁ„o da API. A sintaxe CommonMark PODE ser usada
-    ///   para representaÁ„o de texto rico.
+    ///   Uma descri√ß√£o da API. A sintaxe CommonMark PODE ser usada
+    ///   para representa√ß√£o de texto rico.
     /// </summary>
     function Description: string; overload;
     function Description(const AValue: string): IInfo; overload;
 
     /// <summary>
-    ///   Uma URI para os Termos de ServiÁo da API.
+    ///   Uma URI para os Termos de Servi√ßo da API.
     ///   Isto DEVE estar no formato de uma URI.
     /// </summary>
     function TermsOfService: string; overload;
     function TermsOfService(const AValue: string): IInfo; overload;
 
-    /// <summary>As informaÁıes de contato para a API exposta.</summary>
+    /// <summary>As informa√ß√µes de contato para a API exposta.</summary>
     function Contact: IContact;
 
-    /// <summary>As informaÁıes de licenÁa para a API exposta.</summary>
+    /// <summary>As informa√ß√µes de licen√ßa para a API exposta.</summary>
     function License: ILicense;
 
-    /// <summary>Logo da API (extens„o x-logo do Redoc).</summary>
+    /// <summary>Logo da API (extens√£o x-logo do Redoc).</summary>
     function Logo: ILogo;
 
     /// <summary>
-    ///   REQUIRED. A vers„o do Documento OpenAPI (que È distinta da vers„o
-    ///   da EspecificaÁ„o OpenAPI ou da vers„o da API sendo descrita).
+    ///   REQUIRED. A vers√£o do Documento OpenAPI (que √© distinta da vers√£o
+    ///   da Especifica√ß√£o OpenAPI ou da vers√£o da API sendo descrita).
     /// </summary>
     function Version: string; overload;
     function Version(const AValue: string): IInfo; overload;
@@ -172,23 +172,23 @@ type
     function &End: IOpenApi;
   end;
 
-  /// <summary>InformaÁıes de contato para a API exposta.</summary>
+  /// <summary>Informa√ß√µes de contato para a API exposta.</summary>
   IContact = interface(IOpenApiAncestor)
     ['{944F4590-19E1-456D-8E2E-AE1DFB46BC4D}']
-    /// <summary>O nome de identificaÁ„o da pessoa/organizaÁ„o de contato.</summary>
+    /// <summary>O nome de identifica√ß√£o da pessoa/organiza√ß√£o de contato.</summary>
     function Name: string; overload;
     function Name(const AValue: string): IContact; overload;
 
     /// <summary>
-    ///   A URI para as informaÁıes de contato.
+    ///   A URI para as informa√ß√µes de contato.
     ///   Isto DEVE estar no formato de uma URI.
     /// </summary>
     function Url: string; overload;
     function Url(const AValue: string): IContact; overload;
 
     /// <summary>
-    ///   O endereÁo de e-mail da pessoa/organizaÁ„o de contato.
-    ///   Isto DEVE estar no formato de um endereÁo de e-mail.
+    ///   O endere√ßo de e-mail da pessoa/organiza√ß√£o de contato.
+    ///   Isto DEVE estar no formato de um endere√ßo de e-mail.
     /// </summary>
     function Email: string; overload;
     function Email(const AValue: string): IContact; overload;
@@ -197,23 +197,23 @@ type
     function &End: IInfo;
   end;
 
-  /// <summary>InformaÁıes de licenÁa para a API exposta.</summary>
+  /// <summary>Informa√ß√µes de licen√ßa para a API exposta.</summary>
   ILicense = interface(IOpenApiAncestor)
     ['{27C15FFB-8150-43A5-B982-7916EF0DB591}']
-    /// <summary>REQUIRED. O nome da licenÁa usada para a API</summary>
+    /// <summary>REQUIRED. O nome da licen√ßa usada para a API</summary>
     function Name: string; overload;
     function Name(const AValue: string): ILicense; overload;
 
     /// <summary>
-    ///   Uma express„o de licenÁa SPDX para a API. O campo `identifier`
-    ///   È mutuamente exclusivo do campo `url`.
+    ///   Uma express√£o de licen√ßa SPDX para a API. O campo `identifier`
+    ///   √© mutuamente exclusivo do campo `url`.
     /// </summary>
     function Identifier: string; overload;
     function Identifier(const AValue: string): ILicense; overload;
 
     /// <summary>
-    ///   Uma URI para a licenÁa usada para a API. Isto DEVE estar no formato
-    ///   de uma URI. O campo `url` È mutuamente exclusivo do campo `identifier`.
+    ///   Uma URI para a licen√ßa usada para a API. Isto DEVE estar no formato
+    ///   de uma URI. O campo `url` √© mutuamente exclusivo do campo `identifier`.
     /// </summary>
     function Url: string; overload;
     function Url(const AValue: string): ILicense; overload;
@@ -226,25 +226,25 @@ type
   IServer<T> = interface(IOpenApiAncestor)
     ['{06E202C2-E3EA-467E-81D8-4192EE2953F7}']
     /// <summary>
-    ///   REQUIRED. Uma URL para o host de destino. Esta URL suporta Vari·veis de
-    ///   Servidor e PODE ser relativa, para indicar que a localizaÁ„o do host È
-    ///   relativa ‡ localizaÁ„o onde o documento que contÈm o Server Object est·
-    ///   sendo servido. SubstituiÁıes de vari·veis ser„o feitas quando uma
-    ///   vari·vel for nomeada entre {chaves}.
+    ///   REQUIRED. Uma URL para o host de destino. Esta URL suporta Vari√°veis de
+    ///   Servidor e PODE ser relativa, para indicar que a localiza√ß√£o do host √©
+    ///   relativa √† localiza√ß√£o onde o documento que cont√©m o Server Object est√°
+    ///   sendo servido. Substitui√ß√µes de vari√°veis ser√£o feitas quando uma
+    ///   vari√°vel for nomeada entre {chaves}.
     /// </summary>
     function Url: string; overload;
     function Url(const AValue: string): IServer<T>; overload;
 
     /// <summary>
     ///   Uma string opcional descrevendo o host designado pela URL.
-    ///   A sintaxe CommonMark PODE ser usada para representaÁ„o de texto rico.
+    ///   A sintaxe CommonMark PODE ser usada para representa√ß√£o de texto rico.
     /// </summary>
     function Description: string; overload;
     function Description(const AValue: string): IServer<T>; overload;
 
     /// <summary>
-    ///   Um mapa entre um nome de vari·vel e seu valor. O valor È usado para
-    ///   substituiÁ„o no template de URL do servidor.
+    ///   Um mapa entre um nome de vari√°vel e seu valor. O valor √© usado para
+    ///   substitui√ß√£o no template de URL do servidor.
     /// </summary>
     function Variables: TOpenApiMap<IServerVariable<T>, IServer<T>>;
 
@@ -253,28 +253,28 @@ type
   end;
 
   /// <summary>
-  ///   Um objeto representando uma Vari·vel de Servidor para substituiÁ„o
+  ///   Um objeto representando uma Vari√°vel de Servidor para substitui√ß√£o
   ///   no template de URL do servidor.
   /// </summary>
   IServerVariable<T> = interface(IOpenApiAncestor)
     ['{07910CC7-8542-4647-AE59-9ED2C9537C44}']
     /// <summary>
-    ///   Uma enumeraÁ„o de valores de string a serem usados se as opÁıes de
-    ///   substituiÁ„o forem de um conjunto limitado. O array N√O DEVE estar vazio.
+    ///   Uma enumera√ß√£o de valores de string a serem usados se as op√ß√µes de
+    ///   substitui√ß√£o forem de um conjunto limitado. O array N√ÉO DEVE estar vazio.
     /// </summary>
     function &Enum: TOpenApiList<string, IServerVariable<T>>;
 
     /// <summary>
-    ///   REQUIRED. O valor padr„o a ser usado para substituiÁ„o, que DEVE ser
-    ///   enviado se um valor alternativo n„o for fornecido. Se o `enum` for
+    ///   REQUIRED. O valor padr√£o a ser usado para substitui√ß√£o, que DEVE ser
+    ///   enviado se um valor alternativo n√£o for fornecido. Se o `enum` for
     ///   definido, o valor DEVE existir nos valores do enum.
     /// </summary>
     function &Default: string; overload;
     function &Default(const AValue: string): IServerVariable<T>; overload;
 
     /// <summary>
-    ///   Uma descriÁ„o opcional para a vari·vel do servidor. A sintaxe CommonMark
-    ///   PODE ser usada para representaÁ„o de texto rico.
+    ///   Uma descri√ß√£o opcional para a vari√°vel do servidor. A sintaxe CommonMark
+    ///   PODE ser usada para representa√ß√£o de texto rico.
     /// </summary>
     function Description: string; overload;
     function Description(const AValue: string): IServerVariable<T>; overload;
@@ -284,40 +284,40 @@ type
   end;
 
   /// <summary>
-  ///   ContÈm um conjunto de objetos reutiliz·veis para diferentes aspectos do OAS.
-  ///   Todos os objetos definidos aqui n„o tÍm efeito na API a menos que sejam
+  ///   Cont√©m um conjunto de objetos reutiliz√°veis para diferentes aspectos do OAS.
+  ///   Todos os objetos definidos aqui n√£o t√™m efeito na API a menos que sejam
   ///   explicitamente referenciados de fora do Components Object.
   /// </summary>
   IComponents = interface(IOpenApiAncestor)
     ['{D7383B27-1D05-43ED-9BF7-BCEC70D502DE}']
-    /// <summary>Um objeto para conter Schema Objects reutiliz·veis.</summary>
+    /// <summary>Um objeto para conter Schema Objects reutiliz√°veis.</summary>
     function Schemas: TOpenApiMap<ISchema, IComponents>;
 
-    /// <summary>Um objeto para conter Response Objects reutiliz·veis.</summary>
+    /// <summary>Um objeto para conter Response Objects reutiliz√°veis.</summary>
     function Responses: TOpenApiMap<IResponse<IComponents>, IComponents>;
 
-    /// <summary>Um objeto para conter Parameter Objects reutiliz·veis.</summary>
+    /// <summary>Um objeto para conter Parameter Objects reutiliz√°veis.</summary>
     function Parameters: TOpenApiMap<IParameter<IComponents>, IComponents>;
 
-    /// <summary>Um objeto para conter Example Objects reutiliz·veis.</summary>
+    /// <summary>Um objeto para conter Example Objects reutiliz√°veis.</summary>
     function Examples: TOpenApiMap<IExample<IComponents>, IComponents>;
 
-    /// <summary>Um objeto para conter Request Body Objects reutiliz·veis.</summary>
+    /// <summary>Um objeto para conter Request Body Objects reutiliz√°veis.</summary>
     function RequestBodies: TOpenApiMap<IRequestBody<IComponents>, IComponents>;
 
-    /// <summary>Um objeto para conter Header Objects reutiliz·veis.</summary>
+    /// <summary>Um objeto para conter Header Objects reutiliz√°veis.</summary>
     function Headers: TOpenApiMap<IHeader<IComponents>, IComponents>;
 
-    /// <summary>Um objeto para conter Security Scheme Objects reutiliz·veis.</summary>
+    /// <summary>Um objeto para conter Security Scheme Objects reutiliz√°veis.</summary>
     function SecuritySchemes: TOpenApiMap<ISecurityScheme, IComponents>;
 
-    /// <summary>Um objeto para conter Link Objects reutiliz·vei</summary>
+    /// <summary>Um objeto para conter Link Objects reutiliz√°vei</summary>
     function Links: TOpenApiMap<ILink<IComponents>, IComponents>;
 
-    /// <summary>Um objeto para conter Callback Objects reutiliz·veis.</summary>
+    /// <summary>Um objeto para conter Callback Objects reutiliz√°veis.</summary>
     function Callbacks: TOpenApiMap<IPathItem<IComponents>, IComponents>;
 
-    /// <summary>Um objeto para conter Path Item Objects reutiliz·veis.</summary>
+    /// <summary>Um objeto para conter Path Item Objects reutiliz√°veis.</summary>
     function PathItems: TOpenApiMap<IPathItem<IComponents>, IComponents>;
 
     /// <summary>Retorna para o objeto anterior.</summary>
@@ -325,15 +325,15 @@ type
   end;
 
   /// <summary>
-  ///   Descreve as operaÁıes disponÌveis em um ˙nico caminho.
-  ///   Um Path Item PODE estar vazio, devido a restriÁıes de ACL. O caminho
-  ///   em si ainda È exposto, mas os visualizadores de documentaÁ„o n„o saber„o
-  ///   quais operaÁıes e par‚metros est„o disponÌveis.
+  ///   Descreve as opera√ß√µes dispon√≠veis em um √∫nico caminho.
+  ///   Um Path Item PODE estar vazio, devido a restri√ß√µes de ACL. O caminho
+  ///   em si ainda √© exposto, mas os visualizadores de documenta√ß√£o n√£o saber√£o
+  ///   quais opera√ß√µes e par√¢metros est√£o dispon√≠veis.
   /// </summary>
   IPathItem<T> = interface(IOpenApiAncestor)
     ['{CC112B05-5ADD-4C24-A0E7-D652D6158065}']
     /// <summary>
-    ///   (Mapeia para o campo '$ref') Permite uma definiÁ„o referenciada
+    ///   (Mapeia para o campo '$ref') Permite uma defini√ß√£o referenciada
     ///   deste item de caminho. O valor DEVE estar no formato de uma URI, e a
     ///   estrutura referenciada DEVE ser na forma de um Path Item Object.
     /// </summary>
@@ -342,54 +342,54 @@ type
 
     /// <summary>
     ///   Um resumo opcional em string, destinado a se aplicar a todas as
-    ///   operaÁıes neste caminho.
+    ///   opera√ß√µes neste caminho.
     /// </summary>
     function Summary: string; overload;
     function Summary(const AValue: string): IPathItem<T>; overload;
 
     /// <summary>
-    ///   Uma descriÁ„o opcional em string, destinada a se aplicar a todas as
-    ///   operaÁıes neste caminho. A sintaxe CommonMark PODE ser usada.
+    ///   Uma descri√ß√£o opcional em string, destinada a se aplicar a todas as
+    ///   opera√ß√µes neste caminho. A sintaxe CommonMark PODE ser usada.
     /// </summary>
     function Description: string; overload;
     function Description(const AValue: string): IPathItem<T>; overload;
 
-    /// <summary>Uma definiÁ„o de uma operaÁ„o GET neste caminho.</summary>
+    /// <summary>Uma defini√ß√£o de uma opera√ß√£o GET neste caminho.</summary>
     function Get: IOperation<IPathItem<T>>;
 
-    /// <summary>Uma definiÁ„o de uma operaÁ„o PUT neste caminho.</summary>
+    /// <summary>Uma defini√ß√£o de uma opera√ß√£o PUT neste caminho.</summary>
     function Put: IOperation<IPathItem<T>>;
 
-    /// <summary>Uma definiÁ„o de uma operaÁ„o POST neste caminho.</summary>
+    /// <summary>Uma defini√ß√£o de uma opera√ß√£o POST neste caminho.</summary>
     function Post: IOperation<IPathItem<T>>;
 
-    /// <summary>Uma definiÁ„o de uma operaÁ„o DELETE neste caminho.</summary>
+    /// <summary>Uma defini√ß√£o de uma opera√ß√£o DELETE neste caminho.</summary>
     function &Delete: IOperation<IPathItem<T>>;
 
-    /// <summary>Uma definiÁ„o de uma operaÁ„o OPTIONS neste caminho.</summary>
+    /// <summary>Uma defini√ß√£o de uma opera√ß√£o OPTIONS neste caminho.</summary>
     function Options: IOperation<IPathItem<T>>;
 
-    /// <summary>Uma definiÁ„o de uma operaÁ„o HEAD neste caminho.</summary>
+    /// <summary>Uma defini√ß√£o de uma opera√ß√£o HEAD neste caminho.</summary>
     function Head: IOperation<IPathItem<T>>;
 
-    /// <summary>Uma definiÁ„o de uma operaÁ„o PATCH neste caminho.</summary>
+    /// <summary>Uma defini√ß√£o de uma opera√ß√£o PATCH neste caminho.</summary>
     function Patch: IOperation<IPathItem<T>>;
 
-    /// <summary>Uma definiÁ„o de uma operaÁ„o TRACE neste caminho.</summary>
+    /// <summary>Uma defini√ß√£o de uma opera√ß√£o TRACE neste caminho.</summary>
     function Trace: IOperation<IPathItem<T>>;
 
     /// <summary>
-    ///   Um array `servers` alternativo para servir todas as operaÁıes neste
-    ///   caminho. Se um array `servers` for especificado no nÌvel do OpenAPI
-    ///   Object, ele ser· sobrescrito por este valor.
+    ///   Um array `servers` alternativo para servir todas as opera√ß√µes neste
+    ///   caminho. Se um array `servers` for especificado no n√≠vel do OpenAPI
+    ///   Object, ele ser√° sobrescrito por este valor.
     /// </summary>
     function Servers: TOpenApiList<IServer<IPathItem<T>>, IPathItem<T>>;
 
     /// <summary>
-    ///   Uma lista de par‚metros que s„o aplic·veis a todas as operaÁıes
-    ///   descritas sob este caminho. Estes par‚metros podem ser sobrescritos
-    ///   no nÌvel da operaÁ„o, mas n„o podem ser removidos l·. A lista PODE
-    ///   usar o Reference Object para vincular a par‚metros definidos nos
+    ///   Uma lista de par√¢metros que s√£o aplic√°veis a todas as opera√ß√µes
+    ///   descritas sob este caminho. Estes par√¢metros podem ser sobrescritos
+    ///   no n√≠vel da opera√ß√£o, mas n√£o podem ser removidos l√°. A lista PODE
+    ///   usar o Reference Object para vincular a par√¢metros definidos nos
     ///   `components`.
     /// </summary>
     function Parameters: TOpenApiList<IParameter<IPathItem<T>>, IPathItem<T>>;
@@ -398,99 +398,99 @@ type
     function &End: T;
   end;
 
-  /// <summary>Descreve uma ˙nica operaÁ„o de API em um caminho.</summary>
+  /// <summary>Descreve uma √∫nica opera√ß√£o de API em um caminho.</summary>
   IOperation<T> = interface(IOpenApiAncestor)
     ['{929B89FA-01F8-4BA8-B5A3-67334281DCF4}']
     /// <summary>
-    ///   Uma lista de tags para controle da documentaÁ„o da API. As tags podem
-    ///   ser usadas para agrupamento lÛgico de operaÁıes por recursos ou
+    ///   Uma lista de tags para controle da documenta√ß√£o da API. As tags podem
+    ///   ser usadas para agrupamento l√≥gico de opera√ß√µes por recursos ou
     ///   qualquer outro qualificador.
     /// </summary>
     function Tags: TOpenApiList<string, IOperation<T>>;
 
-    /// <summary>Um breve resumo do que a operaÁ„o faz.</summary>
+    /// <summary>Um breve resumo do que a opera√ß√£o faz.</summary>
     function Summary: string; overload;
     function Summary(const AValue: string): IOperation<T>; overload;
 
     /// <summary>
-    ///   Uma explicaÁ„o detalhada do comportamento da operaÁ„o. A sintaxe
-    ///   CommonMark PODE ser usada para representaÁ„o de texto rico.
+    ///   Uma explica√ß√£o detalhada do comportamento da opera√ß√£o. A sintaxe
+    ///   CommonMark PODE ser usada para representa√ß√£o de texto rico.
     /// </summary>
     function Description: string; overload;
     function Description(const AValue: string): IOperation<T>; overload;
 
-    /// <summary>DocumentaÁ„o externa adicional para esta operaÁ„o.</summary>
+    /// <summary>Documenta√ß√£o externa adicional para esta opera√ß√£o.</summary>
     function ExternalDocs: IExternalDocumentation<IOperation<T>>;
 
     /// <summary>
-    ///   String ˙nica usada para identificar a operaÁ„o. O id DEVE ser ˙nico
-    ///   entre todas as operaÁıes descritas na API. O valor de operationId È
+    ///   String √∫nica usada para identificar a opera√ß√£o. O id DEVE ser √∫nico
+    ///   entre todas as opera√ß√µes descritas na API. O valor de operationId √©
     ///   case-sensitive.
     /// </summary>
     function OperationId: string; overload;
     function OperationId(const AValue: string): IOperation<T>; overload;
 
     /// <summary>
-    ///   Uma lista de par‚metros aplic·veis a esta operaÁ„o. Se um par‚metro
-    ///   j· estiver definido no Path Item, a nova definiÁ„o o sobrescrever·.
+    ///   Uma lista de par√¢metros aplic√°veis a esta opera√ß√£o. Se um par√¢metro
+    ///   j√° estiver definido no Path Item, a nova defini√ß√£o o sobrescrever√°.
     /// </summary>
     function Parameters: TOpenApiList<IParameter<IOperation<T>>, IOperation<T>>;
 
-    /// <summary>O corpo da requisiÁ„o aplic·vel a esta operaÁ„o.</summary>
+    /// <summary>O corpo da requisi√ß√£o aplic√°vel a esta opera√ß√£o.</summary>
     function RequestBody: IRequestBody<IOperation<T>>;
 
     /// <summary>
-    ///   A lista de respostas possÌveis conforme s„o retornadas da execuÁ„o
-    ///   desta operaÁ„o.
+    ///   A lista de respostas poss√≠veis conforme s√£o retornadas da execu√ß√£o
+    ///   desta opera√ß√£o.
     /// </summary>
     function Responses: IResponses<IOperation<T>>;
 
     /// <summary>
-    ///   Um mapa de possÌveis callbacks "out-of-band" relacionados ‡ operaÁ„o
-    ///   pai. A chave È um identificador ˙nico para o Callback Object.
+    ///   Um mapa de poss√≠veis callbacks "out-of-band" relacionados √† opera√ß√£o
+    ///   pai. A chave √© um identificador √∫nico para o Callback Object.
     /// </summary>
 //    function Callbacks: TOpenApiMap<IPathItem<IOperation<T>>, IOperation<T>>;
 
     /// <summary>
-    ///   Declara esta operaÁ„o como obsoleta. Consumidores DEVEM evitar o uso
-    ///   da operaÁ„o declarada. O valor padr„o È `false`.
+    ///   Declara esta opera√ß√£o como obsoleta. Consumidores DEVEM evitar o uso
+    ///   da opera√ß√£o declarada. O valor padr√£o √© `false`.
     /// </summary>
     function Deprecated: Boolean; overload;
     function Deprecated(const AValue: Boolean): IOperation<T>; overload;
 
     /// <summary>
-    ///   Uma declaraÁ„o de quais mecanismos de seguranÁa podem ser usados para
-    ///   esta operaÁ„o. Esta definiÁ„o sobrescreve qualquer `security`
-    ///   declarado no nÌvel superior.
+    ///   Uma declara√ß√£o de quais mecanismos de seguran√ßa podem ser usados para
+    ///   esta opera√ß√£o. Esta defini√ß√£o sobrescreve qualquer `security`
+    ///   declarado no n√≠vel superior.
     /// </summary>
     function Security: TOpenApiList<ISecurityRequirement<IOperation<T>>, IOperation<T>>;
 
     /// <summary>
-    ///   Um array `servers` alternativo para servir esta operaÁ„o. Se um array
+    ///   Um array `servers` alternativo para servir esta opera√ß√£o. Se um array
     ///   `servers` for especificado no Path Item Object ou no OpenAPI Object,
-    ///   ele ser· sobrescrito por este valor.
+    ///   ele ser√° sobrescrito por este valor.
     /// </summary>
     function Servers: TOpenApiList<IServer<IOperation<T>>, IOperation<T>>;
     
-    /// <summary>Exemplos de cÛdigo para esta operaÁ„o (extens„o x-code-samples do Redoc).</summary>
+    /// <summary>Exemplos de c√≥digo para esta opera√ß√£o (extens√£o x-code-samples do Redoc).</summary>
     function CodeSamples: TOpenApiList<ICodeSample<IOperation<T>>, IOperation<T>>;
 
     /// <summary>Retorna para o objeto anterior.</summary>
     function &End: T;
   end;
 
-  /// <summary>Permite referenciar um recurso externo para documentaÁ„o estendida.</summary>
+  /// <summary>Permite referenciar um recurso externo para documenta√ß√£o estendida.</summary>
   IExternalDocumentation<T> = interface(IOpenApiAncestor)
     ['{20AB5D24-5935-445C-956A-1A7180601631}']
     /// <summary>
-    ///   Uma descriÁ„o da documentaÁ„o de destino. A sintaxe CommonMark PODE
-    ///   ser usada para representaÁ„o de texto rico.
+    ///   Uma descri√ß√£o da documenta√ß√£o de destino. A sintaxe CommonMark PODE
+    ///   ser usada para representa√ß√£o de texto rico.
     /// </summary>
     function Description: string; overload;
     function Description(const AValue: string): IExternalDocumentation<T>; overload;
 
     /// <summary>
-    ///   REQUIRED. A URI para a documentaÁ„o de destino.
+    ///   REQUIRED. A URI para a documenta√ß√£o de destino.
     ///   Isto DEVE estar no formato de uma URI.
     /// </summary>
     function Url: string; overload;
@@ -501,95 +501,95 @@ type
   end;
 
   /// <summary>
-  ///   Descreve um ˙nico par‚metro de operaÁ„o.
-  ///   Um par‚metro ˙nico È definido por uma combinaÁ„o de nome e localizaÁ„o (`in`).
+  ///   Descreve um √∫nico par√¢metro de opera√ß√£o.
+  ///   Um par√¢metro √∫nico √© definido por uma combina√ß√£o de nome e localiza√ß√£o (`in`).
   /// </summary>
   IParameter<T> = interface(IOpenApiAncestor)
     ['{16C19AC0-94A5-49E5-9E39-DCD45D6BF125}']
     /// <summary>
-    ///   REQUIRED. O nome do par‚metro. Nomes de par‚metros s„o case-sensitive.
-    ///   - Se `in` for "path", `name` DEVE corresponder a uma express„o de template no caminho.
+    ///   REQUIRED. O nome do par√¢metro. Nomes de par√¢metros s√£o case-sensitive.
+    ///   - Se `in` for "path", `name` DEVE corresponder a uma express√£o de template no caminho.
     ///   - Se `in` for "header" e `name` for "Accept", "Content-Type" ou "Authorization",
-    ///     a definiÁ„o do par‚metro DEVE ser ignorada.
+    ///     a defini√ß√£o do par√¢metro DEVE ser ignorada.
     /// </summary>
     function Name: string; overload;
     function Name(const AValue: string): IParameter<T>; overload;
 
     /// <summary>
-    ///   REQUIRED. A localizaÁ„o do par‚metro.
-    ///   Valores possÌveis s„o "query", "header", "path" ou "cookie".
+    ///   REQUIRED. A localiza√ß√£o do par√¢metro.
+    ///   Valores poss√≠veis s√£o "query", "header", "path" ou "cookie".
     /// </summary>
     function &In: TParameterLocation; overload;
     function &In(const AValue: TParameterLocation): IParameter<T>; overload;
 
     /// <summary>
-    ///   Uma breve descriÁ„o do par‚metro. Pode conter exemplos de uso.
+    ///   Uma breve descri√ß√£o do par√¢metro. Pode conter exemplos de uso.
     ///   A sintaxe CommonMark PODE ser usada.
     /// </summary>
     function Description: string; overload;
     function Description(const AValue: string): IParameter<T>; overload;
 
     /// <summary>
-    ///   Determina se este par‚metro È obrigatÛrio. Se a localizaÁ„o for "path",
-    ///   este campo È REQUIRED e seu valor DEVE ser `true`. Caso contr·rio, o
-    ///   valor padr„o È `false`.
+    ///   Determina se este par√¢metro √© obrigat√≥rio. Se a localiza√ß√£o for "path",
+    ///   este campo √© REQUIRED e seu valor DEVE ser `true`. Caso contr√°rio, o
+    ///   valor padr√£o √© `false`.
     /// </summary>
     function Required: Boolean; overload;
     function Required(const AValue: Boolean): IParameter<T>; overload;
 
     /// <summary>
-    ///   Especifica que um par‚metro È obsoleto e DEVE ser descontinuado.
-    ///   O valor padr„o È `false`.
+    ///   Especifica que um par√¢metro √© obsoleto e DEVE ser descontinuado.
+    ///   O valor padr√£o √© `false`.
     /// </summary>
     function Deprecated: Boolean; overload;
     function Deprecated(const AValue: Boolean): IParameter<T>; overload;
 
     /// <summary>
     ///   Se `true`, clientes PODEM passar um valor de string de comprimento zero.
-    ///   V·lido apenas para par‚metros `query`. O valor padr„o È `false`.
-    ///   O uso deste campo N√O È RECOMENDADO.
+    ///   V√°lido apenas para par√¢metros `query`. O valor padr√£o √© `false`.
+    ///   O uso deste campo N√ÉO √© RECOMENDADO.
     /// </summary>
     function AllowEmptyValue: Boolean; overload;
     function AllowEmptyValue(const AValue: Boolean): IParameter<T>; overload;
 
     /// <summary>
-    ///   Descreve como o valor do par‚metro ser· serializado.
-    ///   Padrıes (baseado em `in`): "query" -> "form"; "path" -> "simple";
+    ///   Descreve como o valor do par√¢metro ser√° serializado.
+    ///   Padr√µes (baseado em `in`): "query" -> "form"; "path" -> "simple";
     ///   "header" -> "simple"; "cookie" -> "form".
     /// </summary>
     function Style: TParameterStyle; overload;
     function Style(const AValue: TParameterStyle): IParameter<T>; overload;
 
     /// <summary>
-    ///   Quando `true`, valores de `array` ou `object` geram par‚metros separados.
-    ///   Padr„o È `true` para `style`="form", e `false` para os outros.
+    ///   Quando `true`, valores de `array` ou `object` geram par√¢metros separados.
+    ///   Padr√£o √© `true` para `style`="form", e `false` para os outros.
     /// </summary>
     function Explode: Boolean; overload;
     function Explode(const AValue: Boolean): IParameter<T>; overload;
 
     /// <summary>
-    ///   Permite que caracteres reservados definidos por RFC6570 passem sem codificaÁ„o.
-    ///   Aplica-se apenas a par‚metros `query`. O valor padr„o È `false`.
+    ///   Permite que caracteres reservados definidos por RFC6570 passem sem codifica√ß√£o.
+    ///   Aplica-se apenas a par√¢metros `query`. O valor padr√£o √© `false`.
     /// </summary>
     function AllowReserved: Boolean; overload;
     function AllowReserved(const AValue: Boolean): IParameter<T>; overload;
 
     /// <summary>
-    ///   O schema que define o tipo usado para o par‚metro.
+    ///   O schema que define o tipo usado para o par√¢metro.
     ///   Mutuamente exclusivo com o campo `content`.
     /// </summary>
     function Schema: ISchema; overload;
     function Schema(const AValue: ISchema): IParameter<T>; overload;
 
-    /// <summary>Exemplo do valor potencial do par‚metro. Mutuamente exclusivo com `examples`.</summary>
+    /// <summary>Exemplo do valor potencial do par√¢metro. Mutuamente exclusivo com `examples`.</summary>
     function Example: TJSONValue; overload;
     function Example(const AValue: TJSONValue): IParameter<T>; overload;
 
-    /// <summary>Exemplos do valor potencial do par‚metro. Mutuamente exclusivo com `example`.</summary>
+    /// <summary>Exemplos do valor potencial do par√¢metro. Mutuamente exclusivo com `example`.</summary>
     function Examples: TOpenApiMap<IExample<IParameter<T>>, IParameter<T>>;
 
     /// <summary>
-    ///   Um mapa contendo as representaÁıes para o par‚metro. A chave È o
+    ///   Um mapa contendo as representa√ß√µes para o par√¢metro. A chave √© o
     ///   media type. O mapa DEVE conter apenas uma entrada.
     ///   Mutuamente exclusivo com o campo `schema`.
     /// </summary>
@@ -599,24 +599,24 @@ type
     function &End: T;
   end;
 
-  /// <summary>Descreve um ˙nico corpo de requisiÁ„o.</summary>
+  /// <summary>Descreve um √∫nico corpo de requisi√ß√£o.</summary>
   IRequestBody<T> = interface(IOpenApiAncestor)
     ['{08CD08D9-EE62-4AD6-BFEC-1A2A63CA44EF}']
     /// <summary>
-    ///   Uma breve descriÁ„o do corpo da requisiÁ„o. Pode conter exemplos de uso.
+    ///   Uma breve descri√ß√£o do corpo da requisi√ß√£o. Pode conter exemplos de uso.
     ///   A sintaxe CommonMark PODE ser usada.
     /// </summary>
     function Description: string; overload;
     function Description(const AValue: string): IRequestBody<T>; overload;
 
     /// <summary>
-    ///   REQUIRED. O conte˙do do corpo da requisiÁ„o. A chave È um media type ou
-    ///   uma faixa de media types e o valor o descreve. Para requisiÁıes que
-    ///   correspondem a m˙ltiplas chaves, apenas a chave mais especÌfica È aplic·vel.
+    ///   REQUIRED. O conte√∫do do corpo da requisi√ß√£o. A chave √© um media type ou
+    ///   uma faixa de media types e o valor o descreve. Para requisi√ß√µes que
+    ///   correspondem a m√∫ltiplas chaves, apenas a chave mais espec√≠fica √© aplic√°vel.
     /// </summary>
     function Content: TOpenApiMap<IMediaType<IRequestBody<T>>, IRequestBody<T>>;
 
-    /// <summary>Determina se o corpo da requisiÁ„o È obrigatÛrio na requisiÁ„o. O padr„o È `false`.</summary>
+    /// <summary>Determina se o corpo da requisi√ß√£o √© obrigat√≥rio na requisi√ß√£o. O padr√£o √© `false`.</summary>
     function Required: Boolean; overload;
     function Required(const AValue: Boolean): IRequestBody<T>; overload;
 
@@ -627,7 +627,7 @@ type
   /// <summary>Cada Media Type Object fornece schema e exemplos para o media type identificado por sua chave.</summary>
   IMediaType<T> = interface(IOpenApiAncestor)
     ['{25508D82-EE7A-4EF2-88F0-41EE5C0C31FD}']
-    /// <summary>O schema que define o conte˙do da requisiÁ„o, resposta, par‚metro ou header.</summary>
+    /// <summary>O schema que define o conte√∫do da requisi√ß√£o, resposta, par√¢metro ou header.</summary>
     function Schema: ISchema; overload;
     function Schema(const AValue: ISchema): IMediaType<T>; overload;
 
@@ -645,7 +645,7 @@ type
     function Examples: TOpenApiMap<IExample<IMediaType<T>>, IMediaType<T>>;
 
     /// <summary>
-    ///   Um mapa entre um nome de propriedade e sua informaÁ„o de codificaÁ„o.
+    ///   Um mapa entre um nome de propriedade e sua informa√ß√£o de codifica√ß√£o.
     ///   A chave DEVE existir no schema como uma propriedade. O campo `encoding`
     ///   DEVE ser aplicado apenas a Request Body Objects quando o media type for
     ///   `multipart` ou `application/x-www-form-urlencoded`.
@@ -656,44 +656,44 @@ type
     function &End: T;
   end;
 
-  /// <summary>Uma ˙nica definiÁ„o de codificaÁ„o aplicada a uma ˙nica propriedade de schema.</summary>
+  /// <summary>Uma √∫nica defini√ß√£o de codifica√ß√£o aplicada a uma √∫nica propriedade de schema.</summary>
   IEncoding<T> = interface(IOpenApiAncestor)
     ['{2DECD134-8FFE-4621-A2CB-5E81A5CE2140}']
     /// <summary>
-    ///   O Content-Type para codificar uma propriedade especÌfica. O valor È uma
-    ///   lista separada por vÌrgulas de media types especÌficos ou curingas.
-    ///   O valor padr„o depende do tipo da propriedade.
+    ///   O Content-Type para codificar uma propriedade espec√≠fica. O valor √© uma
+    ///   lista separada por v√≠rgulas de media types espec√≠ficos ou curingas.
+    ///   O valor padr√£o depende do tipo da propriedade.
     /// </summary>
     function ContentType: string; overload;
     function ContentType(const AValue: string): IEncoding<T>; overload;
 
     /// <summary>
-    ///   Um mapa que permite que informaÁıes adicionais sejam fornecidas como
+    ///   Um mapa que permite que informa√ß√µes adicionais sejam fornecidas como
     ///   headers. Este campo DEVE ser ignorado se o media type do corpo da
-    ///   requisiÁ„o n„o for `multipart`.
+    ///   requisi√ß√£o n√£o for `multipart`.
     /// </summary>
 //    function Headers: TOpenApiMap<IHeader<T>, IEncoding<T>>;
 
     /// <summary>
-    ///   Descreve como um valor de propriedade especÌfico ser· serializado.
-    ///   Segue os mesmos valores que os par‚metros `query`. DEVE ser ignorado
-    ///   se o media type n„o for `application/x-www-form-urlencoded`.
+    ///   Descreve como um valor de propriedade espec√≠fico ser√° serializado.
+    ///   Segue os mesmos valores que os par√¢metros `query`. DEVE ser ignorado
+    ///   se o media type n√£o for `application/x-www-form-urlencoded`.
     /// </summary>
     function Style: TParameterStyle; overload;
     function Style(const AValue: TParameterStyle): IEncoding<T>; overload;
 
     /// <summary>
-    ///   Quando `true`, valores de `array` ou `object` geram par‚metros
-    ///   separados. O padr„o È `true` para `style`="form", e `false` para os outros.
-    ///   DEVE ser ignorado se o media type n„o for `application/x-www-form-urlencoded`.
+    ///   Quando `true`, valores de `array` ou `object` geram par√¢metros
+    ///   separados. O padr√£o √© `true` para `style`="form", e `false` para os outros.
+    ///   DEVE ser ignorado se o media type n√£o for `application/x-www-form-urlencoded`.
     /// </summary>
     function Explode: Boolean; overload;
     function Explode(const AValue: Boolean): IEncoding<T>; overload;
 
     /// <summary>
-    ///   Quando `true`, os valores dos par‚metros s„o serializados usando
-    ///   expans„o reservada (RFC6570). O padr„o È `false`. DEVE ser ignorado
-    ///   se o media type n„o for `application/x-www-form-urlencoded`.
+    ///   Quando `true`, os valores dos par√¢metros s√£o serializados usando
+    ///   expans√£o reservada (RFC6570). O padr√£o √© `false`. DEVE ser ignorado
+    ///   se o media type n√£o for `application/x-www-form-urlencoded`.
     /// </summary>
     function AllowReserved: Boolean; overload;
     function AllowReserved(const AValue: Boolean): IEncoding<T>; overload;
@@ -702,29 +702,29 @@ type
     function &End: T;
   end;
 
-  /// <summary>Descreve uma ˙nica resposta de uma operaÁ„o de API.</summary>
+  /// <summary>Descreve uma √∫nica resposta de uma opera√ß√£o de API.</summary>
   IResponse<T> = interface(IOpenApiAncestor)
     ['{F008308F-9B49-4EA4-BF63-44CE5AC56613}']
     /// <summary>
-    ///   REQUIRED. Uma descriÁ„o da resposta. A sintaxe CommonMark
+    ///   REQUIRED. Uma descri√ß√£o da resposta. A sintaxe CommonMark
     ///   PODE ser usada.
     /// </summary>
     function Description: string; overload;
     function Description(const AValue: string): IResponse<T>; overload;
 
     /// <summary>
-    ///   Mapeia um nome de header para sua definiÁ„o. Nomes de header s„o
+    ///   Mapeia um nome de header para sua defini√ß√£o. Nomes de header s√£o
     ///   case-insensitive. Se um header de resposta for definido com o nome
     ///   "Content-Type", ele DEVE ser ignorado.
     /// </summary>
     function Headers: TOpenApiMap<IHeader<IResponse<T>>, IResponse<T>>;
 
-    /// <summary>Um mapa contendo descriÁıes dos possÌveis payloads de resposta. A chave È um media type.</summary>
+    /// <summary>Um mapa contendo descri√ß√µes dos poss√≠veis payloads de resposta. A chave √© um media type.</summary>
     function Content: TOpenApiMap<IMediaType<IResponse<T>>, IResponse<T>>;
 
     /// <summary>
-    ///   Um mapa de links de operaÁıes que podem ser seguidos a partir da resposta.
-    ///   A chave do mapa È um nome curto para o link.
+    ///   Um mapa de links de opera√ß√µes que podem ser seguidos a partir da resposta.
+    ///   A chave do mapa √© um nome curto para o link.
     /// </summary>
     function Links: TOpenApiMap<ILink<IResponse<T>>, IResponse<T>>;
 
@@ -733,21 +733,21 @@ type
   end;
 
   /// <summary>
-  ///   Um contÍiner para as respostas esperadas de uma operaÁ„o.
-  ///   O contÍiner mapeia um cÛdigo de resposta HTTP para a resposta esperada.
+  ///   Um cont√™iner para as respostas esperadas de uma opera√ß√£o.
+  ///   O cont√™iner mapeia um c√≥digo de resposta HTTP para a resposta esperada.
   /// </summary>
   IResponses<T> = interface(IOpenApiAncestor)
     ['{664D48C4-6A68-405E-9EB1-EC26002C268D}']
     /// <summary>
-    ///   A documentaÁ„o de respostas que n„o sejam as declaradas para cÛdigos
-    ///   de resposta HTTP especÌficos. Use este campo para cobrir respostas
-    ///   n„o declaradas.
+    ///   A documenta√ß√£o de respostas que n√£o sejam as declaradas para c√≥digos
+    ///   de resposta HTTP espec√≠ficos. Use este campo para cobrir respostas
+    ///   n√£o declaradas.
     /// </summary>
     function &Default: IResponse<IResponses<T>>;
 
     /// <summary>
-    ///   Mapeia um cÛdigo de status HTTP (ou um intervalo como '2XX') para a
-    ///   sua definiÁ„o de resposta.
+    ///   Mapeia um c√≥digo de status HTTP (ou um intervalo como '2XX') para a
+    ///   sua defini√ß√£o de resposta.
     /// </summary>
     function StatusCodes: TOpenApiMap<IResponse<IResponses<T>>, IResponses<T>>;
 
@@ -755,24 +755,24 @@ type
     function &End: T;
   end;
 
-  /// <summary>Agrupa um valor de exemplo interno ou externo com metadados b·sicos de resumo e descriÁ„o.</summary>
+  /// <summary>Agrupa um valor de exemplo interno ou externo com metadados b√°sicos de resumo e descri√ß√£o.</summary>
   IExample<T> = interface(IOpenApiAncestor)
     ['{25EF470D-559B-4D93-BCB1-7712E04A2A40}']
-    /// <summary>Breve descriÁ„o para o exemplo.</summary>
+    /// <summary>Breve descri√ß√£o para o exemplo.</summary>
     function Summary: string; overload;
     function Summary(const AValue: string): IExample<T>; overload;
 
-    /// <summary>Longa descriÁ„o para o exemplo. A sintaxe CommonMark PODE ser usada.</summary>
+    /// <summary>Longa descri√ß√£o para o exemplo. A sintaxe CommonMark PODE ser usada.</summary>
     function Description: string; overload;
     function Description(const AValue: string): IExample<T>; overload;
 
-    /// <summary>Exemplo literal embutido. O campo `value` e o campo `externalValue` s„o mutuamente exclusivos.</summary>
+    /// <summary>Exemplo literal embutido. O campo `value` e o campo `externalValue` s√£o mutuamente exclusivos.</summary>
     function Value: TJSONValue; overload;
     function Value(const AValue: TJSONValue): IExample<T>; overload;
 
     /// <summary>
     ///   Uma URI que identifica o exemplo literal. O campo `value` e o campo
-    ///   `externalValue` s„o mutuamente exclusivos.
+    ///   `externalValue` s√£o mutuamente exclusivos.
     /// </summary>
     function ExternalValue: string; overload;
     function ExternalValue(const AValue: string): IExample<T>; overload;
@@ -782,47 +782,47 @@ type
   end;
 
   /// <summary>
-  ///   O Link Object representa um possÌvel link em tempo de design para uma
-  ///   resposta. A presenÁa de um link n„o garante a capacidade do chamador de
-  ///   invoc·-lo com sucesso, mas fornece uma relaÁ„o conhecida e um mecanismo
-  ///   de travessia entre respostas e outras operaÁıes.
+  ///   O Link Object representa um poss√≠vel link em tempo de design para uma
+  ///   resposta. A presen√ßa de um link n√£o garante a capacidade do chamador de
+  ///   invoc√°-lo com sucesso, mas fornece uma rela√ß√£o conhecida e um mecanismo
+  ///   de travessia entre respostas e outras opera√ß√µes.
   /// </summary>
   ILink<T> = interface(IOpenApiAncestor)
     ['{CA398A79-6F4C-42BD-A961-78A08DDED763}']
     /// <summary>
-    ///   Uma referÍncia URI a uma operaÁ„o OAS. Este campo È mutuamente exclusivo
+    ///   Uma refer√™ncia URI a uma opera√ß√£o OAS. Este campo √© mutuamente exclusivo
     ///   do campo `operationId`, e DEVE apontar para um Operation Object.
     /// </summary>
     function OperationRef: string; overload;
     function OperationRef(const AValue: string): ILink<T>; overload;
 
     /// <summary>
-    ///   O nome de uma operaÁ„o OAS existente e resol˙vel, conforme definido
-    ///   com um `operationId` ˙nico. Este campo È mutuamente exclusivo do
+    ///   O nome de uma opera√ß√£o OAS existente e resol√∫vel, conforme definido
+    ///   com um `operationId` √∫nico. Este campo √© mutuamente exclusivo do
     ///   campo `operationRef`.
     /// </summary>
     function OperationId: string; overload;
     function OperationId(const AValue: string): ILink<T>; overload;
 
     /// <summary>
-    ///   Um mapa que representa par‚metros a serem passados para uma operaÁ„o.
-    ///   A chave È o nome do par‚metro, enquanto o valor pode ser uma constante
-    ///   ou uma express„o a ser avaliada e passada para a operaÁ„o vinculada.
+    ///   Um mapa que representa par√¢metros a serem passados para uma opera√ß√£o.
+    ///   A chave √© o nome do par√¢metro, enquanto o valor pode ser uma constante
+    ///   ou uma express√£o a ser avaliada e passada para a opera√ß√£o vinculada.
     /// </summary>
     function Parameters: TOpenApiMap<string, ILink<T>>;
 
     /// <summary>
-    ///   Um valor literal ou uma express„o para usar como corpo da requisiÁ„o
-    ///   ao chamar a operaÁ„o de destino.
+    ///   Um valor literal ou uma express√£o para usar como corpo da requisi√ß√£o
+    ///   ao chamar a opera√ß√£o de destino.
     /// </summary>
     function RequestBody: TJSONValue; overload;
     function RequestBody(const AValue: TJSONValue): ILink<T>; overload;
 
-    /// <summary>Uma descriÁ„o do link. A sintaxe CommonMark PODE ser usada.</summary>
+    /// <summary>Uma descri√ß√£o do link. A sintaxe CommonMark PODE ser usada.</summary>
     function Description: string; overload;
     function Description(const AValue: string): ILink<T>; overload;
 
-    /// <summary>Um objeto de servidor a ser usado pela operaÁ„o de destino.</summary>
+    /// <summary>Um objeto de servidor a ser usado pela opera√ß√£o de destino.</summary>
     function Server: IServer<ILink<T>>;
 
     /// <summary>Retorna para o objeto anterior.</summary>
@@ -830,33 +830,33 @@ type
   end;
 
   /// <summary>
-  ///   Lista os esquemas de seguranÁa necess·rios para executar uma operaÁ„o.
-  ///   Cada inst‚ncia representa um objeto no array de seguranÁa principal.
+  ///   Lista os esquemas de seguran√ßa necess√°rios para executar uma opera√ß√£o.
+  ///   Cada inst√¢ncia representa um objeto no array de seguran√ßa principal.
   /// </summary>
   ISecurityRequirement<T> = interface(IOpenApiAncestor)
     ['{E5F8C8A0-7B3A-4E1B-9A0B-9B4B1C5D7D3F}']
     /// <summary>
-    ///   Define o nome do esquema de seguranÁa para este requisito.
+    ///   Define o nome do esquema de seguran√ßa para este requisito.
     /// </summary>
     /// <remarks>
-    ///   O nome fornecido DEVE corresponder a um esquema de seguranÁa
-    ///   previamente declarado na seÁ„o `components/securitySchemes`.
-    ///   Este nome se tornar· a chave no objeto JSON gerado.
+    ///   O nome fornecido DEVE corresponder a um esquema de seguran√ßa
+    ///   previamente declarado na se√ß√£o `components/securitySchemes`.
+    ///   Este nome se tornar√° a chave no objeto JSON gerado.
     ///   Exemplo: 'apiKey', 'petstore_auth'.
     /// </remarks>
     function SchemeName: string; overload;
     function SchemeName(const AValue: string): ISecurityRequirement<T>; overload;
 
     /// <summary>
-    ///   Retorna uma lista para adicionar os escopos (scopes) necess·rios
-    ///   para este esquema de seguranÁa.
+    ///   Retorna uma lista para adicionar os escopos (scopes) necess√°rios
+    ///   para este esquema de seguran√ßa.
     /// </summary>
     /// <remarks>
-    ///   - Para esquemas do tipo `oauth2` ou `openIdConnect`, esta È a lista de
-    ///     nomes de escopos necess·rios (ex: 'read:pets', 'write:pets').
+    ///   - Para esquemas do tipo `oauth2` ou `openIdConnect`, esta √© a lista de
+    ///     nomes de escopos necess√°rios (ex: 'read:pets', 'write:pets').
     ///   - Para outros tipos de esquema (como 'apiKey' ou 'http'), a
-    ///     especificaÁ„o determina que a lista deve existir, mas seu conte˙do n„o
-    ///     È definido. Nesses casos, a lista geralmente fica vazia.
+    ///     especifica√ß√£o determina que a lista deve existir, mas seu conte√∫do n√£o
+    ///     √© definido. Nesses casos, a lista geralmente fica vazia.
     /// </remarks>
     function Scopes: TOpenApiList<string, ISecurityRequirement<T>>;
 
@@ -864,34 +864,34 @@ type
     function &End: T;
   end;
 
-  /// <summary>Descreve um ˙nico header para respostas HTTP e para partes individuais em representaÁıes `multipart`.</summary>
+  /// <summary>Descreve um √∫nico header para respostas HTTP e para partes individuais em representa√ß√µes `multipart`.</summary>
   IHeader<T> = interface(IOpenApiAncestor)
     ['{27292B69-44B4-4872-A0E3-3B945C8B637B}']
     /// <summary>
-    ///   Uma breve descriÁ„o do header. Pode conter exemplos de uso.
+    ///   Uma breve descri√ß√£o do header. Pode conter exemplos de uso.
     ///   A sintaxe CommonMark PODE ser usada.
     /// </summary>
     function Description: string; overload;
     function Description(const AValue: string): IHeader<T>; overload;
 
-    /// <summary>Determina se este header È obrigatÛrio. O valor padr„o È `false`.</summary>
+    /// <summary>Determina se este header √© obrigat√≥rio. O valor padr√£o √© `false`.</summary>
     function Required: Boolean; overload;
     function Required(const AValue: Boolean): IHeader<T>; overload;
 
-    /// <summary>Especifica que o header È obsoleto e DEVE ser descontinuado. O valor padr„o È `false`.</summary>
+    /// <summary>Especifica que o header √© obsoleto e DEVE ser descontinuado. O valor padr√£o √© `false`.</summary>
     function Deprecated: Boolean; overload;
     function Deprecated(const AValue: Boolean): IHeader<T>; overload;
 
     /// <summary>
-    ///   Descreve como o valor do header ser· serializado. O valor padr„o
-    ///   (e ˙nico valor legal para headers) È "simple".
+    ///   Descreve como o valor do header ser√° serializado. O valor padr√£o
+    ///   (e √∫nico valor legal para headers) √© "simple".
     /// </summary>
     function Style: TParameterStyle; overload;
     function Style(const AValue: TParameterStyle): IHeader<T>; overload;
 
     /// <summary>
-    ///   Quando `true`, valores de `array` ou `object` geram um ˙nico header
-    ///   com uma lista de valores separados por vÌrgula. O valor padr„o È `false`.
+    ///   Quando `true`, valores de `array` ou `object` geram um √∫nico header
+    ///   com uma lista de valores separados por v√≠rgula. O valor padr√£o √© `false`.
     /// </summary>
     function Explode: Boolean; overload;
     function Explode(const AValue: Boolean): IHeader<T>; overload;
@@ -900,7 +900,8 @@ type
     ///   O schema que define o tipo usado para o header.
     ///   Mutuamente exclusivo com o campo `content`.
     /// </summary>
-    function Schema: ISchema;
+    function Schema: ISchema; overload;
+    function Schema(const AValue: ISchema): IHeader<T>; overload;
 
     /// <summary>Exemplo do valor potencial do header. Mutuamente exclusivo com `examples`.</summary>
     function Example: TJSONValue; overload;
@@ -910,7 +911,7 @@ type
     function Examples: TOpenApiMap<IExample<IHeader<T>>, IHeader<T>>;
 
     /// <summary>
-    ///   Um mapa contendo as representaÁıes para o header. A chave È o
+    ///   Um mapa contendo as representa√ß√µes para o header. A chave √© o
     ///   media type. O mapa DEVE conter apenas uma entrada.
     ///   Mutuamente exclusivo com o campo `schema`.
     /// </summary>
@@ -921,8 +922,8 @@ type
   end;
 
   /// <summary>
-  ///   Adiciona metadados a uma ˙nica tag que È usada pelo Operation Object.
-  ///   N„o È obrigatÛrio ter um Tag Object por tag definida nas inst‚ncias
+  ///   Adiciona metadados a uma √∫nica tag que √© usada pelo Operation Object.
+  ///   N√£o √© obrigat√≥rio ter um Tag Object por tag definida nas inst√¢ncias
   ///   do Operation Object.
   /// </summary>
   ITag = interface(IOpenApiAncestor)
@@ -932,17 +933,17 @@ type
     function Name(const AValue: string): ITag; overload;
 
     /// <summary>
-    ///   Uma descriÁ„o para a tag. A sintaxe CommonMark PODE ser usada
-    ///   para representaÁ„o de texto rico.
+    ///   Uma descri√ß√£o para a tag. A sintaxe CommonMark PODE ser usada
+    ///   para representa√ß√£o de texto rico.
     /// </summary>
     function Description: string; overload;
     function Description(const AValue: string): ITag; overload;
 
-    /// <summary>Nome de exibiÁ„o alternativo para a tag (extens„o x-displayName do Redoc).</summary>
+    /// <summary>Nome de exibi√ß√£o alternativo para a tag (extens√£o x-displayName do Redoc).</summary>
     function DisplayName: string; overload;
     function DisplayName(const AValue: string): ITag; overload;
 
-    /// <summary>DocumentaÁ„o externa adicional para esta tag.</summary>
+    /// <summary>Documenta√ß√£o externa adicional para esta tag.</summary>
     function ExternalDocs: IExternalDocumentation<ITag>;
 
     /// <summary>Retorna para o objeto anterior.</summary>
@@ -950,28 +951,28 @@ type
   end;
 
   /// <summary>
-  ///   Quando corpos de requisiÁ„o ou payloads de resposta podem ser um de
-  ///   v·rios schemas diferentes, um Discriminator Object d· uma dica sobre o
+  ///   Quando corpos de requisi√ß√£o ou payloads de resposta podem ser um de
+  ///   v√°rios schemas diferentes, um Discriminator Object d√° uma dica sobre o
   ///   schema esperado do documento.
   /// </summary>
   IDiscriminator = interface(IOpenApiAncestor)
     /// <summary>
-    ///   REQUIRED. O nome da propriedade no payload que conter· o valor
-    ///   discriminador. Esta propriedade DEVE ser obrigatÛria no schema do
-    ///   payload, pois o comportamento quando a propriedade est· ausente È
+    ///   REQUIRED. O nome da propriedade no payload que conter√° o valor
+    ///   discriminador. Esta propriedade DEVE ser obrigat√≥ria no schema do
+    ///   payload, pois o comportamento quando a propriedade est√° ausente √©
     ///   indefinido.
     /// </summary>
     function PropertyName: string; overload;
     function PropertyName(const AValue: string): IDiscriminator; overload;
 
-    /// <summary>Um objeto para manter mapeamentos entre valores de payload e nomes de schema ou referÍncias URI.</summary>
+    /// <summary>Um objeto para manter mapeamentos entre valores de payload e nomes de schema ou refer√™ncias URI.</summary>
     function Mapping: TOpenApiMap<string, IDiscriminator>;
 
     /// <summary>Retorna para o objeto anterior.</summary>
     function &End: ISchema;
   end;
 
-  /// <summary>Um objeto de metadados que permite definiÁıes de modelo XML mais refinadas.</summary>
+  /// <summary>Um objeto de metadados que permite defini√ß√µes de modelo XML mais refinadas.</summary>
   IXML = interface(IOpenApiAncestor)
     ['{01351F7C-D1BA-45E4-864A-73DDB8622511}']
     /// <summary>
@@ -982,8 +983,8 @@ type
     function Name(const AValue: string): IXML; overload;
 
     /// <summary>
-    ///   A URI da definiÁ„o de namespace. O valor DEVE estar no formato de uma
-    ///   URI n„o-relativa.
+    ///   A URI da defini√ß√£o de namespace. O valor DEVE estar no formato de uma
+    ///   URI n√£o-relativa.
     /// </summary>
     function Namespace: string; overload;
     function Namespace(const AValue: string): IXML; overload;
@@ -993,15 +994,15 @@ type
     function Prefix(const AValue: string): IXML; overload;
 
     /// <summary>
-    ///   Declara se a definiÁ„o da propriedade se traduz em um atributo em
-    ///   vez de um elemento. O valor padr„o È `false`.
+    ///   Declara se a defini√ß√£o da propriedade se traduz em um atributo em
+    ///   vez de um elemento. O valor padr√£o √© `false`.
     /// </summary>
     function Attribute: Boolean; overload;
     function Attribute(const AValue: Boolean): IXML; overload;
 
     /// <summary>
-    ///   PODE ser usado apenas para uma definiÁ„o de array. Significa se o
-    ///   array È encapsulado (wrapped) ou n„o. O valor padr„o È `false`.
+    ///   PODE ser usado apenas para uma defini√ß√£o de array. Significa se o
+    ///   array √© encapsulado (wrapped) ou n√£o. O valor padr√£o √© `false`.
     /// </summary>
     function Wrapped: Boolean; overload;
     function Wrapped(const AValue: Boolean): IXML; overload;
@@ -1010,47 +1011,47 @@ type
     function &End: ISchema;
   end;
 
-  /// <summary>Define um esquema de seguranÁa que pode ser usado pelas operaÁıes.</summary>
+  /// <summary>Define um esquema de seguran√ßa que pode ser usado pelas opera√ß√µes.</summary>
   ISecurityScheme = interface(IOpenApiAncestor)
     ['{FC662617-B7E8-4221-AC7F-9CE34D0769F9}']
     /// <summary>
-    ///   REQUIRED. O tipo do esquema de seguranÁa. Valores v·lidos s„o:
+    ///   REQUIRED. O tipo do esquema de seguran√ßa. Valores v√°lidos s√£o:
     ///   "apiKey", "http", "mutualTLS", "oauth2", "openIdConnect".
     /// </summary>
     function &Type: TSecuritySchemeType; overload;
     function &Type(const AValue: TSecuritySchemeType): ISecurityScheme; overload;
 
-    /// <summary>Uma descriÁ„o para o esquema de seguranÁa. A sintaxe CommonMark PODE ser usada.</summary>
+    /// <summary>Uma descri√ß√£o para o esquema de seguran√ßa. A sintaxe CommonMark PODE ser usada.</summary>
     function Description: string; overload;
     function Description(const AValue: string): ISecurityScheme; overload;
 
-    /// <summary>(apiKey) REQUIRED. O nome do header, query ou par‚metro de cookie a ser usado.</summary>
+    /// <summary>(apiKey) REQUIRED. O nome do header, query ou par√¢metro de cookie a ser usado.</summary>
     function Name: string; overload;
     function Name(const AValue: string): ISecurityScheme; overload;
 
     /// <summary>
-    ///   (apiKey) REQUIRED. A localizaÁ„o da chave de API. Valores v·lidos s„o:
+    ///   (apiKey) REQUIRED. A localiza√ß√£o da chave de API. Valores v√°lidos s√£o:
     ///   "query", "header" ou "cookie".
     /// </summary>
     function &In: TApiKeyLocation; overload;
     function &In(const AValue: TApiKeyLocation): ISecurityScheme; overload;
 
     /// <summary>
-    ///   (http) REQUIRED. O nome do esquema de AutenticaÁ„o HTTP a ser usado
-    ///   no header Authorization. O valor È case-insensitive.
+    ///   (http) REQUIRED. O nome do esquema de Autentica√ß√£o HTTP a ser usado
+    ///   no header Authorization. O valor √© case-insensitive.
     /// </summary>
     function Scheme: string; overload;
     function Scheme(const AValue: string): ISecurityScheme; overload;
 
     /// <summary>
-    ///   (http "bearer") Uma dica para o cliente sobre como o token bearer È
-    ///   formatado. Primariamente para fins de documentaÁ„o.
+    ///   (http "bearer") Uma dica para o cliente sobre como o token bearer √©
+    ///   formatado. Primariamente para fins de documenta√ß√£o.
     /// </summary>
     function BearerFormat: string; overload;
     function BearerFormat(const AValue: string): ISecurityScheme; overload;
 
     /// <summary>
-    ///   (oauth2) REQUIRED. Um objeto contendo informaÁıes de configuraÁ„o para
+    ///   (oauth2) REQUIRED. Um objeto contendo informa√ß√µes de configura√ß√£o para
     ///   os tipos de fluxo suportados.
     /// </summary>
     function Flows: IOAuthFlows;
@@ -1066,11 +1067,11 @@ type
     function &End: IComponents;
   end;
 
-  /// <summary>Detalhes de configuraÁ„o para um fluxo OAuth suportado.</summary>
+  /// <summary>Detalhes de configura√ß√£o para um fluxo OAuth suportado.</summary>
   IOAuthFlow = interface(IOpenApiAncestor)
     ['{3F6E2653-4077-48F7-9C15-DD62ACF6B1DD}']
     /// <summary>
-    ///   REQUIRED (`implicit`, `authorizationCode`). A URL de autorizaÁ„o a ser
+    ///   REQUIRED (`implicit`, `authorizationCode`). A URL de autoriza√ß√£o a ser
     ///   usada para este fluxo.
     /// </summary>
     function AuthorizationUrl: string; overload;
@@ -1083,13 +1084,13 @@ type
     function TokenUrl: string; overload;
     function TokenUrl(const AValue: string): IOAuthFlow; overload;
 
-    /// <summary>A URL a ser usada para obter tokens de atualizaÁ„o (refresh tokens).</summary>
+    /// <summary>A URL a ser usada para obter tokens de atualiza√ß√£o (refresh tokens).</summary>
     function RefreshUrl: string; overload;
     function RefreshUrl(const AValue: string): IOAuthFlow; overload;
 
     /// <summary>
-    ///   REQUIRED. Os escopos disponÌveis para o esquema de seguranÁa OAuth2.
-    ///   Um mapa entre o nome do escopo e uma breve descriÁ„o.
+    ///   REQUIRED. Os escopos dispon√≠veis para o esquema de seguran√ßa OAuth2.
+    ///   Um mapa entre o nome do escopo e uma breve descri√ß√£o.
     /// </summary>
     function Scopes: TOpenApiMap<string, IOAuthFlow>;
 
@@ -1097,19 +1098,19 @@ type
     function &End: IOAuthFlows;
   end;
 
-  /// <summary>Permite a configuraÁ„o dos fluxos OAuth suportados.</summary>
+  /// <summary>Permite a configura√ß√£o dos fluxos OAuth suportados.</summary>
   IOAuthFlows = interface(IOpenApiAncestor)
     ['{2768F687-9BCC-4D9D-84D9-CDAD33C12405}']
-    /// <summary>ConfiguraÁ„o para o fluxo OAuth Implicit.</summary>
+    /// <summary>Configura√ß√£o para o fluxo OAuth Implicit.</summary>
     function Implicit: IOAuthFlow;
 
-    /// <summary>ConfiguraÁ„o para o fluxo OAuth Resource Owner Password.</summary>
+    /// <summary>Configura√ß√£o para o fluxo OAuth Resource Owner Password.</summary>
     function Password: IOAuthFlow;
 
-    /// <summary>ConfiguraÁ„o para o fluxo OAuth Client Credentials.</summary>
+    /// <summary>Configura√ß√£o para o fluxo OAuth Client Credentials.</summary>
     function ClientCredentials: IOAuthFlow;
 
-    /// <summary>ConfiguraÁ„o para o fluxo OAuth Authorization Code.</summary>
+    /// <summary>Configura√ß√£o para o fluxo OAuth Authorization Code.</summary>
     function AuthorizationCode: IOAuthFlow;
 
     /// <summary>Retorna para o objeto anterior.</summary>
@@ -1117,7 +1118,7 @@ type
   end;
 
   /// <summary>
-  ///   Objeto representando um logo para a API (extens„o x-logo do Redoc).
+  ///   Objeto representando um logo para a API (extens√£o x-logo do Redoc).
   /// </summary>
   ILogo = interface(IOpenApiAncestor)
     ['{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}']
@@ -1142,7 +1143,7 @@ type
   end;
 
   /// <summary>
-  ///   Objeto representando um grupo de tags (extens„o x-tagGroups do Redoc).
+  ///   Objeto representando um grupo de tags (extens√£o x-tagGroups do Redoc).
   /// </summary>
   ITagGroup = interface(IOpenApiAncestor)
     ['{B2C3D4E5-F678-90AB-CDEF-1234567890AB}']
@@ -1158,11 +1159,11 @@ type
   end;
 
   /// <summary>
-  ///   Objeto representando um exemplo de cÛdigo (extens„o x-code-samples do Redoc).
+  ///   Objeto representando um exemplo de c√≥digo (extens√£o x-code-samples do Redoc).
   /// </summary>
   ICodeSample<T> = interface(IOpenApiAncestor)
     ['{C3D4E5F6-7890-ABCD-EF12-34567890ABCD}']
-    /// <summary>Linguagem do cÛdigo (ex: 'javascript', 'python', 'curl').</summary>
+    /// <summary>Linguagem do c√≥digo (ex: 'javascript', 'python', 'curl').</summary>
     function Lang: string; overload;
     function Lang(const AValue: string): ICodeSample<T>; overload;
 
@@ -1170,7 +1171,7 @@ type
     function &Label: string; overload;
     function &Label(const AValue: string): ICodeSample<T>; overload;
 
-    /// <summary>CÛdigo fonte do exemplo.</summary>
+    /// <summary>C√≥digo fonte do exemplo.</summary>
     function Source: string; overload;
     function Source(const AValue: string): ICodeSample<T>; overload;
 
