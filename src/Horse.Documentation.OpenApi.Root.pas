@@ -36,7 +36,7 @@ type
     /// <summary>Cria uma nova instância de <c>IOpenApi</c> inicializada com a versão <c>3.1.1</c>.</summary>
     class function New: IOpenApi; static;
     /// <summary>Serializa toda a árvore de documentação OpenAPI para um <c>TJSONObject</c>.</summary>
-    function ToJson: TJSONObject;
+    function ToJson: TJSONObject; override;
 
     /// <summary>Obtém a versão da especificação OpenAPI (padrão: <c>3.1.1</c>).</summary>
     function Openapi: string; overload;

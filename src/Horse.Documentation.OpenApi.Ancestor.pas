@@ -29,7 +29,7 @@ type
     /// <summary>
     ///   Serializa o objeto base e suas extensões para uma nova instância de <c>TJSONObject</c>.
     /// </summary>
-    function ToJson: TJSONObject;
+    function ToJson: TJSONObject; virtual;
   end;
 
 implementation

@@ -32,7 +32,7 @@ type
     /// <summary>Cria uma nova instância de <c>IInfo</c> vinculada ao objeto raiz <c>IOpenApi</c>.</summary>
     class function New(AParent: IOpenApi): IInfo; static;
     /// <summary>Serializa os metadados da API para <c>TJSONObject</c>.</summary>
-    function ToJson: TJSONObject;
+    function ToJson: TJSONObject; override;
 
     /// <summary>Obtém o título da API.</summary>
     function Title: string; overload;

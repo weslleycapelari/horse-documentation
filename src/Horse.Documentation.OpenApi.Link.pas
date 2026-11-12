@@ -34,7 +34,7 @@ type
     /// <summary>Cria uma nova instância de <c>ILink&lt;T&gt;</c> vinculada ao objeto pai <c>AParent</c>.</summary>
     class function New(AParent: T): ILink<T>; static;
     /// <summary>Serializa a definição de link para <c>TJSONObject</c>.</summary>
-    function ToJson: TJSONObject;
+    function ToJson: TJSONObject; override;
 
     /// <summary>Obtém a referência URI relativa ou absoluta para uma operação OAS (<c>operationRef</c>).</summary>
     function OperationRef: string; overload;

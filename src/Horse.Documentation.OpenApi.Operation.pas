@@ -37,7 +37,7 @@ type
     /// <summary>Cria uma nova instância de <c>IOperation&lt;T&gt;</c> vinculada ao objeto pai <c>AParent</c>.</summary>
     class function New(AParent: T): IOperation<T>; static;
     /// <summary>Serializa os metadados da operação para <c>TJSONObject</c>.</summary>
-    function ToJson: TJSONObject;
+    function ToJson: TJSONObject; override;
 
     /// <summary>Retorna a lista de tags associadas a esta operação para agrupamento na documentação.</summary>
     function Tags: TOpenApiList<string, IOperation<T>>;

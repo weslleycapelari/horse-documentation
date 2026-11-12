@@ -31,7 +31,7 @@ type
     /// <summary>Cria uma nova instância de <c>IRequestBody&lt;T&gt;</c> vinculada ao objeto pai <c>AParent</c>.</summary>
     class function New(AParent: T): IRequestBody<T>; static;
     /// <summary>Serializa o corpo de requisição para <c>TJSONObject</c>.</summary>
-    function ToJson: TJSONObject;
+    function ToJson: TJSONObject; override;
 
     /// <summary>Obtém a descrição do corpo da requisição (suporta CommonMark/Markdown).</summary>
     function Description: string; overload;

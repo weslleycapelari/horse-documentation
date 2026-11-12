@@ -30,7 +30,7 @@ type
     /// <summary>Cria uma nova instância de <c>IServerVariable&lt;T&gt;</c> vinculada ao servidor pai.</summary>
     class function New(AParent: IServer<T>): IServerVariable<T>; static;
     /// <summary>Serializa a variável de servidor para <c>TJSONObject</c>.</summary>
-    function ToJson: TJSONObject;
+    function ToJson: TJSONObject; override;
 
     /// <summary>Retorna a lista de valores permitidos (<c>enum</c>) para esta variável.</summary>
     function &Enum: TOpenApiList<string, IServerVariable<T>>;

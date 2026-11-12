@@ -35,7 +35,7 @@ type
     /// <summary>Cria uma nova instância de <c>ISecurityScheme</c> vinculada ao contêiner <c>IComponents</c>.</summary>
     class function New(AParent: IComponents): ISecurityScheme; static;
     /// <summary>Serializa a definição do esquema de segurança para <c>TJSONObject</c>.</summary>
-    function ToJson: TJSONObject;
+    function ToJson: TJSONObject; override;
 
     /// <summary>Obtém o tipo do esquema de segurança (<c>TSecuritySchemeType</c>).</summary>
     function &Type: TSecuritySchemeType; overload;

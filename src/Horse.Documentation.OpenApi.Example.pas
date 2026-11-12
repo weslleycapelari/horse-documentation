@@ -32,7 +32,7 @@ type
     /// <summary>Cria uma nova instância de <c>IExample&lt;T&gt;</c> vinculada ao objeto pai <c>AParent</c>.</summary>
     class function New(AParent: T): IExample<T>; static;
     /// <summary>Serializa o exemplo para <c>TJSONObject</c>.</summary>
-    function ToJson: TJSONObject;
+    function ToJson: TJSONObject; override;
 
     /// <summary>Obtém a breve descrição do exemplo.</summary>
     function Summary: string; overload;

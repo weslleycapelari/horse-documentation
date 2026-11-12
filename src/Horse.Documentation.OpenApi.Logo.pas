@@ -28,7 +28,7 @@ type
     /// <summary>Cria uma nova instância de <c>ILogo</c> vinculada ao objeto <c>IInfo</c>.</summary>
     class function New(AParent: IInfo): ILogo; static;
     /// <summary>Serializa as propriedades do logo para <c>TJSONObject</c>.</summary>
-    function ToJson: TJSONObject;
+    function ToJson: TJSONObject; override;
 
     /// <summary>Obtém a URL ou Data URI da imagem do logo.</summary>
     function Url: string; overload;

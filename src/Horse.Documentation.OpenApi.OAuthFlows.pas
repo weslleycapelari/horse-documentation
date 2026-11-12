@@ -31,7 +31,7 @@ type
     /// <summary>Cria uma nova instância de <c>IOAuthFlows</c> vinculada ao esquema <c>ISecurityScheme</c>.</summary>
     class function New(AParent: ISecurityScheme): IOAuthFlows; static;
     /// <summary>Serializa os fluxos OAuth 2.0 configurados para <c>TJSONObject</c>.</summary>
-    function ToJson: TJSONObject;
+    function ToJson: TJSONObject; override;
 
     /// <summary>Retorna a configuração para o fluxo OAuth 2.0 Implicit.</summary>
     function Implicit: IOAuthFlow;

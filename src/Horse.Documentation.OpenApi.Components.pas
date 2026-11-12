@@ -39,7 +39,7 @@ type
     /// <summary>Cria uma nova instância de <c>IComponents</c> vinculada ao objeto raiz <c>IOpenApi</c>.</summary>
     class function New(AParent: IOpenApi): IComponents; static;
     /// <summary>Serializa todos os componentes reutilizáveis registrados para <c>TJSONObject</c>.</summary>
-    function ToJson: TJSONObject;
+    function ToJson: TJSONObject; override;
 
     /// <summary>Retorna o mapa de JSON Schemas reutilizáveis (<c>#/components/schemas/...</c>).</summary>
     function Schemas: TOpenApiMap<ISchema, IComponents>;

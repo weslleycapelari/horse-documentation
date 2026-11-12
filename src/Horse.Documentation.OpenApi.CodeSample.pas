@@ -26,7 +26,7 @@ type
     /// <summary>Cria uma nova instância de <c>ICodeSample&lt;T&gt;</c> vinculada ao objeto pai <c>AParent</c>.</summary>
     class function New(AParent: T): ICodeSample<T>; static;
     /// <summary>Serializa o exemplo de código para <c>TJSONObject</c>.</summary>
-    function ToJson: TJSONObject;
+    function ToJson: TJSONObject; override;
 
     /// <summary>Obtém a linguagem de programação do exemplo (ex: <c>Delphi</c>, <c>javascript</c>, <c>curl</c>).</summary>
     function Lang: string; overload;

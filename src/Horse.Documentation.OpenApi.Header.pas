@@ -37,7 +37,7 @@ type
     /// <summary>Cria uma nova instância de <c>IHeader&lt;T&gt;</c> vinculada ao objeto pai <c>AParent</c>.</summary>
     class function New(AParent: T): IHeader<T>; static;
     /// <summary>Serializa a definição do cabeçalho para <c>TJSONObject</c>.</summary>
-    function ToJson: TJSONObject;
+    function ToJson: TJSONObject; override;
 
     /// <summary>Obtém a descrição do cabeçalho (suporta CommonMark/Markdown).</summary>
     function Description: string; overload;

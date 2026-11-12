@@ -31,7 +31,7 @@ type
     /// <summary>Cria uma nova instância de <c>IOAuthFlow</c> vinculada ao contêiner <c>IOAuthFlows</c>.</summary>
     class function New(AParent: IOAuthFlows): IOAuthFlow; static;
     /// <summary>Serializa os detalhes do fluxo OAuth 2.0 para <c>TJSONObject</c>.</summary>
-    function ToJson: TJSONObject;
+    function ToJson: TJSONObject; override;
 
     /// <summary>Obtém a URL de autorização para este fluxo (<c>authorizationUrl</c>).</summary>
     function AuthorizationUrl: string; overload;

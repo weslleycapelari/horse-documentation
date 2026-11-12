@@ -27,7 +27,7 @@ type
     /// <summary>Cria uma nova instância de <c>IContact</c> vinculada ao objeto <c>IInfo</c>.</summary>
     class function New(AParent: IInfo): IContact; static;
     /// <summary>Serializa os dados de contato para <c>TJSONObject</c>.</summary>
-    function ToJson: TJSONObject;
+    function ToJson: TJSONObject; override;
 
     /// <summary>Obtém o nome da pessoa ou organização de contato.</summary>
     function Name: string; overload;

@@ -33,7 +33,7 @@ type
     /// <summary>Cria uma nova instância de <c>IEncoding&lt;T&gt;</c> vinculada ao objeto pai <c>AParent</c>.</summary>
     class function New(AParent: T): IEncoding<T>; static;
     /// <summary>Serializa as regras de codificação para <c>TJSONObject</c>.</summary>
-    function ToJson: TJSONObject;
+    function ToJson: TJSONObject; override;
 
     /// <summary>Obtém o Content-Type usado para codificar a propriedade.</summary>
     function ContentType: string; overload;

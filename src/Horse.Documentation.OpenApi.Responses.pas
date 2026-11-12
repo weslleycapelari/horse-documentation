@@ -26,7 +26,7 @@ type
     /// <summary>Cria uma nova instância de <c>IResponses&lt;T&gt;</c> vinculada ao objeto pai <c>AParent</c>.</summary>
     class function New(AParent: T): IResponses<T>; static;
     /// <summary>Serializa o contêiner de respostas para <c>TJSONObject</c>.</summary>
-    function ToJson: TJSONObject;
+    function ToJson: TJSONObject; override;
 
     /// <summary>Retorna a definição de resposta padrão (<c>default</c>) para códigos HTTP não listados explicitamente.</summary>
     function &Default: IResponse<IResponses<T>>;

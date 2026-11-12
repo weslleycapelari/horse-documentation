@@ -27,7 +27,7 @@ type
     /// <summary>Cria uma nova instância de <c>IExternalDocumentation&lt;T&gt;</c> vinculada ao objeto pai <c>AParent</c>.</summary>
     class function New(AParent: T): IExternalDocumentation<T>; static;
     /// <summary>Serializa a referência de documentação externa para <c>TJSONObject</c>.</summary>
-    function ToJson: TJSONObject;
+    function ToJson: TJSONObject; override;
 
     /// <summary>Obtém a descrição da documentação externa (suporta CommonMark/Markdown).</summary>
     function Description: string; overload;

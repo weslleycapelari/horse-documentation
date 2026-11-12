@@ -28,7 +28,7 @@ type
     /// <summary>Cria uma nova instância de <c>IServer&lt;T&gt;</c> vinculada ao objeto pai <c>AParent</c>.</summary>
     class function New(AParent: T): IServer<T>; static;
     /// <summary>Serializa os dados do servidor e suas variáveis para <c>TJSONObject</c>.</summary>
-    function ToJson: TJSONObject;
+    function ToJson: TJSONObject; override;
 
     /// <summary>Obtém a URL do servidor de destino.</summary>
     function Url: string; overload;

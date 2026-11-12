@@ -42,7 +42,7 @@ type
     /// <summary>Cria uma nova instância de <c>IParameter&lt;T&gt;</c> vinculada ao objeto pai <c>AParent</c>.</summary>
     class function New(AParent: T): IParameter<T>; static;
     /// <summary>Serializa a definição do parâmetro para <c>TJSONObject</c>.</summary>
-    function ToJson: TJSONObject;
+    function ToJson: TJSONObject; override;
 
     /// <summary>Obtém o nome do parâmetro (case-sensitive).</summary>
     function Name: string; overload;

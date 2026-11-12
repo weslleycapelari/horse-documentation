@@ -28,7 +28,7 @@ type
     /// <summary>Cria uma nova instância de <c>ITagGroup</c> vinculada ao objeto raiz <c>IOpenApi</c>.</summary>
     class function New(AParent: IOpenApi): ITagGroup; static;
     /// <summary>Serializa o grupo de tags para <c>TJSONObject</c>.</summary>
-    function ToJson: TJSONObject;
+    function ToJson: TJSONObject; override;
 
     /// <summary>Obtém o nome de exibição do grupo de tags.</summary>
     function Name: string; overload;

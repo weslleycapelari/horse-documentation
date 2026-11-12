@@ -27,7 +27,7 @@ type
     /// <summary>Cria uma nova instância de <c>ILicense</c> vinculada ao objeto <c>IInfo</c>.</summary>
     class function New(AParent: IInfo): ILicense; static;
     /// <summary>Serializa os dados de licença para <c>TJSONObject</c>.</summary>
-    function ToJson: TJSONObject;
+    function ToJson: TJSONObject; override;
 
     /// <summary>Obtém o nome da licença.</summary>
     function Name: string; overload;

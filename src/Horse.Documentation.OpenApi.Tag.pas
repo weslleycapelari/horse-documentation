@@ -28,7 +28,7 @@ type
     /// <summary>Cria uma nova instância de <c>ITag</c> vinculada ao objeto raiz <c>IOpenApi</c>.</summary>
     class function New(AParent: IOpenApi): ITag; static;
     /// <summary>Serializa os metadados da tag para <c>TJSONObject</c>.</summary>
-    function ToJson: TJSONObject;
+    function ToJson: TJSONObject; override;
 
     /// <summary>Obtém o nome identificador da tag.</summary>
     function Name: string; overload;

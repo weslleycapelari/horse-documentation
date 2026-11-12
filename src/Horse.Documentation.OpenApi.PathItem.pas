@@ -38,7 +38,7 @@ type
     /// <summary>Cria uma nova instância de <c>IPathItem&lt;T&gt;</c> vinculada ao objeto pai <c>AParent</c>.</summary>
     class function New(AParent: T): IPathItem<T>; static;
     /// <summary>Serializa o Path Item e suas operações HTTP para <c>TJSONObject</c>.</summary>
-    function ToJson: TJSONObject;
+    function ToJson: TJSONObject; override;
 
     /// <summary>Obtém a referência externa (<c>$ref</c>) do Path Item.</summary>
     function Ref: string; overload;

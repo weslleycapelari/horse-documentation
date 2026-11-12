@@ -33,7 +33,7 @@ type
     /// <summary>Cria uma nova instância de <c>IMediaType&lt;T&gt;</c> vinculada ao objeto pai <c>AParent</c>.</summary>
     class function New(AParent: T): IMediaType<T>; static;
     /// <summary>Serializa o Media Type para <c>TJSONObject</c>.</summary>
-    function ToJson: TJSONObject;
+    function ToJson: TJSONObject; override;
 
     /// <summary>Obtém o JSON Schema que descreve a estrutura do conteúdo.</summary>
     function Schema: ISchema; overload;
