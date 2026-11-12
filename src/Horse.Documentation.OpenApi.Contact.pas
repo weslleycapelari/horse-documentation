@@ -1,4 +1,4 @@
-unit Horse.Documentation.OpenApi.Contact;
+﻿unit Horse.Documentation.OpenApi.Contact;
 
 interface
 

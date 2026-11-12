@@ -1,4 +1,4 @@
-unit Horse.Documentation;
+﻿unit Horse.Documentation;
 
 interface
 

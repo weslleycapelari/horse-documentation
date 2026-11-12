@@ -1,4 +1,4 @@
-unit Horse.Documentation.OpenApi.Logo;
+﻿unit Horse.Documentation.OpenApi.Logo;
 
 interface
 

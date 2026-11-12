@@ -1,4 +1,4 @@
-unit Horse.Documentation.OpenApi.PathItem;
+﻿unit Horse.Documentation.OpenApi.PathItem;
 
 interface
 

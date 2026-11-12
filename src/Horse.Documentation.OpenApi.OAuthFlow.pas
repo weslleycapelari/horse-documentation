@@ -1,4 +1,4 @@
-unit Horse.Documentation.OpenApi.OAuthFlow;
+﻿unit Horse.Documentation.OpenApi.OAuthFlow;
 
 interface
 

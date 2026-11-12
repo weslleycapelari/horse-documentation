@@ -1,4 +1,4 @@
-unit Horse.Documentation.OpenApi.ServerVariable;
+﻿unit Horse.Documentation.OpenApi.ServerVariable;
 
 interface
 

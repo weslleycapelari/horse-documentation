@@ -1,4 +1,4 @@
-unit Horse.Documentation.Controller;
+﻿unit Horse.Documentation.Controller;
 
 interface
 
@@ -333,9 +333,16 @@ begin
 end;
 
 class procedure THorseDocumentationController.GetJson(AReq: THorseRequest; ARes: THorseResponse);
+var
+  LJson: TJSONObject;
 begin
-  ARes.ContentType('application/json')
-    .Send(HorseDoc.ToJson.ToJSON);
+  LJson := HorseDoc.ToJson;
+  try
+    ARes.ContentType('application/json; charset=utf-8')
+      .Send(LJson.ToJSON);
+  finally
+    LJson.Free;
+  end;
 end;
 
 class function THorseDocumentationController.ListAllRoutes: TArray<TRouteInfo>;

@@ -1,4 +1,4 @@
-unit Horse.Documentation.OpenApi.Header;
+﻿unit Horse.Documentation.OpenApi.Header;
 
 interface
 

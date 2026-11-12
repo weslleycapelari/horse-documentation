@@ -1,4 +1,4 @@
-unit Horse.Documentation.OpenApi.Components;
+﻿unit Horse.Documentation.OpenApi.Components;
 
 interface
 
@@ -35,6 +35,7 @@ type
 
     constructor Create(AParent: IOpenApi);
   public
+    destructor Destroy; override;
     /// <summary>Cria uma nova instância de <c>IComponents</c> vinculada ao objeto raiz <c>IOpenApi</c>.</summary>
     class function New(AParent: IOpenApi): IComponents; static;
     /// <summary>Serializa todos os componentes reutilizáveis registrados para <c>TJSONObject</c>.</summary>
@@ -89,6 +90,28 @@ constructor TComponents.Create(AParent: IOpenApi);
 begin
   inherited Create;
   FParent := AParent;
+end;
+
+destructor TComponents.Destroy;
+var
+  LPair: TPair<string, ISchema>;
+begin
+  if FSchemas <> nil then
+  begin
+    for LPair in FSchemas do
+      LPair.Value.Free;
+    FSchemas.Free;
+  end;
+  FResponses.Free;
+  FParameters.Free;
+  FExamples.Free;
+  FRequestBodies.Free;
+  FHeaders.Free;
+  FSecuritySchemes.Free;
+  FLinks.Free;
+  FCallbacks.Free;
+  FPathItems.Free;
+  inherited;
 end;
 
 function TComponents.&End: IOpenApi;

@@ -1,4 +1,4 @@
-unit Horse.Documentation.OpenApi.CodeSample;
+﻿unit Horse.Documentation.OpenApi.CodeSample;
 
 interface
 

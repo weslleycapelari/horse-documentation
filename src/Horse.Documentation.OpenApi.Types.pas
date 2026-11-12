@@ -1,4 +1,4 @@
-unit Horse.Documentation.OpenApi.Types;
+﻿unit Horse.Documentation.OpenApi.Types;
 
 interface
 
@@ -247,14 +247,19 @@ end;
 function TOpenApiList<T, O>.ToJson: TJSONArray;
 var
   LItem: T;
+  LVal: TValue;
+  LAncestor: IOpenApiAncestor;
 begin
   Result := TJSONArray.Create;
   for LItem in Self do
   begin
-    if FImplClass <> nil then
-      Result.AddElement(TValue.From<T>(LItem).AsType<IOpenApiAncestor>.ToJson)
+    LVal := TValue.From<T>(LItem);
+    if (LVal.Kind = tkInterface) and Supports(LVal.AsInterface, IOpenApiAncestor, LAncestor) then
+      Result.AddElement(LAncestor.ToJson)
+    else if LVal.IsObject and Supports(LVal.AsObject, IOpenApiAncestor, LAncestor) then
+      Result.AddElement(LAncestor.ToJson)
     else
-      Result.AddElement(TUtils.ValueToJson(TValue.From<T>(LItem)))
+      Result.AddElement(TUtils.ValueToJson(LVal));
   end;
 end;
 
@@ -346,14 +351,19 @@ end;
 function TOpenApiMap<T, O>.ToJson: TJSONObject;
 var
   LPair: TPair<string, T>;
+  LVal: TValue;
+  LAncestor: IOpenApiAncestor;
 begin
   Result := TJSONObject.Create;
   for LPair in Self do
   begin
-    if FImplClass <> nil then
-      Result.AddPair(LPair.Key, TValue.From<T>(LPair.Value).AsType<IOpenApiAncestor>.ToJson)
+    LVal := TValue.From<T>(LPair.Value);
+    if (LVal.Kind = tkInterface) and Supports(LVal.AsInterface, IOpenApiAncestor, LAncestor) then
+      Result.AddPair(LPair.Key, LAncestor.ToJson)
+    else if LVal.IsObject and Supports(LVal.AsObject, IOpenApiAncestor, LAncestor) then
+      Result.AddPair(LPair.Key, LAncestor.ToJson)
     else
-      Result.AddPair(LPair.Key, TUtils.ValueToJson(TValue.From<T>(LPair.Value)));
+      Result.AddPair(LPair.Key, TUtils.ValueToJson(LVal));
   end;
 end;
 

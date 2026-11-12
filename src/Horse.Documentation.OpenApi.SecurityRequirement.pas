@@ -1,4 +1,4 @@
-unit Horse.Documentation.OpenApi.SecurityRequirement;
+﻿unit Horse.Documentation.OpenApi.SecurityRequirement;
 
 interface
 

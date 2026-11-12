@@ -1,4 +1,4 @@
-unit Horse.Documentation.OpenApi.MediaType;
+﻿unit Horse.Documentation.OpenApi.MediaType;
 
 interface
 
@@ -29,6 +29,7 @@ type
 
     constructor Create(AParent: T);
   public
+    destructor Destroy; override;
     /// <summary>Cria uma nova instância de <c>IMediaType&lt;T&gt;</c> vinculada ao objeto pai <c>AParent</c>.</summary>
     class function New(AParent: T): IMediaType<T>; static;
     /// <summary>Serializa o Media Type para <c>TJSONObject</c>.</summary>
@@ -62,6 +63,15 @@ constructor TMediaType<T>.Create(AParent: T);
 begin
   inherited Create;
   FParent := AParent;
+end;
+
+destructor TMediaType<T>.Destroy;
+begin
+  FSchema.Free;
+  FExample.Free;
+  FExamples.Free;
+  FEncoding.Free;
+  inherited;
 end;
 
 function TMediaType<T>.Encoding: TOpenApiMap<IEncoding<IMediaType<T>>, IMediaType<T>>;
@@ -115,10 +125,10 @@ begin
   Result := inherited ToJson;
 
   if FSchema <> nil then
-    Result.AddPair('schema', FSchema);
+    Result.AddPair('schema', FSchema.Clone as TJSONValue);
 
   if FExample <> nil then
-    Result.AddPair('example', FExample);
+    Result.AddPair('example', FExample.Clone as TJSONValue);
 
   if (FExamples <> nil) and (FExamples.Count > 0) then
     Result.AddPair('examples', FExamples.ToJson);

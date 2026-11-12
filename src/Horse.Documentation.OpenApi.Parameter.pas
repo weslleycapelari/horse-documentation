@@ -1,4 +1,4 @@
-unit Horse.Documentation.OpenApi.Parameter;
+﻿unit Horse.Documentation.OpenApi.Parameter;
 
 interface
 
@@ -38,6 +38,7 @@ type
 
     constructor Create(AParent: T);
   public
+    destructor Destroy; override;
     /// <summary>Cria uma nova instância de <c>IParameter&lt;T&gt;</c> vinculada ao objeto pai <c>AParent</c>.</summary>
     class function New(AParent: T): IParameter<T>; static;
     /// <summary>Serializa a definição do parâmetro para <c>TJSONObject</c>.</summary>
@@ -147,6 +148,15 @@ constructor TParameter<T>.Create(AParent: T);
 begin
   inherited Create;
   FParent := AParent;
+end;
+
+destructor TParameter<T>.Destroy;
+begin
+  FSchema.Free;
+  FExample.Free;
+  FExamples.Free;
+  FContent.Free;
+  inherited;
 end;
 
 function TParameter<T>.Description: string;
@@ -278,7 +288,7 @@ begin
 
   if FSchema <> nil then
   begin
-    Result.AddPair('schema', FSchema);
+    Result.AddPair('schema', FSchema.Clone as TJSONValue);
 
     LDefaultStyle := TParameterStyle.psSimple;
     if FIn in [plQuery, plCookie] then
@@ -295,7 +305,7 @@ begin
       Result.AddPair('allowReserved', FAllowReserved);
 
     if FExample <> nil then
-      Result.AddPair('example', FExample);
+      Result.AddPair('example', FExample.Clone as TJSONValue);
 
     if (FExamples <> nil) and (FExamples.Count > 0) then
       Result.AddPair('examples', FExamples.ToJson);

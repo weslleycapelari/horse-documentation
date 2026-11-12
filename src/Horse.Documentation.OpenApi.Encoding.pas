@@ -1,4 +1,4 @@
-unit Horse.Documentation.OpenApi.Encoding;
+﻿unit Horse.Documentation.OpenApi.Encoding;
 
 interface
 

@@ -1,4 +1,4 @@
-unit Horse.Documentation.OpenApi.TagGroup;
+﻿unit Horse.Documentation.OpenApi.TagGroup;
 
 interface
 

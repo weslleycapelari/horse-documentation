@@ -1,4 +1,4 @@
-unit Horse.Documentation.OpenApi.Root;
+﻿unit Horse.Documentation.OpenApi.Root;
 
 interface
 
@@ -98,6 +98,16 @@ destructor TOpenApi.Destroy;
 begin
   if FServers <> nil then
     FServers.Free;
+  if FPaths <> nil then
+    FPaths.Free;
+  if FWebhooks <> nil then
+    FWebhooks.Free;
+  if FSecurity <> nil then
+    FSecurity.Free;
+  if FTags <> nil then
+    FTags.Free;
+  if FTagGroups <> nil then
+    FTagGroups.Free;
 
   inherited;
 end;

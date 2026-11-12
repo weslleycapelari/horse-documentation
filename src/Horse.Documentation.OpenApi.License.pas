@@ -1,4 +1,4 @@
-unit Horse.Documentation.OpenApi.License;
+﻿unit Horse.Documentation.OpenApi.License;
 
 interface
 

@@ -1,4 +1,4 @@
-unit Horse.Documentation.OpenApi.Utils;
+﻿unit Horse.Documentation.OpenApi.Utils;
 
 interface
 
@@ -6,6 +6,7 @@ uses
   System.JSON,
   System.Rtti,
   System.SysUtils,
+  System.TypInfo,
   System.Variants,
   System.Generics.Collections;
 
@@ -36,25 +37,18 @@ var
   LList: TList<TValue>;
   LArray: TArray<TValue>;
 begin
-  if VarIsNull(AValue.IsEmpty) then
+  if AValue.IsEmpty then
     Exit(TJSONNull.Create);
-
-  // Tratamento de tipos primitivos
-  case VarType(AValue.AsVariant) of
-    varSmallInt, varInteger, varShortInt, varByte, varWord, varLongWord, varInt64:
-      Exit(TJSONNumber.Create(AValue.AsInt64));
-    varSingle, varDouble, varCurrency:
-      Exit(TJSONNumber.Create(AValue.AsExtended));
-    varBoolean:
-      Exit(TJSONBool.Create(AValue.AsBoolean));
-    varOleStr, varStrArg, varUString, varString:
-      Exit(TJSONString.Create(AValue.AsString));
-  end;
 
   // Tratamento de tipos complexos (objetos e listas genéricas)
   if AValue.IsObject then
   begin
-    if (AValue.IsArray) and (AValue.IsType<TArray<TValue>>) then
+    if AValue.AsObject = nil then
+      Exit(TJSONNull.Create);
+
+    if AValue.AsObject is TJSONValue then
+      Exit(TJSONValue(AValue.AsObject).Clone as TJSONValue)
+    else if (AValue.IsArray) and (AValue.IsType<TArray<TValue>>) then
     begin
       LArray := AValue.AsType<TArray<TValue>>;
       LJsonArray := TJSONArray.Create;
@@ -78,6 +72,21 @@ begin
         LJsonArray.AddElement(ValueToJson(LItem));
       Exit(LJsonArray);
     end;
+  end;
+
+  // Tratamento de tipos primitivos baseado em RTTI Kind
+  case AValue.Kind of
+    tkInteger, tkInt64:
+      Exit(TJSONNumber.Create(AValue.AsInt64));
+    tkFloat:
+      Exit(TJSONNumber.Create(AValue.AsExtended));
+    tkChar, tkString, tkWChar, tkLString, tkWString, tkUString:
+      Exit(TJSONString.Create(AValue.AsString));
+    tkEnumeration:
+      if AValue.TypeInfo = TypeInfo(Boolean) then
+        Exit(TJSONBool.Create(AValue.AsBoolean))
+      else
+        Exit(TJSONString.Create(AValue.ToString));
   end;
 
   // Se nenhum tipo for reconhecido, retorna null
